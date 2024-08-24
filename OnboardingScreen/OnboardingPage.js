@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 const OnboardingPage = ({navigation}) => {
 
     const handleCreateAccount = () =>{
-        // navigation.navigate('HomePage')
+        navigation.navigate('ChooseUsernamePage')
     }
 
     const handleLoginIn = () =>{
@@ -25,7 +25,7 @@ const OnboardingPage = ({navigation}) => {
           </Text>
         </View>
         <View>
-          <Pressable style={styles.buttons}>
+          <Pressable style={styles.buttons} onPress={handleCreateAccount}>
             <Text>Create Account</Text>
           </Pressable>
           <Pressable style={styles.buttons} onPress={handleLoginIn}>

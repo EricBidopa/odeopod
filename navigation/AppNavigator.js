@@ -13,6 +13,7 @@ import SearchPage from '../SearchScreen/SearchPage';
 import SubscriptionsPage from '../SubscriptionsScreen/SubscriptionsPage';
 import WalletPage from '../WalletScreen/WalletPage';
 import ProfilePage from '../ProfileScreen/ProfilePage';
+import ChooseUsernamePage from '../OnboardingScreen/ChooseUsernamePage';
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -60,6 +61,11 @@ export default function AppNavigator() {
           name="OnboardingPage" 
           component={OnboardingPage}  
           options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="ChooseUsernamePage" 
+          component={ChooseUsernamePage}  
+          options={{title: null, headerStyle:{backgroundColor: 'white'}}}
         />
         <Stack.Screen 
           name="HomePage" 
