@@ -1,19 +1,19 @@
 // navigation/AppNavigator.js
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 
 // Importing Screens
-import OnboardingPage from '../OnboardingScreen/OnboardingPage';
-import HomePage from '../HomeScreen/HomePage';
-import SearchPage from '../SearchScreen/SearchPage';
-import SubscriptionsPage from '../SubscriptionsScreen/SubscriptionsPage';
-import WalletPage from '../WalletScreen/WalletPage';
-import ProfilePage from '../ProfileScreen/ProfilePage';
-import ChooseUsernamePage from '../OnboardingScreen/ChooseUsernamePage';
+import OnboardingPage from "../OnboardingScreen/OnboardingPage";
+import HomePage from "../HomeScreen/HomePage";
+import SearchPage from "../SearchScreen/SearchPage";
+import SubscriptionsPage from "../SubscriptionsScreen/SubscriptionsPage";
+import WalletPage from "../WalletScreen/WalletPage";
+import ProfilePage from "../ProfileScreen/ProfilePage";
+import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -41,10 +41,14 @@ function BottomNavigationGroup() {
         },
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "grey"
+        tabBarInactiveTintColor: "grey",
       })}
     >
-      <Bottomnav.Screen name="Home" component={HomePage} />
+      <Bottomnav.Screen
+        name="Home"
+        component={HomePage}
+        options={{ headerShown: true, title: 'Explore' }}
+      />
       <Bottomnav.Screen name="Search" component={SearchPage} />
       <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} />
       <Bottomnav.Screen name="Wallet" component={WalletPage} />
@@ -57,25 +61,29 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="OnboardingPage">
-        <Stack.Screen 
-          name="OnboardingPage" 
-          component={OnboardingPage}  
+        <Stack.Screen
+          name="OnboardingPage"
+          component={OnboardingPage}
           options={{ headerShown: false }}
         />
-        <Stack.Screen 
-          name="ChooseUsernamePage" 
-          component={ChooseUsernamePage}  
-          options={{title: null, headerStyle:{backgroundColor: 'white'}}}
+        <Stack.Screen
+          name="ChooseUsernamePage"
+          component={ChooseUsernamePage}
+          options={{
+            title: null,
+            headerTitleAlign: "center",
+            headerStyle: { backgroundColor: "white" },
+          }}
         />
-        <Stack.Screen 
-          name="HomePage" 
-          component={BottomNavigationGroup} 
+        <Stack.Screen
+          name="HomePage"
+          component={BottomNavigationGroup}
           options={{ headerShown: false }}
         />
-        <Stack.Screen 
-          name="SearchPage" 
-          component={SearchPage} 
-          options={{ headerTitleAlign: 'center', headerStyle: styles.header }}
+        <Stack.Screen
+          name="SearchPage"
+          component={SearchPage}
+          options={{ headerTitleAlign: "center", headerStyle: styles.header }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -84,12 +92,12 @@ export default function AppNavigator() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingBottom: 10,
     paddingTop: 10,
     height: 70,
   },
   header: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
 });
