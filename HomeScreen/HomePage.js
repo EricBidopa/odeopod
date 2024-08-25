@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
+import SquarePodcastsWrapper from "./SquarePodcastsWrapper";
 
 const HomePage = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage = () => {
 
      </View>
      <Text>Music and Podcasts for you</Text>
+     <SquarePodcastsWrapper />
     </View>
   );
 };
