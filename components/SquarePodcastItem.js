@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     maxWidth: 250,
     overflow: "hidden",
-  },
+  }, 
   username: {
     fontSize: 14,
     color: "gray",
