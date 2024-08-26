@@ -5,6 +5,8 @@ import SquarePodcastsWrapper from "./SquarePodcastsWrapper";
 const HomePage = () => {
   return (
     <View style={styles.container}>
+        <View style={styles.wrapper}>
+
     <View style={styles.ButtonsWrapper}>
       <Pressable style={styles.buttons}><Text>ALL</Text></Pressable>
       <Pressable style={styles.buttons}><Text>PODCASTS</Text></Pressable>
@@ -14,6 +16,7 @@ const HomePage = () => {
      <Text>Music and Podcasts for you</Text>
      <SquarePodcastsWrapper />
     </View>
+        </View>
   );
 };
 
@@ -28,6 +31,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
     flex: 1,
+  },
+  wrapper:{
+    backgroundColor: 'blue',
+    width: '100%',
+    height: '100%'
   },
   ButtonsWrapper:{
     display: 'flex',
