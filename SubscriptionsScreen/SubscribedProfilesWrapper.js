@@ -4,12 +4,24 @@ import SubscribedProfileItem from './SubscribedProfileItem';
 
 const SubscribedProfilesWrapper = () => {
   return (
-    <View>
+    <View style={styles.wrapper}>
+      <SubscribedProfileItem />
+      <SubscribedProfileItem />
+      <SubscribedProfileItem />
+      <SubscribedProfileItem />
       <SubscribedProfileItem />
     </View>
   )
 }
 
-export default SubscribedProfilesWrapper
+export default SubscribedProfilesWrapper;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    wrapper:{
+        flexDirection: 'row',
+        paddingVertical: 10,
+        paddingLeft: 10,
+        backgroundColor: 'yellow'
+    },
+    
+})

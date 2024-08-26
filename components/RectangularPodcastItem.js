@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     justifyContent: "space-between",
+    flexDirection: 'column',
   },
   numberOfStreamsAndDateUploadedView: {
     flexDirection: "row",
