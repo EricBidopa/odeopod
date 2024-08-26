@@ -24,7 +24,7 @@ export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: "5%",
+    paddingTop: "5%",
     paddingHorizontal: "5%",
     backgroundColor: 'lightblue',
     display: 'flex',

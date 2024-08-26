@@ -9,7 +9,7 @@ const SquarePodcastsWrapper = ({ podcasts }) => {
       {/* <FlatList data={podcasts} renderItem={() => <SquarePodcastItem /> } /> */}
       <SquarePodcastItem
         podcastCoverImg={KanyeImg}
-        podcastTitle={'Good Morning by Kanye West'}
+        podcastTitle={'Good Morning by Kanye West  Kanye West  Kanye West  Kanye West'}
         usernameThatUploaded={'Kanye West'}
       />
        <SquarePodcastItem
