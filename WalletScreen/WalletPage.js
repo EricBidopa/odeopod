@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between", // Changed to space-between for better alignment
     marginVertical: 7,
     paddingHorizontal: 60,
+    alignItems: 'center'
   },
   buttons: {
     padding: 10,

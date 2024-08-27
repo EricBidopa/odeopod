@@ -62,7 +62,7 @@ export default RectangularPodcastItem;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: "yellow",
     width: "100%",
     height: 100, // Set a specific height for the item
     marginBottom: 10, // Add some spacing between items
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   imageStyling: {
     width: "100%",
     height: "100%",
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   textsWrapperView: {
     backgroundColor: "orange",
