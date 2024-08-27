@@ -7,7 +7,7 @@ const HomePage = () => {
     <View style={styles.container}>
         <View style={styles.wrapper}>
 
-    <View style={styles.ButtonsWrapper}>
+    <View style={styles.buttonsWrapper}>
       <Pressable style={styles.buttons}><Text>ALL</Text></Pressable>
       <Pressable style={styles.buttons}><Text>PODCASTS</Text></Pressable>
       <Pressable style={styles.buttons}><Text>MUSIC</Text></Pressable>
@@ -37,8 +37,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
-  ButtonsWrapper:{
-    display: 'flex',
+  buttonsWrapper:{
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: 'lightpink',

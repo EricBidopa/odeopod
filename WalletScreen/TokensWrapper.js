@@ -3,13 +3,21 @@ import React from 'react'
 import TokenItem from './TokenItem'
 
 const TokensWrapper = () => {
+
   return (
-    <View>
+    <View style={styles.wrapper}>
       <TokenItem />
+      <TokenItem />
+      <TokenItem />
+
     </View>
   )
 }
 
 export default TokensWrapper
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    wrapper:{
+        flexDirection: 'column',
+    }
+})
