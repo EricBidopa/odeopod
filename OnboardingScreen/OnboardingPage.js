@@ -16,6 +16,7 @@ const OnboardingPage = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+    <StatusBar style='auto' />
       <View style={styles.wrapper}>
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>
