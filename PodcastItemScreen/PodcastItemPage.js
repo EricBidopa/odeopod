@@ -25,7 +25,7 @@ const PodcastItemPage = () => {
         </View>
         <PodcastItemHorizontalProfileComp />
         <StreamDateDesComp />
-        <Text>Current $Jordan Share Price: 300 USD</Text>
+        <Text>Current $Jordan share Price: 300 USD</Text>
         {/* <View style={styles.buyOrSellButtonsWrapper}>
           <Pressable>
             <Text>I want to buy</Text>
