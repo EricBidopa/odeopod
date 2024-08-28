@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react';
+import React, { useState } from 'react';
 import OrdersWrapper from './OrdersWrapper';
 
 const OrdersPage = () => {
+const [showOrdersWrapper] = useState(true)
   return (
     <View style={styles.container}>
-     <OrdersWrapper />
+     <OrdersWrapper show={showOrdersWrapper} />
     </View>
   )
 }

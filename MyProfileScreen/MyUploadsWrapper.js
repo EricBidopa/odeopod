@@ -43,7 +43,7 @@ const MyUploadsWrapper = () => {
   )
 }
 
-export default MyUploadsWrapper
+export default MyUploadsWrapper;
 
 const styles = StyleSheet.create({
     wrapper:{

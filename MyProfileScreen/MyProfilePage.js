@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
-import UploadsWrapper from "./MyUploadsWrapper";
+import MyUploadsWrapper from "./MyUploadsWrapper";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
-import HorizontalProfileinfoComp from "./MyHorizontalProfileinfoComp";
+import MyHorizontalProfileinfoComp from "./MyHorizontalProfileinfoComp";
 import MyProfileScreenButtonsComp from "./MyProfileScreenButtonsComp";
 
 const MyProfilePage = () => {
@@ -12,9 +12,9 @@ const MyProfilePage = () => {
         <View style={styles.coverImgView}>
           <Image style={styles.coverImageStyling} source={KanyeImg} />
         </View>
-        <HorizontalProfileinfoComp />
-        <ProfileScreenButtonsComp />
-        <UploadsWrapper />
+        <MyHorizontalProfileinfoComp />
+        <MyProfileScreenButtonsComp />
+        <MyUploadsWrapper />
       </View>
     </View>
   );

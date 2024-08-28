@@ -8,21 +8,25 @@ const PodcastItemHorizontalProfileComp = ({
   profileFullName,
   numberOfSubscribers,
 }) => {
-    const navigation=useNavigation()
-    const handleInvestPressed = () => {
-        navigation.navigate("OrdersPage");
-      }
+  const navigation = useNavigation();
+  const handleInvestPressed = () => {
+    navigation.navigate("OrdersPage");
+  };
+
+  const handleProfileClicked = () => {
+    navigation.navigate("ViewProfilePage");
+  };
   return (
     <View style={styles.wrapper}>
-      <View style={styles.profileImgView}>
+      <Pressable style={styles.profileImgView} onPress={handleProfileClicked}>
         <Image style={styles.profileImgStyling} source={KanyeImg} />
-      </View>
-      <View style={styles.textsWrapper}>
+      </Pressable>
+      <Pressable style={styles.textsWrapper} onPress={handleProfileClicked}>
         <Text style={styles.smallTexts} numberOfLines={2} ellipsizeMode="tail">
           Jordan Peterson Jordan Peterson
         </Text>
         <Text style={styles.smallTexts}>10M Subcribers</Text>
-      </View>
+      </Pressable>
       <Pressable style={styles.buttons} onPress={handleInvestPressed}>
         <Text>Invest</Text>
       </Pressable>

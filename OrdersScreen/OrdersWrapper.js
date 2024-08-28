@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import BuyWrapper from "./BuyWrapper";
 import SellWrapper from "./SellWrapper";
 
-const OrdersWrapper = () => {
+const OrdersWrapper = ({show}) => {
+    if(!show){
+        return null
+    }
   const [showIwantToSell, setShowIwantToSell] = useState(false);
   const [showIwantToBuy, setShowIwantToBuy] = useState(true);
 

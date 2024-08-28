@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable, Button } from "react-native";
 import React from "react";
-import BuyComp from "./BuyComp";
+import BuyComp from "../components/BuyComp";
 
 const BuyWrapper = ({showIwantToBuy}) => {
     if(!showIwantToBuy){

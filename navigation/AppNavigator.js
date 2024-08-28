@@ -16,6 +16,7 @@ import MyProfilePage from "../MyProfileScreen/MyProfilePage";
 import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
 import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
 import OrdersPage from "../OrdersScreen/OrdersPage";
+import ViewProfilePage from "../ViewProfileScreen/ViewProfilePage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -54,7 +55,7 @@ function BottomNavigationGroup() {
       <Bottomnav.Screen name="Search" component={SearchPage} />
       <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} />
       <Bottomnav.Screen name="Wallet" component={WalletPage} />
-      <Bottomnav.Screen name="Profile" component={ProfilePage} />
+      <Bottomnav.Screen name="Profile" component={MyProfilePage} />
     </Bottomnav.Navigator>
   );
 }
@@ -91,6 +92,11 @@ export default function AppNavigator() {
          <Stack.Screen
           name="OrdersPage"
           component={OrdersPage}
+          options={{ headerShown: true, title: null }}
+        />
+        <Stack.Screen
+          name="ViewProfilePage"
+          component={ViewProfilePage}
           options={{ headerShown: true, title: null }}
         />
       </Stack.Navigator>

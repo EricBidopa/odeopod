@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable, Button } from "react-native";
 import React from "react";
-import SellComp from "./SellComp";
+import SellComp from "../components/SellComp";
 
 const SellWrapper = ({showIwantToSell}) => {
     if(!showIwantToSell){

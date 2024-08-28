@@ -5,8 +5,11 @@ import { Ionicons } from "@expo/vector-icons";
 import PodcastItemHorizontalProfileComp from "./PodcastItemHorizontalProfileComp";
 import StreamDateDesComp from "./StreamDateDesComp";
 import OrdersWrapper from "../OrdersScreen/OrdersWrapper";
+import { useState } from "react";
 
 const PodcastItemPage = () => {
+const [showOrdersWrapper] = useState(true)
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.wrapper}>
@@ -30,7 +33,7 @@ const PodcastItemPage = () => {
         <StreamDateDesComp />
         <Text>You Own 8 $Jordan Shares</Text>
         <Text>Current $Jordan Share Price: 300 USD</Text>
-        <OrdersWrapper />
+        <OrdersWrapper show={showOrdersWrapper} />
       </View>
     </ScrollView>
   );
