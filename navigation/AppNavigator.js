@@ -15,6 +15,7 @@ import WalletPage from "../WalletScreen/WalletPage";
 import ProfilePage from "../ProfileScreen/ProfilePage";
 import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
 import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
+import OrdersPage from "../OrdersScreen/OrdersPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -85,6 +86,11 @@ export default function AppNavigator() {
          <Stack.Screen
           name="PodcastItemScreen"
           component={PodcastItemPage}
+          options={{ headerShown: true, title: null }}
+        />
+         <Stack.Screen
+          name="OrdersPage"
+          component={OrdersPage}
           options={{ headerShown: true, title: null }}
         />
       </Stack.Navigator>

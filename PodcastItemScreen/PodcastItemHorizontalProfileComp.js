@@ -1,12 +1,17 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
+import { useNavigation } from "@react-navigation/native";
 
 const PodcastItemHorizontalProfileComp = ({
   profileImg,
   profileFullName,
   numberOfSubscribers,
 }) => {
+    const navigation=useNavigation()
+    const handleInvestPressed = () => {
+        navigation.navigate("OrdersPage");
+      }
   return (
     <View style={styles.wrapper}>
       <View style={styles.profileImgView}>
@@ -18,7 +23,7 @@ const PodcastItemHorizontalProfileComp = ({
         </Text>
         <Text style={styles.smallTexts}>10M Subcribers</Text>
       </View>
-      <Pressable style={styles.buttons}>
+      <Pressable style={styles.buttons} onPress={handleInvestPressed}>
         <Text>Invest</Text>
       </Pressable>
       <Pressable style={styles.buttons}>

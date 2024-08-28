@@ -1,19 +1,22 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable, ScrollView } from "react-native";
 import React from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { Ionicons } from "@expo/vector-icons";
 import PodcastItemHorizontalProfileComp from "./PodcastItemHorizontalProfileComp";
 import StreamDateDesComp from "./StreamDateDesComp";
+import OrdersWrapper from "../OrdersScreen/OrdersWrapper";
 
 const PodcastItemPage = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.wrapper}>
         <View style={styles.coverImgView}>
           <Image style={styles.coverImageStyling} source={KanyeImg} />
         </View>
         <View style={styles.podcastTitleView}>
-          <Text style={styles.podcastTitleText}>When things fall apart When things fall apart When things fall apart When things fall apart</Text>
+          <Text style={styles.podcastTitleText}>
+            When things fall apart When things fall apart When things fall apart When things fall apart
+          </Text>
         </View>
         <View style={styles.iconsWrapper}>
           <Pressable>
@@ -25,17 +28,11 @@ const PodcastItemPage = () => {
         </View>
         <PodcastItemHorizontalProfileComp />
         <StreamDateDesComp />
-        <Text>Current $Jordan share Price: 300 USD</Text>
-        {/* <View style={styles.buyOrSellButtonsWrapper}>
-          <Pressable>
-            <Text>I want to buy</Text>
-          </Pressable>
-          <Pressable>
-            <Text>I want to Sell</Text>
-          </Pressable>
-        </View> */}
+        <Text>You Own 8 $Jordan Shares</Text>
+        <Text>Current $Jordan Share Price: 300 USD</Text>
+        <OrdersWrapper />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -74,6 +71,4 @@ const styles = StyleSheet.create({
     gap: 5,
     justifyContent: 'center'
   },
- 
-
 });
