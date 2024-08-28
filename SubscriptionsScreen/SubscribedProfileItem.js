@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 33, // Ensure the image itself is also circular
+    
   },
   textsView:{
     width: 80,

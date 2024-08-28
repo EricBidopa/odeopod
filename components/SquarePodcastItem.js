@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -8,7 +8,7 @@ const SquarePodcastItem = ({
   usernameThatUploaded,
 }) => {
   return (
-    <View style={styles.wrapper}>
+    <Pressable style={styles.wrapper}>
       <Image style={styles.imageStyling} source={podcastCoverImg} />
       <View style={styles.textsAndIcon}>
         <View>
@@ -27,7 +27,7 @@ const SquarePodcastItem = ({
         </View>
         <Ionicons name="play-circle-outline" size={30} color="black" />
       </View>
-    </View>
+    </Pressable>
   );
 };
 

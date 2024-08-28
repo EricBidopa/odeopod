@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const RectangularPodcastItem = ({
   podcastCoverImg,
@@ -10,8 +11,13 @@ const RectangularPodcastItem = ({
   dateUploaded,
   podcastDescription,
 }) => {
+  const navigation = useNavigation();
+  const handleItemPressed = () => {
+    navigation.navigate("PodcastItemScreen");
+  };
+
   return (
-    <View style={styles.wrapper}>
+    <Pressable style={styles.wrapper} onPress={handleItemPressed}>
       <View style={styles.imageWrapperView}>
         <Image style={styles.imageStyling} source={podcastCoverImg} />
       </View>
@@ -53,7 +59,7 @@ const RectangularPodcastItem = ({
       <View style={styles.playIconWrapperView}>
         <Ionicons name="play-circle-outline" size={30} color="black" />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     justifyContent: "space-between",
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   numberOfStreamsAndDateUploadedView: {
     flexDirection: "row",

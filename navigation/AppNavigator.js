@@ -14,6 +14,7 @@ import SubscriptionsPage from "../SubscriptionsScreen/SubscriptionsPage";
 import WalletPage from "../WalletScreen/WalletPage";
 import ProfilePage from "../ProfileScreen/ProfilePage";
 import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
+import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -80,10 +81,11 @@ export default function AppNavigator() {
           component={BottomNavigationGroup}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="SearchPage"
-          component={SearchPage}
-          options={{ headerTitleAlign: "center", headerStyle: styles.header }}
+        
+         <Stack.Screen
+          name="PodcastItemScreen"
+          component={PodcastItemPage}
+          options={{ headerShown: true, title: null }}
         />
       </Stack.Navigator>
     </NavigationContainer>
