@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 
-const ProfileScreenButtonsComp = () => {
+const MyProfileScreenButtonsComp = () => {
   return (
     <View style={styles.buttonsWrapper}>
       <Text>Uploads</Text>
@@ -15,7 +15,7 @@ const ProfileScreenButtonsComp = () => {
   );
 };
 
-export default ProfileScreenButtonsComp;
+export default MyProfileScreenButtonsComp;
 
 const styles = StyleSheet.create({
   buttonsWrapper:{

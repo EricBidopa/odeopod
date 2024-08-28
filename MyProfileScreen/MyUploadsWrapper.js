@@ -4,7 +4,7 @@ import RectangularPodcastItem from '../components/RectangularPodcastItem'
 import KanyeImg from '../assets/KanyeCoverArt.jpg'
 
 
-const UploadsWrapper = () => {
+const MyUploadsWrapper = () => {
   return (
     <View style={styles.wrapper}>
       <RectangularPodcastItem
@@ -43,7 +43,7 @@ const UploadsWrapper = () => {
   )
 }
 
-export default UploadsWrapper
+export default MyUploadsWrapper
 
 const styles = StyleSheet.create({
     wrapper:{

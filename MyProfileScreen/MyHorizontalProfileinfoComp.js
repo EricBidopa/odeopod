@@ -4,7 +4,7 @@ import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { Ionicons } from "@expo/vector-icons";
 
 
-const HorizontalProfileinfoComp = () => {
+const MyHorizontalProfileinfoComp = () => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.profileImgView}>
@@ -37,7 +37,7 @@ const HorizontalProfileinfoComp = () => {
   );
 };
 
-export default HorizontalProfileinfoComp;
+export default MyHorizontalProfileinfoComp;
 
 const styles = StyleSheet.create({
     wrapper: {

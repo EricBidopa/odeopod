@@ -12,7 +12,7 @@ import HomePage from "../HomeScreen/HomePage";
 import SearchPage from "../SearchScreen/SearchPage";
 import SubscriptionsPage from "../SubscriptionsScreen/SubscriptionsPage";
 import WalletPage from "../WalletScreen/WalletPage";
-import ProfilePage from "../ProfileScreen/ProfilePage";
+import MyProfilePage from "../MyProfileScreen/MyProfilePage";
 import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
 import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
 import OrdersPage from "../OrdersScreen/OrdersPage";

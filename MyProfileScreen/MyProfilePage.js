@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
-import UploadsWrapper from "./UploadsWrapper";
+import UploadsWrapper from "./MyUploadsWrapper";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
-import HorizontalProfileinfoComp from "./HorizontalProfileinfoComp";
-import ProfileScreenButtonsComp from "./ProfileScreenButtonsComp";
+import HorizontalProfileinfoComp from "./MyHorizontalProfileinfoComp";
+import MyProfileScreenButtonsComp from "./MyProfileScreenButtonsComp";
 
-const ProfilePage = () => {
+const MyProfilePage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -20,7 +20,7 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default MyProfilePage;
 
 const styles = StyleSheet.create({
   container: {
