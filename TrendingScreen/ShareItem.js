@@ -1,45 +1,48 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+} from "react-native";
 import React from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { useNavigation } from "@react-navigation/native";
 
-const PodcastItemHorizontalProfileComp = ({
+const ShareItem = ({
   profileImg,
   profileFullName,
   numberOfSubscribers,
+  shareName,
+  sharePrice,
 }) => {
   const navigation = useNavigation();
-  
+  const handleShareItemClicked=()=>{
+    navigation.navigate("ViewProfilePage")
+  }
 
-  const handleInvestPressed = () => {
-    navigation.navigate("OrdersPage");
-  };
-
-  const handleProfileClicked = () => {
-    navigation.navigate("ViewProfilePage");
-  };
   return (
-    <View style={styles.wrapper}>
-      <Pressable style={styles.profileImgView} onPress={handleProfileClicked}>
+    <Pressable style={styles.wrapper} onPress={handleShareItemClicked}>
+      <View style={styles.profileImgView}>
         <Image style={styles.profileImgStyling} source={KanyeImg} />
-      </Pressable>
-      <Pressable style={styles.textsWrapper}>
+      </View>
+      <View style={styles.textsWrapper}>
         <Text style={styles.smallTexts} numberOfLines={2} ellipsizeMode="tail">
           Jordan Peterson Jordan Peterson
         </Text>
         <Text style={styles.smallTexts}>10M Subcribers</Text>
-      </Pressable>
-      <Pressable style={styles.buttons} onPress={handleInvestPressed}>
-        <Text>Invest</Text>
-      </Pressable>
-      <Pressable style={styles.buttons}>
-        <Text>Subscribe</Text>
-      </Pressable>
-    </View>
+      </View>
+      <View style={styles.buttons}>
+        <Text>$Jordan</Text>
+      </View>
+      <View style={styles.buttons}>
+        <Text>200 USD</Text>
+      </View>
+    </Pressable>
   );
 };
 
-export default PodcastItemHorizontalProfileComp;
+export default ShareItem;
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     width: "100%",
     height: 80,
-    marginVertical: 10,
+    marginVertical: 5,
     alignItems: "center",
     gap: 5,
   },

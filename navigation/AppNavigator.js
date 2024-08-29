@@ -18,6 +18,7 @@ import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
 import OrdersPage from "../OrdersScreen/OrdersPage";
 import ViewProfilePage from "../ViewProfileScreen/ViewProfilePage";
 import SettingsPage from "../SettingsScreen/SettingsPage";
+import TrendingPage from "../TrendingScreen/TrendingPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -104,6 +105,11 @@ export default function AppNavigator() {
           name="SettingsPage"
           component={SettingsPage}
           options={{ headerShown: true, title: null }}
+        />
+        <Stack.Screen
+          name="TrendingPage"
+          component={TrendingPage}
+          options={{ headerShown: true, title: "Trending" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

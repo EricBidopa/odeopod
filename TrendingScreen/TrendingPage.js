@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import SharesWrapper from "./SharesWrapper";
 
 const TrendingPage = () => {
   const [isFocused, setIsFocused] = useState(false);
@@ -41,7 +42,7 @@ const TrendingPage = () => {
           </View>
         </View>
 
-        
+        <SharesWrapper />
       </View>
     </ScrollView>
   );
@@ -51,13 +52,14 @@ export default TrendingPage;
 
 const styles = StyleSheet.create({
   container: {
+    paddingVertical: 10,
     paddingHorizontal: 10,
     backgroundColor: "blue",
     flex: 1,
   },
   wrapper: {
     flexDirection: "column",
-    gap: 10,
+    gap: 20,
     backgroundColor: "pink",
     paddingBottom: 20, // Adds some padding at the bottom of the scroll
   },
@@ -82,14 +84,14 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
   },
-  textsWrapper:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'lightblue'
+  textsWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "lightblue",
   },
 
-  shareNameAndPrice:{
-    flexDirection: 'row',
-    gap: 5
-  }
+  shareNameAndPrice: {
+    flexDirection: "row",
+    gap: 25,
+  },
 });

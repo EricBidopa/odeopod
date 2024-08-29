@@ -1,8 +1,13 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 import TokensWrapper from "./TokensWrapper";
+import { useNavigation } from "@react-navigation/native";
 
 const WalletPage = () => {
+    const navigation = useNavigation()
+    const handleTrendingClicked = ()=>{
+        navigation.navigate("TrendingPage")
+    }
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -15,7 +20,7 @@ const WalletPage = () => {
         </View>
         <View style={styles.horizontalLayoutButtons}>
           <Text style={styles.subHeaderText}>My Wallet</Text>
-          <Pressable style={styles.buttons}>
+          <Pressable style={styles.buttons} onPress={handleTrendingClicked}>
             <Text>Trending Shares</Text>
           </Pressable>
         </View>
