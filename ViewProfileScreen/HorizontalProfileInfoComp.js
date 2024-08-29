@@ -30,7 +30,7 @@ const HorizontalProfileInfoComp = () => {
         </View>
       </View>
       <View style={styles.menuWrapperView}>
-        <Ionicons name="options" size={25} color="black" />
+        <Ionicons name="share-social" size={25} color="black" />
       </View>
     </View>
   );
