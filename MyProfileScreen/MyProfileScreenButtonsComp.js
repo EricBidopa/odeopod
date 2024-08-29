@@ -1,11 +1,16 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const MyProfileScreenButtonsComp = () => {
+  const navigation = useNavigation();
+  const handleSettingsClicked = () =>{
+    navigation.navigate("SettingsPage")
+  }
   return (
     <View style={styles.buttonsWrapper}>
       <Text>Uploads</Text>
-      <Pressable style={styles.buttons}>
+      <Pressable style={styles.buttons} onPress={handleSettingsClicked}>
         <Text>Settings</Text>
       </Pressable>
       <Pressable style={styles.buttons}>

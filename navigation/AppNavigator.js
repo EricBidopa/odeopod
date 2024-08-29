@@ -17,6 +17,7 @@ import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
 import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
 import OrdersPage from "../OrdersScreen/OrdersPage";
 import ViewProfilePage from "../ViewProfileScreen/ViewProfilePage";
+import SettingsPage from "../SettingsScreen/SettingsPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -97,6 +98,11 @@ export default function AppNavigator() {
         <Stack.Screen
           name="ViewProfilePage"
           component={ViewProfilePage}
+          options={{ headerShown: true, title: null }}
+        />
+         <Stack.Screen
+          name="SettingsPage"
+          component={SettingsPage}
           options={{ headerShown: true, title: null }}
         />
       </Stack.Navigator>
