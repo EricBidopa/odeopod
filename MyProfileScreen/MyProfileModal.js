@@ -73,5 +73,5 @@ const styles = StyleSheet.create({
   closeText: {
     color: "red",
     marginTop: 10,
-  },
+  }
 });

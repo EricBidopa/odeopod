@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 3,
   },
-  finalNoteText:{
+  finalNoteText: {
     color: "red",
     marginTop: 10,
   },

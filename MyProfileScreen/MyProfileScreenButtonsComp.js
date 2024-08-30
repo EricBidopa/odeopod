@@ -1,21 +1,38 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import UploadAudioModal from "./UploadAudioModal";
+import { useState } from "react";
 
 const MyProfileScreenButtonsComp = () => {
-  const navigation = useNavigation();
-  const handleSettingsClicked = () =>{
-    navigation.navigate("SettingsPage")
-  }
+  const navigation = useNavigation()
+  const [showModal, setShowModal] = useState(false)
+
+
+
+  const openModal=()=>{
+      setShowModal(true)
+    }
+  
+    const closeModal=()=>{
+      setShowModal(false)
+    }
+
+    const handleSettingsClicked = () =>{
+      navigation.navigate("SettingsPage")
+    }
+
+
   return (
     <View style={styles.buttonsWrapper}>
       <Text>Uploads</Text>
       <Pressable style={styles.buttons} onPress={handleSettingsClicked}>
         <Text>Settings</Text>
       </Pressable>
-      <Pressable style={styles.buttons}>
+      <Pressable style={styles.buttons} onPress={openModal}>
         <Text>Upload</Text>
       </Pressable>
+      <UploadAudioModal show={showModal} onClose={closeModal}/>
     </View>
   );
 };
