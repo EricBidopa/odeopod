@@ -1,10 +1,17 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const MyProfileModal = ({ show, onClose }) => {
+  const navigation = useNavigation();
   if (!show) {
     return null;
   }
+
+  const handleMintSharesClicked = () => {
+    navigation.navigate("MintSharesPage");
+    onClose()
+  };
 
   return (
     <Modal
@@ -22,9 +29,9 @@ const MyProfileModal = ({ show, onClose }) => {
           </Pressable>
           <Pressable
             style={styles.modalButton}
-            onPress={() => console.log("Create Shares pressed")}
+            onPress={handleMintSharesClicked}
           >
-            <Text style={styles.buttonText}>Create Shares</Text>
+            <Text style={styles.buttonText}>Mint My Shares</Text>
           </Pressable>
           <Pressable onPress={onClose}>
             <Text style={styles.closeText}>Close</Text>

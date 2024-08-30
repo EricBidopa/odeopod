@@ -19,6 +19,7 @@ import OrdersPage from "../OrdersScreen/OrdersPage";
 import ViewProfilePage from "../ViewProfileScreen/ViewProfilePage";
 import SettingsPage from "../SettingsScreen/SettingsPage";
 import TrendingPage from "../TrendingScreen/TrendingPage";
+import MintSharesPage from "../MintSharesScreen.js/MintSharesPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -110,6 +111,11 @@ export default function AppNavigator() {
           name="TrendingPage"
           component={TrendingPage}
           options={{ headerShown: true, title: "Trending" }}
+        />
+         <Stack.Screen
+          name="MintSharesPage"
+          component={MintSharesPage}
+          options={{ headerShown: true, title: "Mint Your Shares" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
