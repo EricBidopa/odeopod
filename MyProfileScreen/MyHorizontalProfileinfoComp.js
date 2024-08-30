@@ -2,9 +2,18 @@ import { StyleSheet, Text, View, Image, Modal, TouchableOpacity } from "react-na
 import React, { useState } from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { Ionicons } from "@expo/vector-icons";
+import MyProfileModal from "./MyProfileModal";
 
 const MyHorizontalProfileinfoComp = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal=()=>{
+    setShowModal(true)
+  }
+
+  const closeModal=()=>{
+    setShowModal(false)
+  }
 
   return (
     <View style={styles.wrapper}>
@@ -36,9 +45,10 @@ const MyHorizontalProfileinfoComp = () => {
           name="options"
           size={25}
           color="black"
-          onPress={() => setModalVisible(true)}
+          onPress={openModal}
         />
       </View>
+      <MyProfileModal show={showModal} onClose={closeModal}/>
     </View>
   );
 };

@@ -2,9 +2,23 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 import TokensWrapper from "./TokensWrapper";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import DepositModal from "./DepositModal";
 
 const WalletPage = () => {
+    const [showModal, setShowModal] = useState(false)
     const navigation = useNavigation()
+
+
+
+    const openModal=()=>{
+        setShowModal(true)
+      }
+    
+      const closeModal=()=>{
+        setShowModal(false)
+      }
+
     const handleTrendingClicked = ()=>{
         navigation.navigate("TrendingPage")
     }
@@ -25,12 +39,13 @@ const WalletPage = () => {
           </Pressable>
         </View>
         <View style={styles.horizontalLayoutButtons}>
-          <Pressable style={styles.buttons}>
+          <Pressable style={styles.buttons} onPress={openModal}>
             <Text>Deposit</Text>
           </Pressable>
           <Pressable style={styles.buttons}>
             <Text>Withdraw</Text>
           </Pressable>
+          <DepositModal show={showModal} onClose={closeModal}/>
         </View>
         <TokensWrapper />
       </View>

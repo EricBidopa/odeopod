@@ -1,14 +1,70 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
+import React from "react";
 
-const MyProfileModal = () => {
+const MyProfileModal = ({ show, onClose }) => {
+  if (!show) {
+    return null;
+  }
+
   return (
-    <View>
-      <Text>MyProfileModal</Text>
-    </View>
-  )
-}
+    <Modal
+      transparent={true}
+      visible={show}
+      onRequestClose={onClose} // Use the onClose prop to close the modal
+    >
+      <View style={styles.modalBackground}>
+        <View style={styles.modalContent}>
+          <Pressable
+            style={styles.modalButton}
+            onPress={() => console.log("Share Profile pressed")}
+          >
+            <Text style={styles.buttonText}>Share Profile</Text>
+          </Pressable>
+          <Pressable
+            style={styles.modalButton}
+            onPress={() => console.log("Create Shares pressed")}
+          >
+            <Text style={styles.buttonText}>Create Shares</Text>
+          </Pressable>
+          <Pressable onPress={onClose}>
+            <Text style={styles.closeText}>Close</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+  );
+};
 
-export default MyProfileModal
+export default MyProfileModal;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalButton: {
+    backgroundColor: "#2196F3",
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 5,
+    width: "100%",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  closeText: {
+    color: "red",
+    marginTop: 10,
+  },
+});
