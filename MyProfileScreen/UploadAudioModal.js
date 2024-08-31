@@ -22,29 +22,30 @@ const UploadAudioModal = ({ show, onClose }) => {
   if (!show) return null;
 
   const handleFilePick = async () => {
-  try {
-    let result = await DocumentPicker.getDocumentAsync({
-      type: "audio/*",
-      copyToCacheDirectory: true,
-    });
+    try {
+      let result = await DocumentPicker.getDocumentAsync({
+        type: "audio/*",
+        copyToCacheDirectory: true,
+      });
 
-    console.log(result); // Log the result to see the details
+      console.log(result); // Log the result to see the details
 
-    // Check if the result contains assets and is not canceled
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const file = result.assets[0]; // Access the first file in the assets array
-      setSelectedFile(file);
-      Alert.alert("File Selected", "Your file has been selected successfully.");
-    } else {
-      Alert.alert("Upload Status", "File selection failed or was canceled.");
+      // Check if the result contains assets and is not canceled
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const file = result.assets[0]; // Access the first file in the assets array
+        setSelectedFile(file);
+        Alert.alert(
+          "File Selected",
+          "Your file has been selected successfully."
+        );
+      } else {
+        Alert.alert("Upload Status", "File selection failed or was canceled.");
+      }
+    } catch (error) {
+      console.error("Error picking the file:", error);
+      Alert.alert("Error", "There was an error picking the file.");
     }
-  } catch (error) {
-    console.error("Error picking the file:", error);
-    Alert.alert("Error", "There was an error picking the file.");
-  }
-};
-
-  
+  };
 
   return (
     <Modal transparent={true} visible={show} onRequestClose={onClose}>
@@ -83,7 +84,7 @@ const UploadAudioModal = ({ show, onClose }) => {
               />
             </View>
           </View>
-
+          
           <View style={styles.labelAndInputView}>
             <Text>Description: </Text>
             <View style={styles.inputView}>
@@ -94,7 +95,6 @@ const UploadAudioModal = ({ show, onClose }) => {
               />
             </View>
           </View>
-
           <Pressable
             style={styles.uploadButton}
             onPress={() => console.log("Upload started")}

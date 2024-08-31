@@ -20,6 +20,8 @@ import ViewProfilePage from "../ViewProfileScreen/ViewProfilePage";
 import SettingsPage from "../SettingsScreen/SettingsPage";
 import TrendingPage from "../TrendingScreen/TrendingPage";
 import MintSharesPage from "../MintSharesScreen.js/MintSharesPage";
+import IWantToSellPage from "../IWantToSellScreen/IWantToSellPage";
+import IWantToBuyPage from "../IWantToBuyScreen/IWantToBuyPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -116,6 +118,16 @@ export default function AppNavigator() {
           name="MintSharesPage"
           component={MintSharesPage}
           options={{ headerShown: true, title: "Mint Your Shares" }}
+        />
+        <Stack.Screen
+          name="IWantToSellPage"
+          component={IWantToSellPage}
+          options={{ headerShown: true, title: null }}
+        />
+        <Stack.Screen
+          name="IWantToBuyPage"
+          component={IWantToBuyPage}
+          options={{ headerShown: true, title: null }}
         />
       </Stack.Navigator>
     </NavigationContainer>
