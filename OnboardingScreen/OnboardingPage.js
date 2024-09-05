@@ -1,22 +1,33 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
+import { usePrivy } from "@privy-io/expo";
 
-const OnboardingPage = ({navigation}) => {
+const OnboardingPage = ({ navigation }) => {
 
-    const handleCreateAccount = () =>{
-        navigation.navigate('ChooseUsernamePage')
+  
+  const handleCreateAccount = async () => {
+    try {
+      await login();
+      navigation.navigate("ChooseUsernamePage");
+    } catch (error) {
+      console.error("Login failed:", error);
     }
-
-    const handleLoginIn = () =>{
-        navigation.navigate('HomePage')
+  };
+  
+  const handleLoginIn = async () => {
+    try {
+      await login();
+      navigation.navigate("HomePage");
+    } catch (error) {
+      console.error("Login failed:", error);
     }
-
-
+  };
+  
 
   return (
     <View style={styles.container}>
-    <StatusBar style='auto' />
+      <StatusBar style="auto" />
       <View style={styles.wrapper}>
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>
@@ -53,9 +64,9 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     width: "100%",
     height: "100%",
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   headerText: {
     fontWeight: "bold",
