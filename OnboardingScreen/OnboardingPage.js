@@ -1,10 +1,18 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
+
+// import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
-import { useLoginWithOAuth, usePrivy } from "@privy-io/expo";
+import { useLoginWithOAuth, usePrivy} from "@privy-io/expo";
 import { useNavigation } from "@react-navigation/native";
+// import { useState } from "react";
 
 const OnboardingPage = () => {
+  // const [userEmail, setUserEmail] = useState(
+  //   Constants.expoConfig?.extra?.email || ""
+  // );
+  // const [otpCode, setOtpCode] = useState("");
+
   const { user } = usePrivy();
   const navigation = useNavigation();
 
@@ -24,21 +32,34 @@ const OnboardingPage = () => {
     },
   });
 
-  const handleCreateAccount = async () => {
-    try {
-      await login({ provider: "google" });
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+  // const {sendCode, loginWithCode} = useLoginWithEmail({
+  //   onSendCodeSuccess({userEmail}) {
+  //   },
+  // });
+
+
+
+  // const handleSendCodeToEmail = () => {
+  //   sendCode({ userEmail });
+  // };
+
+  // const handleVerifyOtpCode = () => {
+  //   loginWithCode({ code: otpCode, email: userEmail });
+
+  // };
+
+  const handleLoginWithGoogle = () => {
+    login({ provider: "google" });
   };
 
-  const handleLoginIn = async () => {
-    try {
-      await login({ provider: "google" });
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
-  };
+  // const handleLoginWithApple = () => {
+  //   login({ provider: "apple" });
+  // };
+
+  // if user is already authenticated, then show the homepage to the user.
+  if (user) {
+    navigation.navigate("HomePage");
+  }
 
   return (
     <View style={styles.container}>
@@ -51,22 +72,20 @@ const OnboardingPage = () => {
             OdeoPod!
           </Text>
         </View>
-        <View>
+        <View style={styles.InputAndButtonsWrapper}>
+          {/* <TextInput
+            value={userEmail}
+            onChangeText={setUserEmail}
+            placeholder="Type Your Email"
+            style={styles.input}
+            inputMode="email"
+          /> */}
           <Pressable
             style={styles.buttons}
-            onPress={handleCreateAccount}
+            onPress={handleLoginWithGoogle}
             disabled={state.status === "loading"}
           >
-            <Text>
-              {state.status === "loading" ? "Loading.." : "Create Account"}
-            </Text>
-          </Pressable>
-          <Pressable
-            style={styles.buttons}
-            onPress={handleLoginIn}
-            disabled={state.status === "loading"}
-          >
-            <Text>{state.status === "loading" ? "Loading" : "Login..."}</Text>
+            <Text>Login/Sign Up With Google</Text>
           </Pressable>
 
           {state.status === "error" && (
@@ -99,6 +118,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+  },
+  InputAndButtonsWrapper: {
+    backgroundColor: "lightblue",
+    flexDirection: "column",
+    flex: 1,
+    gap: 5,
   },
   headerText: {
     fontWeight: "bold",
