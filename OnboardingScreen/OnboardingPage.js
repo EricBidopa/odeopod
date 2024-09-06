@@ -85,7 +85,7 @@ const OnboardingPage = () => {
             onPress={handleLoginWithGoogle}
             disabled={state.status === "loading"}
           >
-            <Text>Login/Sign Up With Google</Text>
+            <Text>Login/Sign UpWith Google</Text>
           </Pressable>
 
           {state.status === "error" && (
