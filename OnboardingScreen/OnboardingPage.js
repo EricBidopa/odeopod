@@ -9,6 +9,8 @@ import { useNavigation } from "@react-navigation/native";
 // import { useState } from "react";
 
 const OnboardingPage = () => {
+
+
   // const [userEmail, setUserEmail] = useState(
   //   Constants.expoConfig?.extra?.email || ""
   // );
@@ -26,6 +28,13 @@ const OnboardingPage = () => {
     }
   };
 
+
+  
+  // if (user) {
+  //   navigation.navigate("HomePage");
+  // }
+
+  
   const { login, state } = useLoginWithOAuth({
     onSuccess(user, isNewUser) {
       if (isNewUser) {
@@ -77,10 +86,7 @@ const OnboardingPage = () => {
   // };
 
   // if user is already authenticated, then show the homepage to the user.
-  if (user) {
-    navigation.navigate("HomePage");
-  }
-
+ 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -105,7 +111,7 @@ const OnboardingPage = () => {
             onPress={handleLoginWithGoogle}
             disabled={state.status === "loading"}
           >
-            <Text>Login/Sign UpWith Google</Text>
+            <Text>{ state.status === "loading" ? 'Loading': 'Login/Sign Up With Google'}</Text>
           </Pressable>
 
           {state.status === "error" && (
@@ -142,7 +148,7 @@ const styles = StyleSheet.create({
   InputAndButtonsWrapper: {
     backgroundColor: "lightblue",
     flexDirection: "column",
-    flex: 1,
+    // flex: 1,
     gap: 5,
   },
   headerText: {
