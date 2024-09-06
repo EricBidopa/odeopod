@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
+import axios from "axios";
 
 // import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
@@ -16,9 +17,28 @@ const OnboardingPage = () => {
   const { user } = usePrivy();
   const navigation = useNavigation();
 
+  const saveUserToDatabase = async (userData) => {
+    try {
+      const response = await axios.post('http://localhost:3000/users', userData);
+      console.log('User saved:', response.data);
+    } catch (error) {
+      console.error('Error saving user:', error);
+    }
+  };
+
   const { login, state } = useLoginWithOAuth({
     onSuccess(user, isNewUser) {
       if (isNewUser) {
+        const userData = {
+          userId: 'this',
+          userUsername: "exampleUsername",
+          userChannelName: user.fullName,
+          userChannelDescription: "",
+          userProfileImgUrl: "",
+          userChannelCoverImgUrl: "",
+          userWalletAddress: "",
+          userSubscriptions: [],
+        };
         navigation.navigate("ChooseUsernamePage");
       }
       if (!isNewUser) {
