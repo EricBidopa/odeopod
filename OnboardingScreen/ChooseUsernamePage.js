@@ -1,13 +1,45 @@
 import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import { useState } from "react";
 import React from "react";
+import axios from "axios";
 import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../components/ErrorMessage";
+import SuccessMessage from "../components/SuccessMessage";
 
 const ChooseUsernamePage = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+  const [username, setUsername] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckUsernameAvailability = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://192.168.41.14:3001/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
+      );
+
+      if (response.status === 409) {
+        setIsUsernameAvailable(false);
+        setErrorMessage("Username already used! Try another one.");
+        setLoading(false);
+      } else {
+        setIsUsernameAvailable(true);
+        setSuccessMessage("Username available! Tap Continue to proceed.");
+        setLoading(false);
+      }
+    } catch (error) {
+      setIsUsernameAvailable(false);
+      setErrorMessage("An error occurred. Please try again later.");
+      setLoading(false);
+      console.error("Error checking username availability:", error);
+    }
+  };
 
   const handleContinue = () => {
+    // Here you would call the function to update the username in the backend
     navigation.navigate("HomePage");
   };
 
@@ -30,16 +62,40 @@ const ChooseUsernamePage = ({ navigation }) => {
           />
           <TextInput
             style={styles.searchInput}
-            placeholder="Eric Bidopa"
+            placeholder="Enter username"
             placeholderTextColor="gray"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            value={username}
+            onChangeText={(text) => {
+              const formattedText = text.replace(/\s/g, ""); // Convert to lowercase and remove spaces
+              setUsername(formattedText);
+              setIsUsernameAvailable(false);
+              setErrorMessage("");
+              setSuccessMessage("");
+            }}
           />
         </View>
-        <ErrorMessage message={"Username already used. Try another one"} />
-        <Pressable style={styles.buttons} onPress={handleContinue}>
-          <Text>Continue</Text>
-        </Pressable>
+        <ErrorMessage message={errorMessage} />
+        <SuccessMessage message={successMessage} />
+
+        {!isUsernameAvailable ? (
+          <Pressable
+            style={styles.buttons}
+            onPress={handleCheckUsernameAvailability}
+            disabled={loading}
+          >
+            <Text>{loading ? "loading.." : "Check Username"}</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={styles.buttons}
+            onPress={handleContinue}
+            disabled={loading}
+          >
+            <Text> {loading ? "loading.." : "Continue"}</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
@@ -77,7 +133,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderWidth: 1,
     borderColor: "#f0f0f0",
-    marginVertical: 15
+    marginVertical: 15,
   },
   searchContainerFocused: {
     borderColor: "black", // Focused border color
@@ -89,10 +145,6 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 15,
-  },
-  inputFocused: {
-    borderColor: "blue",
-    borderWidth: 1.5,
   },
   buttons: {
     padding: 17,

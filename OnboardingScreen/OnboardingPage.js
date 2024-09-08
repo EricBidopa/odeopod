@@ -4,50 +4,49 @@ import axios from "axios";
 
 // import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
-import { useLoginWithOAuth, usePrivy} from "@privy-io/expo";
+import { useLoginWithOAuth, usePrivy } from "@privy-io/expo";
 import { useNavigation } from "@react-navigation/native";
 // import { useState } from "react";
 
 const OnboardingPage = () => {
-
-
-  // const [userEmail, setUserEmail] = useState(
-  //   Constants.expoConfig?.extra?.email || ""
-  // );
-  // const [otpCode, setOtpCode] = useState("");
-
   const { user } = usePrivy();
   const navigation = useNavigation();
 
+  // React.useEffect(() => {
+  //   if (user) {
+  //     navigation.navigate("HomePage");
+  //   }
+  // }, [user]);
+
   const saveUserToDatabase = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:3000/users', userData);
-      console.log('User saved:', response.data);
+      const response = await axios.post(
+        "http://192.168.41.14:3001/api/v1/users",
+        userData
+      );
+      console.log("New User Added:", response.data);
     } catch (error) {
-      console.error('Error saving user:', error);
+      console.error("Error Adding user:", error);
     }
   };
 
-
-  
-  // if (user) {
-  //   navigation.navigate("HomePage");
-  // }
-
-  
   const { login, state } = useLoginWithOAuth({
     onSuccess(user, isNewUser) {
       if (isNewUser) {
         const userData = {
-          userId: 'this',
-          userUsername: "exampleUsername",
-          userChannelName: user.fullName,
+          userId: user.id,
+          userEmail: user.linked_accounts[0].email,
+          userUsername: "", // You may want to ask the user to set this on another screen
+          userChannelName: user.linked_accounts[0].name,
           userChannelDescription: "",
           userProfileImgUrl: "",
           userChannelCoverImgUrl: "",
           userWalletAddress: "",
           userSubscriptions: [],
+          userNumberOfSubscribers: 0,
         };
+        saveUserToDatabase(userData);
+
         navigation.navigate("ChooseUsernamePage");
       }
       if (!isNewUser) {
@@ -61,32 +60,10 @@ const OnboardingPage = () => {
     },
   });
 
-  // const {sendCode, loginWithCode} = useLoginWithEmail({
-  //   onSendCodeSuccess({userEmail}) {
-  //   },
-  // });
-
-
-
-  // const handleSendCodeToEmail = () => {
-  //   sendCode({ userEmail });
-  // };
-
-  // const handleVerifyOtpCode = () => {
-  //   loginWithCode({ code: otpCode, email: userEmail });
-
-  // };
-
   const handleLoginWithGoogle = () => {
     login({ provider: "google" });
   };
 
-  // const handleLoginWithApple = () => {
-  //   login({ provider: "apple" });
-  // };
-
-  // if user is already authenticated, then show the homepage to the user.
- 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -111,12 +88,16 @@ const OnboardingPage = () => {
             onPress={handleLoginWithGoogle}
             disabled={state.status === "loading"}
           >
-            <Text>{ state.status === "loading" ? 'Loading': 'Login/Sign Up With Google'}</Text>
+            <Text>
+              {state.status === "loading"
+                ? "Loading.."
+                : "Login/Sign Up With Google"}
+            </Text>
           </Pressable>
 
           {state.status === "error" && (
             <>
-              <Text style={{ color: "red" }}>There was an error</Text>
+              <Text style={{ color: "red" }}>There was an error. Try again</Text>
               <Text style={{ color: "lightred" }}>{state.error.message}</Text>
             </>
           )}
