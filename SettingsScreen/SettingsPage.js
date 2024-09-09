@@ -13,21 +13,76 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker"; // Import ImagePicker
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
+import axios from "axios";
+import { usePrivy } from "@privy-io/expo";
+import ErrorMessage from "../components/ErrorMessage";
+import SuccessMessage from "../components/SuccessMessage";
+import { useEffect } from "react";
 
 const SettingsPage = () => {
   const [isFormEditable, setIsFormEditable] = useState(false);
   const [showEditBtn, setShowEditBtn] = useState(true);
   const [coverImage, setCoverImage] = useState(KanyeImg); // State for cover image
   const [profileImage, setProfileImage] = useState(KanyeImg); // State for profile image
+  const [username, setUsername] = useState("fetching..");
+  const [userChannelName, setUserChannelName] = useState("fetching..");
+  const [userChannelDescription, setUserChannelDescription] =
+    useState("fetching...");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { user } = usePrivy();
+
+  useEffect(() => {
+    // Fetch user info when component mounts
+    if (!user?.id) return;
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(
+          `http://192.168.70.14:3001/api/v1/users/${user.id}`
+        );
+        const userData = response.data;
+        console.log(userData);
+        setUsername(userData.userusername);
+        setUserChannelName(userData.userchannelname);
+        setUserChannelDescription(userData.userchanneldescription);
+        
+      } catch (error) {
+        setErrorMessage("Error fetching user info");
+        console.log(error);
+      }
+    };
+    fetchUserInfo();
+  }, [user]);
 
   // Handler for the Edit/Save button
   const handleEditClicked = () => {
     setShowEditBtn(false);
     setIsFormEditable(true);
+    setErrorMessage(" ");
+    setSuccessMessage(" ");
   };
-  const handleSaveClicked = () => {
-    setShowEditBtn(true);
-    setIsFormEditable(false);
+  const handleSaveClicked = async () => {
+    try {
+      setLoading(true);
+      setErrorMessage(" ")
+        setSuccessMessage(" ")
+      const response = await axios.patch(
+        `http://192.168.70.14:3001/api/v1/users/${user.id}`,
+        {
+          userChannelName,
+          userChannelDescription,
+        }
+      );
+      setSuccessMessage("Profile updated successfully");
+      setIsFormEditable(false);
+      setShowEditBtn(true);
+      console.log("profile Updates successfully!");
+    } catch (error) {
+      setErrorMessage("Error updating profile, Try again later!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Function to pick an image
@@ -115,14 +170,15 @@ const SettingsPage = () => {
 
           <View style={styles.fieldWrapper}>
             <Text style={styles.label}>Username:</Text>
-            <Text style={styles.staticText}>@EricBidopa</Text>
+            <Text style={styles.staticText}>{username}</Text>
           </View>
 
           <View style={styles.fieldWrapper}>
-            <Text style={styles.label}>Full Name:</Text>
+            <Text style={styles.label}>Channel Name:</Text>
             <TextInput
               style={[styles.input, !isFormEditable && styles.disabledInput]}
-              placeholder="Your full name"
+              value={userChannelName}
+              onChangeText={setUserChannelName}
               editable={isFormEditable}
             />
           </View>
@@ -131,18 +187,22 @@ const SettingsPage = () => {
             <Text style={styles.label}>Channel Description:</Text>
             <TextInput
               style={[styles.input, !isFormEditable && styles.disabledInput]}
-              placeholder="Describe your channel"
+              value={userChannelDescription}
+              onChangeText={setUserChannelDescription}
               editable={isFormEditable}
               multiline
             />
           </View>
-
+          {errorMessage && <ErrorMessage message={errorMessage} />}
+          {successMessage && <SuccessMessage message={successMessage} />}
           <View style={styles.buttonWrapper}>
             {isFormEditable ? (
-              <Pressable onPress={handleSaveClicked} style={styles.saveBtn}>
-                <Text>
-                Save
-                </Text>
+              <Pressable
+                onPress={handleSaveClicked}
+                style={styles.saveBtn}
+                disabled={loading}
+              >
+                <Text>{loading ? "Saving.." : "Save"}</Text>
               </Pressable>
             ) : null}
 
@@ -157,7 +217,7 @@ const SettingsPage = () => {
           </Pressable>
           <Pressable style={styles.deleteAccntBtn}>
             <Text>Delete Account</Text>
-            </Pressable>
+          </Pressable>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -256,17 +316,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 7,
     borderRadius: 5,
-    backgroundColor: 'lightblue'
+    backgroundColor: "lightblue",
   },
   editBtn: {
     alignItems: "center",
-    backgroundColor: 'lightblue',
+    backgroundColor: "lightblue",
     padding: 7,
     borderRadius: 5,
   },
   deleteAccntBtn: {
     alignItems: "center",
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
     padding: 7,
     borderRadius: 5,
   },
