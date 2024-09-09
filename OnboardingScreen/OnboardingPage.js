@@ -21,7 +21,7 @@ const OnboardingPage = () => {
   const saveUserToDatabase = async (userData) => {
     try {
       const response = await axios.post(
-        "http://192.168.41.14:3001/api/v1/users",
+        "http://192.168.7.14:3001/api/v1/users",
         userData
       );
       console.log("New User Added:", response.data);

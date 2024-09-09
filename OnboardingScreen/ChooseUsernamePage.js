@@ -5,6 +5,7 @@ import axios from "axios";
 import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../components/ErrorMessage";
 import SuccessMessage from "../components/SuccessMessage";
+import { usePrivy } from "@privy-io/expo";
 
 const ChooseUsernamePage = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -14,33 +15,61 @@ const ChooseUsernamePage = ({ navigation }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { user } = usePrivy();
+
   const handleCheckUsernameAvailability = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://192.168.41.14:3001/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
+        `http://192.168.7.14:3001/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
       );
-
-      if (response.status === 409) {
-        setIsUsernameAvailable(false);
-        setErrorMessage("Username already used! Try another one.");
-        setLoading(false);
-      } else {
+      // if status code == 200 proceed with this. axios treats any code aside 2** as an error
+      if (response.status === 200){
         setIsUsernameAvailable(true);
         setSuccessMessage("Username available! Tap Continue to proceed.");
         setLoading(false);
       }
+
+
     } catch (error) {
-      setIsUsernameAvailable(false);
-      setErrorMessage("An error occurred. Please try again later.");
+      if (error.response && error.response.status === 409) {
+        // If the status is 409, it means the username is already taken
+        setIsUsernameAvailable(false);
+        setErrorMessage("Username already used! Try another one.");
+      } else {
+        // For any other errors, show a generic error message
+        setIsUsernameAvailable(false);
+        setErrorMessage("An error occurred. Please try again later.");
+        console.error("Error checking username availability:", error);
+      }
       setLoading(false);
-      console.error("Error checking username availability:", error);
     }
   };
 
-  const handleContinue = () => {
-    // Here you would call the function to update the username in the backend
-    navigation.navigate("HomePage");
+  const handleContinue = async () => {
+    if (!isUsernameAvailable) {
+      setErrorMessage("Please check username availability first.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.patch(
+        `http://192.168.7.14:3001/api/v1/users/update-username/${user.id}`, // Replace with actual userId from Privy
+        { userUsername: username.toLowerCase() }
+      );
+
+      if (response.status === 200) {
+        navigation.navigate("HomePage");
+      } else {
+        setErrorMessage("Error updating username. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again later.");
+      console.error("Error updating username:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
