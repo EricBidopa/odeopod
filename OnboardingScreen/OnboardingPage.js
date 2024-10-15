@@ -38,7 +38,7 @@ const OnboardingPage = () => {
         const userData = {
           userId: user.id,
           userEmail: user.linked_accounts[0].email,
-          userUsername: "", // You may want to ask the user to set this on another screen
+          userUsername: "",
           userChannelName: user.linked_accounts[0].name,
           userChannelDescription: "",
           userProfileImgUrl: "",
