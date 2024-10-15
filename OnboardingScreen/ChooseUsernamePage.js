@@ -21,7 +21,7 @@ const ChooseUsernamePage = ({ navigation }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://192.168.70.14:3001/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
+        `http://192.168.120.250:3001/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
       );
       // if status code == 200 proceed with this. axios treats any code aside 2** as an error
       if (response.status === 200){
@@ -55,7 +55,7 @@ const ChooseUsernamePage = ({ navigation }) => {
     try {
       setLoading(true);
       const response = await axios.patch(
-        `http://192.168.7.14:3001/api/v1/users/update-username/${user.id}`, // Replace with actual userId from Privy
+        `http://192.168.120.250:3001/api/v1/users/update-username/${user.id}`, // Replace with actual userId from Privy
         { userUsername: username.toLowerCase() }
       );
 

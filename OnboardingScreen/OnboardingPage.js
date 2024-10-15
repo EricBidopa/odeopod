@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
+import {PrivyElements} from '@privy-io/expo';
 import axios from "axios";
 
 // import Constants from "expo-constants";
@@ -11,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 const OnboardingPage = () => {
   const { user } = usePrivy();
   const navigation = useNavigation();
+  
 
   // React.useEffect(() => {
   //   if (user) {
@@ -21,7 +23,7 @@ const OnboardingPage = () => {
   const saveUserToDatabase = async (userData) => {
     try {
       const response = await axios.post(
-        "http://192.168.7.14:3001/api/v1/users",
+        "http://192.168.120.250:3001/api/v1/users",
         userData
       );
       console.log("New User Added:", response.data);
@@ -65,6 +67,7 @@ const OnboardingPage = () => {
   };
 
   return (
+    <>
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.wrapper}>
@@ -104,6 +107,8 @@ const OnboardingPage = () => {
         </View>
       </View>
     </View>
+    <PrivyElements />
+    </>
   );
 };
 
