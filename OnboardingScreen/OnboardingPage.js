@@ -56,7 +56,7 @@ const OnboardingPage = () => {
       }
     },
 
-    // },
+  
     onError(error) {
       console.log("Error signing in", error);
     },
