@@ -1,6 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import {PrivyElements} from '@privy-io/expo';
 import axios from "axios";
 
 // import Constants from "expo-constants";
@@ -23,7 +22,7 @@ const OnboardingPage = () => {
   const saveUserToDatabase = async (userData) => {
     try {
       const response = await axios.post(
-        "http://192.168.120.250:3001/api/v1/users",
+        "http://192.168.35.175:3001/api/v1/users",
         userData
       );
       console.log("New User Added:", response.data);
@@ -66,6 +65,9 @@ const OnboardingPage = () => {
     login({ provider: "google" });
   };
 
+  // const handleLoginWithApple=()=>{
+  //   login({ provider: "apple" });
+  // }
   return (
     <>
     <View style={styles.container}>
@@ -97,6 +99,17 @@ const OnboardingPage = () => {
                 : "Login/Sign Up With Google"}
             </Text>
           </Pressable>
+          {/* <Pressable
+            style={styles.buttons}
+            onPress={handleLoginWithApple}
+            disabled={state.status === "loading"}
+          >
+            <Text>
+              {state.status === "loading"
+                ? "Loading.."
+                : "Login/Sign Up With Apple"}
+            </Text>
+          </Pressable> */}
 
           {state.status === "error" && (
             <>
@@ -107,7 +120,6 @@ const OnboardingPage = () => {
         </View>
       </View>
     </View>
-    <PrivyElements />
     </>
   );
 };
