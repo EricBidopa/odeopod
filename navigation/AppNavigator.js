@@ -22,6 +22,7 @@ import TrendingPage from "../TrendingScreen/TrendingPage";
 import MintSharesPage from "../MintSharesScreen.js/MintSharesPage";
 import IWantToSellPage from "../IWantToSellScreen/IWantToSellPage";
 import IWantToBuyPage from "../IWantToBuyScreen/IWantToBuyPage";
+import OtpPage from "../OnboardingScreen/OtpPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -127,6 +128,11 @@ export default function AppNavigator() {
         <Stack.Screen
           name="IWantToBuyPage"
           component={IWantToBuyPage}
+          options={{ headerShown: true, title: null }}
+        />
+        <Stack.Screen
+          name="OtpPage"
+          component={OtpPage}
           options={{ headerShown: true, title: null }}
         />
       </Stack.Navigator>

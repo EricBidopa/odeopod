@@ -1,17 +1,19 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, TextInput, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import React from "react";
 import axios from "axios";
+import {useLoginWithEmail} from '@privy-io/expo';
 
 // import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
 import { useLoginWithOAuth, usePrivy } from "@privy-io/expo";
 import { useNavigation } from "@react-navigation/native";
-// import { useState } from "react";
+import { useState } from "react";
 
 const OnboardingPage = () => {
   const { user } = usePrivy();
   const navigation = useNavigation();
-  
+  const [isFocused, setIsFocused] = useState(false);
+  const [email, setEmail] = useState("")
 
   // React.useEffect(() => {
   //   if (user) {
@@ -55,72 +57,92 @@ const OnboardingPage = () => {
       }
     },
 
-  
     onError(error) {
       console.log("Error signing in", error);
     },
   });
 
-  const handleLoginWithGoogle = () => {
-    login({ provider: "google" });
+  // const handleLoginWithGoogle = () => {
+  //   login({ provider: "google" });
+  // };
+
+  const {sendCode} = useLoginWithEmail({
+    onSendCodeSuccess({email}) {
+      navigation.navigate("OtpPage", {email})
+      // show a toast, send analytics event, etc...
+    },
+    onError(error) {
+      console.log(error.message)
+      // show a toast, update form errors, etc...
+    },
+  });
+
+  const handleLogInBtnClicked =() => {
+    sendCode({email})
   };
 
   // const handleLoginWithApple=()=>{
   //   login({ provider: "apple" });
   // }
   return (
-    <>
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <View style={styles.wrapper}>
-        <View>
-          <Text style={styles.headerText}>OdeoPod</Text>
-          <Text style={styles.subtext}>
-            Millions of songs and Podcasts! Invest in your favorite artists on
-            OdeoPod!
-          </Text>
-        </View>
-        <View style={styles.InputAndButtonsWrapper}>
-          {/* <TextInput
-            value={userEmail}
-            onChangeText={setUserEmail}
-            placeholder="Type Your Email"
-            style={styles.input}
-            inputMode="email"
-          /> */}
-          <Pressable
-            style={styles.buttons}
-            onPress={handleLoginWithGoogle}
-            disabled={state.status === "loading"}
-          >
-            <Text>
-              {state.status === "loading"
-                ? "Loading.."
-                : "Login/Sign Up With Google"}
-            </Text>
-          </Pressable>
-          {/* <Pressable
-            style={styles.buttons}
-            onPress={handleLoginWithApple}
-            disabled={state.status === "loading"}
-          >
-            <Text>
-              {state.status === "loading"
-                ? "Loading.."
-                : "Login/Sign Up With Apple"}
-            </Text>
-          </Pressable> */}
+    <KeyboardAvoidingView
+    style={styles.container}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
 
-          {state.status === "error" && (
-            <>
-              <Text style={{ color: "red" }}>There was an error. Try again</Text>
-              <Text style={{ color: "lightred" }}>{state.error.message}</Text>
-            </>
-          )}
+  >
+        <StatusBar style="auto" />
+          <View style={styles.wrapper}>
+          <View>
+            <Text style={styles.headerText}>OdeoPod</Text>
+            <Text style={styles.subtext}>
+              Millions of songs and Podcasts! Invest in your favorite artists on
+              OdeoPod!
+            </Text>
+          </View>
+          <View style={styles.InputAndButtonsWrapper}>
+
+            {/* extracted part begins  */}
+          <View
+          style={[
+            styles.searchContainer,
+            isFocused && styles.searchContainerFocused,
+          ]}
+        >
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Enter Valid Email"
+            placeholderTextColor="gray"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            value={email}
+            onChangeText={(text) => {
+              const formattedText = text.replace(/\s/g, ""); // Convert to lowercase and remove spaces
+              setEmail(formattedText);
+            }}
+          />
         </View>
-      </View>
-    </View>
-    </>
+
+        {/* extracted part ends */}
+          
+            <Pressable
+              style={styles.buttons}
+              onPress={handleLogInBtnClicked}
+              // disabled={state.status === "loading"}
+            >
+              <Text>Sign Up / Log In</Text>
+            </Pressable>
+
+            {state.status === "error" && (
+              <>
+                <Text style={{ color: "red" }}>
+                  There was an error. Try again
+                </Text>
+                <Text style={{ color: "lightred" }}>{state.error.message}</Text>
+              </>
+            )}
+          </View>
+          </View>
+      </KeyboardAvoidingView>
   );
 };
 
@@ -131,23 +153,44 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "blue",
     paddingHorizontal: "10%",
-    paddingVertical: "50%",
-    alignContent: "center",
-    // justifyContent: 'center',
+    paddingTop: "12%",
+    // paddingBottom: "15%"
+    // alignContent: "center",
+    // // justifyContent: 'center',
   },
+
   wrapper: {
     backgroundColor: "pink",
+    gap: 150,
     width: "100%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
   },
   InputAndButtonsWrapper: {
     backgroundColor: "lightblue",
     flexDirection: "column",
     // flex: 1,
     gap: 5,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
+    marginVertical: 15,
+  },
+  searchContainerFocused: {
+    borderColor: "black", // Focused border color
+    borderWidth: 1.5,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 15,
   },
   headerText: {
     fontWeight: "bold",
