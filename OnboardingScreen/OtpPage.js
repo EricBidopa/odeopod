@@ -1,38 +1,50 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
-import {useLoginWithEmail} from '@privy-io/expo';
+import { useLoginWithEmail, usePrivy } from "@privy-io/expo";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
-
-const OtpPage = ({route}) => {
-    const navigation = useNavigation();
-    const {email} = route.params;
+const OtpPage = ({ route }) => {
+  const { user } = usePrivy;
+  const navigation = useNavigation();
+  const { email } = route.params;
   const [otpCode, setOtpCode] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
-
-
-
+  const saveUserIdAndEmailToDatabase = async (useridAndEmail) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.29.1:3001/api/v1/users",
+        useridAndEmail
+      );
+      console.log("New User Created and userId Added to Database", response.data);
+    } catch (error) {
+      console.error("Error Creating New User or Adding userId added to Database".error);
+    }
+  };
 
   const { loginWithCode } = useLoginWithEmail({
     onLoginSuccess(user, isNewUser) {
-        if(isNewUser){
-            navigation.navigate("ChooseUsernamePage")
-        }
-        else if (!isNewUser){
-            navigation.navigate("HomePage")
-        }
+      if (isNewUser) {
+        const userData = {
+          userId: user.id,
+          userEmail: email.toLowerCase(),
+        };
+        saveUserIdAndEmailToDatabase(userData)
+        navigation.navigate("ChooseUsernamePage");
+      } else if (!isNewUser) {
+        navigation.navigate("HomePage");
+      }
     },
     onError(error) {
-      console.log(error.message)
+      console.log(error.message);
       // show a toast, update form errors, etc...
     },
   });
 
-  const handleVerifyBtnClicked =() => {
-    loginWithCode({code: otpCode, email: email})
+  const handleVerifyBtnClicked = () => {
+    loginWithCode({ code: otpCode, email: email });
   };
-
 
   return (
     <View style={styles.container}>
@@ -58,7 +70,7 @@ const OtpPage = ({route}) => {
             }}
           />
         </View>
-        <Text>{email}</Text>
+        <Text>{email.toLowerCase()}</Text>
         <Pressable style={styles.buttons} onPress={handleVerifyBtnClicked}>
           <Text>Verify Code</Text>
         </Pressable>
