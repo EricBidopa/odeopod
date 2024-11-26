@@ -1,7 +1,16 @@
-import { View, Text, Pressable, StyleSheet, TextInput, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import React from "react";
 import axios from "axios";
-import {useLoginWithEmail} from '@privy-io/expo';
+import { useLoginWithEmail } from "@privy-io/expo";
 
 // import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
@@ -13,7 +22,7 @@ const OnboardingPage = () => {
   const { user } = usePrivy();
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
 
   // React.useEffect(() => {
   //   if (user) {
@@ -24,7 +33,7 @@ const OnboardingPage = () => {
   const saveUserToDatabase = async (userData) => {
     try {
       const response = await axios.post(
-        "http://192.168.29.1:3001/api/v1/users",
+        "http://192.168.121.1:3001/api/v1/users",
         userData
       );
       console.log("New User Added:", response.data);
@@ -66,19 +75,19 @@ const OnboardingPage = () => {
   //   login({ provider: "google" });
   // };
 
-  const {sendCode} = useLoginWithEmail({
-    onSendCodeSuccess({email}) {
-      navigation.navigate("OtpPage", {email})
+  const { sendCode } = useLoginWithEmail({
+    onSendCodeSuccess({ email }) {
+      navigation.navigate("OtpPage", { email });
       // show a toast, send analytics event, etc...
     },
     onError(error) {
-      console.log(error.message)
+      console.log(error.message);
       // show a toast, update form errors, etc...
     },
   });
 
-  const handleLogInBtnClicked =() => {
-    sendCode({email})
+  const handleLogInBtnClicked = () => {
+    sendCode({ email });
   };
 
   // const handleLoginWithApple=()=>{
@@ -86,63 +95,61 @@ const OnboardingPage = () => {
   // }
   return (
     <KeyboardAvoidingView
-    style={styles.container}
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-
-  >
-        <StatusBar style="auto" />
-          <View style={styles.wrapper}>
-          <View>
-            <Text style={styles.headerText}>OdeoPod</Text>
-            <Text style={styles.subtext}>
-              Millions of songs and Podcasts! Invest in your favorite artists on
-              OdeoPod!
-            </Text>
-          </View>
-          <View style={styles.InputAndButtonsWrapper}>
-
-            {/* extracted part begins  */}
-          <View
-          style={[
-            styles.searchContainer,
-            isFocused && styles.searchContainerFocused,
-          ]}
-        >
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Enter Valid Email"
-            placeholderTextColor="gray"
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            value={email}
-            onChangeText={(text) => {
-              const formattedText = text.replace(/\s/g, ""); // Convert to lowercase and remove spaces
-              setEmail(formattedText);
-            }}
-          />
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <StatusBar style="auto" />
+      <View style={styles.wrapper}>
+        <View>
+          <Text style={styles.headerText}>OdeoPod</Text>
+          <Text style={styles.subtext}>
+            Millions of songs and Podcasts! Invest in your favorite artists on
+            OdeoPod!
+          </Text>
         </View>
-
-        {/* extracted part ends */}
-          
-            <Pressable
-              style={styles.buttons}
-              onPress={handleLogInBtnClicked}
-              // disabled={state.status === "loading"}
-            >
-              <Text>Sign Up / Log In</Text>
-            </Pressable>
-
-            {state.status === "error" && (
-              <>
-                <Text style={{ color: "red" }}>
-                  There was an error. Try again
-                </Text>
-                <Text style={{ color: "lightred" }}>{state.error.message}</Text>
-              </>
-            )}
+        <View style={styles.InputAndButtonsWrapper}>
+          {/* extracted part begins  */}
+          <View
+            style={[
+              styles.searchContainer,
+              isFocused && styles.searchContainerFocused,
+            ]}
+          >
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Enter Valid Email"
+              placeholderTextColor="gray"
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              value={email}
+              onChangeText={(text) => {
+                const formattedText = text.replace(/\s/g, ""); // Convert to lowercase and remove spaces
+                setEmail(formattedText);
+              }}
+            />
           </View>
-          </View>
-      </KeyboardAvoidingView>
+
+          {/* extracted part ends */}
+
+          <Pressable
+            style={styles.buttons}
+            onPress={handleLogInBtnClicked}
+            // disabled={state.status === "loading"}
+          >
+            <Text>Sign Up / Log In</Text>
+          </Pressable>
+
+          {state.status === "error" && (
+            <>
+              <Text style={{ color: "red" }}>
+                There was an error. Try again
+              </Text>
+              <Text style={{ color: "lightred" }}>{state.error.message}</Text>
+            </>
+          )}
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

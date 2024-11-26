@@ -14,12 +14,17 @@ const OtpPage = ({ route }) => {
   const saveUserIdAndEmailToDatabase = async (useridAndEmail) => {
     try {
       const response = await axios.post(
-        "http://192.168.29.1:3001/api/v1/users",
+        "http://192.168.121.1:3001/api/v1/users",
         useridAndEmail
       );
-      console.log("New User Created and userId Added to Database", response.data);
+      console.log(
+        "New User Created and userId Added to Database",
+        response.data
+      );
     } catch (error) {
-      console.error("Error Creating New User or Adding userId added to Database".error);
+      console.error(
+        "Error Creating New User or Adding userId added to Database".error
+      );
     }
   };
 
@@ -30,7 +35,7 @@ const OtpPage = ({ route }) => {
           userId: user.id,
           userEmail: email.toLowerCase(),
         };
-        saveUserIdAndEmailToDatabase(userData)
+        saveUserIdAndEmailToDatabase(userData);
         navigation.navigate("ChooseUsernamePage");
       } else if (!isNewUser) {
         navigation.navigate("HomePage");

@@ -1,14 +1,20 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const SquarePodcastItem = ({
   podcastCoverImg,
   podcastTitle,
   usernameThatUploaded,
 }) => {
+  const navigation = useNavigation();
+  const handleItemPressed = () => {
+    navigation.navigate("PodcastItemScreen");
+  };
+
   return (
-    <Pressable style={styles.wrapper}>
+    <Pressable style={styles.wrapper} onPress={handleItemPressed}>
       <Image style={styles.imageStyling} source={podcastCoverImg} />
       <View style={styles.textsAndIcon}>
         <View>
