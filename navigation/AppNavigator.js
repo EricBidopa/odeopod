@@ -69,11 +69,26 @@ function BottomNavigationGroup() {
 }
 
 export default function AppNavigator() {
+  const { isReady, user } = usePrivy()
+  let initialRoute;  
+  
+  if (isReady){
+    if(!user){
+      initialRoute = "OnboardingPage"
+    }
+    else{
+      initialRoute = "HomePage"
+    }
+    console.log(initialRoute)
+  }
+  else{
+    return 
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="HomePage"
+        initialRouteName={initialRoute}
       >
         <Stack.Screen
           name="OnboardingPage"
