@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
 import { useLoginWithEmail, usePrivy } from "@privy-io/expo";
+import { useLinkEmail } from "@privy-io/expo";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 

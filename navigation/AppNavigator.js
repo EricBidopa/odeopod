@@ -4,7 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ActivityIndicator, View } from "react-native";
+import { usePrivy } from "@privy-io/expo";
 
 // Importing Screens
 import OnboardingPage from "../OnboardingScreen/OnboardingPage";
@@ -26,6 +27,7 @@ import OtpPage from "../OnboardingScreen/OtpPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
 
 function BottomNavigationGroup() {
   return (
@@ -67,9 +69,13 @@ function BottomNavigationGroup() {
 }
 
 export default function AppNavigator() {
+
+  const { user } = usePrivy();
+
+  
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="OnboardingPage">
+      <Stack.Navigator initialRouteName={user==null ? "OnboardingPage" : "HomePage"}>
         <Stack.Screen
           name="OnboardingPage"
           component={OnboardingPage}

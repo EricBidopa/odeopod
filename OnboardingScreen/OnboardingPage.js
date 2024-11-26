@@ -78,6 +78,7 @@ const OnboardingPage = () => {
   const { sendCode } = useLoginWithEmail({
     onSendCodeSuccess({ email }) {
       navigation.navigate("OtpPage", { email });
+
       // show a toast, send analytics event, etc...
     },
     onError(error) {
@@ -88,6 +89,7 @@ const OnboardingPage = () => {
 
   const handleLogInBtnClicked = () => {
     sendCode({ email });
+    console.log(user)
   };
 
   // const handleLoginWithApple=()=>{
