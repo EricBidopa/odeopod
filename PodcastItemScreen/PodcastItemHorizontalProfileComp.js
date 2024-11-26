@@ -29,12 +29,12 @@ const PodcastItemHorizontalProfileComp = ({
         </Text>
         <Text style={styles.smallTexts}>10M Subcribers</Text>
       </Pressable>
-      <Pressable style={styles.buttons} onPress={handleInvestPressed}>
+      {/* <Pressable style={styles.buttons} onPress={handleInvestPressed}>
         <Text>Invest</Text>
-      </Pressable>
-      <Pressable style={styles.buttons}>
+      </Pressable> */}
+      {/* <Pressable style={styles.buttons}>
         <Text>Subscribe</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };

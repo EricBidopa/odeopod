@@ -1,11 +1,12 @@
 // navigation/AppNavigator.js
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, ActivityIndicator, View } from "react-native";
 import { usePrivy } from "@privy-io/expo";
+import { useEffect } from "react";
 
 // Importing Screens
 import OnboardingPage from "../OnboardingScreen/OnboardingPage";
@@ -27,7 +28,6 @@ import OtpPage from "../OnboardingScreen/OtpPage";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
 
 function BottomNavigationGroup() {
   return (
@@ -58,7 +58,7 @@ function BottomNavigationGroup() {
       <Bottomnav.Screen
         name="Home"
         component={HomePage}
-        options={{ headerShown: true, title: 'Explore' }}
+        options={{ headerShown: true, title: "Explore" }}
       />
       {/* <Bottomnav.Screen name="Search" component={SearchPage} /> */}
       {/* <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} /> */}
@@ -70,12 +70,11 @@ function BottomNavigationGroup() {
 
 export default function AppNavigator() {
 
-  const { user } = usePrivy();
-
-  
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={user==null ? "OnboardingPage" : "HomePage"}>
+      <Stack.Navigator
+        initialRouteName="HomePage"
+      >
         <Stack.Screen
           name="OnboardingPage"
           component={OnboardingPage}
@@ -95,13 +94,13 @@ export default function AppNavigator() {
           component={BottomNavigationGroup}
           options={{ headerShown: false }}
         />
-        
-         <Stack.Screen
+
+        <Stack.Screen
           name="PodcastItemScreen"
           component={PodcastItemPage}
           options={{ headerShown: true, title: null }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="OrdersPage"
           component={OrdersPage}
           options={{ headerShown: true, title: null }}
@@ -111,7 +110,7 @@ export default function AppNavigator() {
           component={ViewProfilePage}
           options={{ headerShown: true, title: null }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="SettingsPage"
           component={SettingsPage}
           options={{ headerShown: true, title: null }}
@@ -121,7 +120,7 @@ export default function AppNavigator() {
           component={TrendingPage}
           options={{ headerShown: true, title: "Trending" }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="MintSharesPage"
           component={MintSharesPage}
           options={{ headerShown: true, title: "Mint Your Shares" }}

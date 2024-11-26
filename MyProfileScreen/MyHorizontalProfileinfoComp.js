@@ -40,14 +40,14 @@ const MyHorizontalProfileinfoComp = () => {
           </Text>
         </View>
       </View>
-      <View style={styles.menuWrapperView}>
+      {/* <View style={styles.menuWrapperView}>
         <Ionicons
           name="options"
           size={25}
           color="black"
           onPress={openModal}
         />
-      </View>
+      </View> */}
       <MyProfileModal show={showModal} onClose={closeModal}/>
     </View>
   );

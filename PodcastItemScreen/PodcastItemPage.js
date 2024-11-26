@@ -31,9 +31,9 @@ const [showOrdersWrapper] = useState(true)
         </View>
         <PodcastItemHorizontalProfileComp />
         <StreamDateDesComp />
-        <Text>You Own 8 $Jordan Shares</Text>
+        {/* <Text>You Own 8 $Jordan Shares</Text>
         <Text>Current $Jordan Share Price: 300 USD</Text>
-        <OrdersWrapper show={showOrdersWrapper} />
+        <OrdersWrapper show={showOrdersWrapper} /> */}
       </View>
     </ScrollView>
   );
