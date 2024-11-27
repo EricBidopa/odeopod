@@ -18,6 +18,8 @@ import { usePrivy } from "@privy-io/expo";
 import ErrorMessage from "../components/ErrorMessage";
 import SuccessMessage from "../components/SuccessMessage";
 import { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 const SettingsPage = () => {
   const [isFormEditable, setIsFormEditable] = useState(false);
@@ -31,7 +33,8 @@ const SettingsPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user } = usePrivy();
+  const { isReady, user, logout } = usePrivy();
+const navigation = useNavigation();
 
   useEffect(() => {
     // Fetch user info when component mounts
@@ -84,6 +87,34 @@ const SettingsPage = () => {
       setLoading(false);
     }
   };
+
+  // function to logout
+
+  const handleLogoutBtnClicked =  async() =>{
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to log out?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Logout",
+          onPress: async () => {
+            try {
+              await logout();
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "OnboardingPage" }],
+              });
+              console.log("Successfully Logged out")
+            } catch (error) {
+              console.error("Error during logout:", error);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  }
 
   // Function to pick an image
   const pickImage = async (setImage) => {
@@ -212,7 +243,7 @@ const SettingsPage = () => {
               </Pressable>
             ) : null}
           </View>
-          <Pressable style={styles.logoutBtn}>
+          <Pressable style={styles.logoutBtn} onPress={handleLogoutBtnClicked}>
             <Text>Logout</Text>
           </Pressable>
           <Pressable style={styles.deleteAccntBtn}>
