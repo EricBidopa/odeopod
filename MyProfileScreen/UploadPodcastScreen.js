@@ -77,7 +77,7 @@ const UploadPodcastScreen = () => {
   };
 
   // Function to save podcast data to the backend
-  const savePodcastToDatabase = async () => {
+  const handleSavePodcastToDatabase = async () => {
     if (
       !selectedFile ||
       !podcastCoverImg ||
@@ -176,7 +176,7 @@ const UploadPodcastScreen = () => {
           {/* Upload Button */}
           <Pressable
             style={styles.uploadButton}
-            onPress={savePodcastToDatabase}
+            onPress={handleSavePodcastToDatabase}
             disabled={loading}
           >
             <Text style={styles.buttonText}>
