@@ -70,7 +70,7 @@ const UploadAudioModal = ({ show, onClose }) => {
     if (permissionResult.status === "granted") {
       // Open the image picker
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ['images'],
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
@@ -89,7 +89,7 @@ const UploadAudioModal = ({ show, onClose }) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView contentContainerStyle={styles.modalContent}>
-          <Text style={styles.modalTitle}>Upload Your Podcast or Music</Text>
+          <Text style={styles.modalTitle}>Upload New Podcast</Text>
           <Pressable onPress={handleFilePick} style={styles.iconWrapper}>
             <Ionicons name="cloud-upload" size={50} color="black" />
 
@@ -98,7 +98,7 @@ const UploadAudioModal = ({ show, onClose }) => {
             </Text>
           </Pressable>
 
-          <View style={styles.labelAndInputView}>
+          {/* <View style={styles.labelAndInputView}>
             <Text>Audio Type:</Text>
             <Picker
               selectedValue={uploadType}
@@ -108,7 +108,7 @@ const UploadAudioModal = ({ show, onClose }) => {
               <Picker.Item label="Podcast" value="Podcast" />
               <Picker.Item label="Music" value="Music" />
             </Picker>
-          </View>
+          </View> */}
 
           <View>
             <View style={styles.coverImgView}>
@@ -126,12 +126,12 @@ const UploadAudioModal = ({ show, onClose }) => {
               onPress={() => pickImage(setUploadCoverImg)}
               style={styles.changeButtons}
             >
-              <Text style={styles.changeText}>{uploadCoverImg ? "Change Cover Image": "Choose Cover Image"}</Text>
+              <Text style={styles.changeText}>{uploadCoverImg ? "Change Cover Image": "Choose Podcast Cover Image"}</Text>
             </Pressable>
           </View>
 
           <View style={styles.labelAndInputView}>
-            <Text>Title: </Text>
+            <Text>Podcast Title: </Text>
             <View style={styles.inputView}>
               <TextInput
                 placeholder="Enter title"
@@ -142,7 +142,7 @@ const UploadAudioModal = ({ show, onClose }) => {
           </View>
 
           <View style={styles.labelAndInputView}>
-            <Text>Description: </Text>
+            <Text>Podcast Description: </Text>
             <View style={styles.inputView}>
               <TextInput
                 placeholder="Enter description"
@@ -155,7 +155,7 @@ const UploadAudioModal = ({ show, onClose }) => {
             style={styles.uploadButton}
             onPress={() => console.log("Upload started")}
           >
-            <Text style={styles.buttonText}>Start Upload</Text>
+            <Text style={styles.buttonText}>Initiate Upload</Text>
           </Pressable>
           <Pressable onPress={onClose}>
             <Text style={styles.closeText}>Close</Text>

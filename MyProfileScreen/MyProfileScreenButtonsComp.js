@@ -5,23 +5,24 @@ import UploadAudioModal from "./UploadAudioModal";
 import { useState } from "react";
 
 const MyProfileScreenButtonsComp = () => {
-  const navigation = useNavigation()
-  const [showModal, setShowModal] = useState(false)
+  const navigation = useNavigation();
+  const [showModal, setShowModal] = useState(false);
 
+  const openModal = () => {
+    setShowModal(true);
+  };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
-  const openModal=()=>{
-      setShowModal(true)
-    }
-  
-    const closeModal=()=>{
-      setShowModal(false)
-    }
+  const handleSettingsClicked = () => {
+    navigation.navigate("SettingsPage");
+  };
 
-    const handleSettingsClicked = () =>{
-      navigation.navigate("SettingsPage")
-    }
-
+  const handleUploadPodcastPressed = () => {
+    navigation.navigate("UploadPodcastScreen");
+  };
 
   return (
     <View style={styles.buttonsWrapper}>
@@ -29,10 +30,10 @@ const MyProfileScreenButtonsComp = () => {
       <Pressable style={styles.buttons} onPress={handleSettingsClicked}>
         <Text>Settings</Text>
       </Pressable>
-      <Pressable style={styles.buttons} onPress={openModal}>
-        <Text>Upload</Text>
+      <Pressable style={styles.buttons} onPress={handleUploadPodcastPressed}>
+        <Text>Upload Podcast</Text>
       </Pressable>
-      <UploadAudioModal show={showModal} onClose={closeModal}/>
+      <UploadAudioModal show={showModal} onClose={closeModal} />
     </View>
   );
 };
@@ -40,12 +41,12 @@ const MyProfileScreenButtonsComp = () => {
 export default MyProfileScreenButtonsComp;
 
 const styles = StyleSheet.create({
-  buttonsWrapper:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'lightpink',
-    paddingHorizontal: '7%',
-    alignItems: 'center'
+  buttonsWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "lightpink",
+    paddingHorizontal: "7%",
+    alignItems: "center",
   },
   buttons: {
     padding: 3,

@@ -7,13 +7,13 @@ const HomePage = () => {
     <View style={styles.container}>
         <View style={styles.wrapper}>
 
-    <View style={styles.buttonsWrapper}>
+    {/* <View style={styles.buttonsWrapper}>
       <Pressable style={styles.buttons}><Text>ALL</Text></Pressable>
       <Pressable style={styles.buttons}><Text>PODCASTS</Text></Pressable>
       <Pressable style={styles.buttons}><Text>MUSIC</Text></Pressable>
 
-     </View>
-     <Text>Music and Podcasts for you</Text>
+     </View> */}
+     <Text>Excellent Podcasts for you</Text>
      <SquarePodcastsWrapper />
     </View>
         </View>

@@ -25,6 +25,7 @@ import MintSharesPage from "../MintSharesScreen.js/MintSharesPage";
 import IWantToSellPage from "../IWantToSellScreen/IWantToSellPage";
 import IWantToBuyPage from "../IWantToBuyScreen/IWantToBuyPage";
 import OtpPage from "../OnboardingScreen/OtpPage";
+import UploadPodcastScreen  from "../MyProfileScreen/UploadPodcastScreen";
 
 const Bottomnav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -139,6 +140,11 @@ export default function AppNavigator() {
           name="MintSharesPage"
           component={MintSharesPage}
           options={{ headerShown: true, title: "Mint Your Shares" }}
+        />
+        <Stack.Screen
+          name="UploadPodcastScreen"
+          component={UploadPodcastScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="IWantToSellPage"
