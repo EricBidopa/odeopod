@@ -76,49 +76,90 @@ const UploadPodcastScreen = () => {
     }
   };
 
-  // Function to save podcast data to the backend
-  const handleSavePodcastToDatabase = async () => {
-    if (
-      !selectedFile ||
-      !podcastCoverImg ||
-      !podcastTitle ||
-      !podcastDescription
-    ) {
-      Alert.alert("Error", "Please complete all fields before uploading.");
-      return;
-    }
 
-    try {
-      setLoading(true);
+  // Upload the selected audio file to GCS
+const uploadFileToGCS = async (file, fileType) => {
+  try {
+    const formData = new FormData();
+    formData.append(fileType, {
+      uri: file.uri,
+      name: file.name || `file-${Date.now()}`,
+      type: file.mimeType || "audio/mpeg",
+    });
 
-      // Create the podcast data
-      const podcastData = {
-        podcastTitle,
-        podcastDescription,
-        podcastDownloadUrl: selectedFile.uri, // Correct
-        podcastCoverImgUrl: podcastCoverImg, // Match backend expectation
-        podcastUploadedBy: "UploaderName",
-        podcastCreatedAt: new Date().toISOString(),
-      };
+    const endpoint =
+      fileType === "audio" ? "/upload/audio" : "/upload/cover";
+    const response = await axios.post(
+      `http://192.168.23.1:3001/api/v1/podcasts${endpoint}`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
 
-      // Post request to backend
-      const response = await axios.post(
-        "http://192.168.23.1:3001/api/v1/podcasts",
-        podcastData
-      );
+    return response.data.url; // Return the GCS file URL
+  } catch (error) {
+    console.error(`Error uploading ${fileType}:`, error);
+    Alert.alert("Error", `Failed to upload ${fileType}.`);
+    throw error;
+  }
+};
 
-      Alert.alert("Success", "Podcast uploaded successfully!");
-      console.log("Podcast Uploaded:", response.data);
 
-      // Navigate back to Profile
-      navigation.navigate("Profile");
-    } catch (error) {
-      console.error("Error Uploading Podcast:", error);
-      Alert.alert("Error", "Failed to upload podcast. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+
+// function to upload podcast data to the database
+const handleSavePodcastToDatabase = async () => {
+  if (
+    !selectedFile ||
+    !podcastCoverImg ||
+    !podcastTitle ||
+    !podcastDescription
+  ) {
+    Alert.alert("Error", "Please complete all fields before uploading.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    // Upload audio and image files to GCS
+    const podcastDownloadUrl = await uploadFileToGCS(
+      selectedFile,
+      "audio"
+    );
+    const podcastCoverImgUrl = await uploadFileToGCS(
+      { uri: podcastCoverImg, name: "cover.jpg" },
+      "coverImage"
+    );
+
+    // Prepare podcast metadata
+    const podcastData = {
+      podcastTitle,
+      podcastDescription,
+      podcastDownloadUrl,
+      podcastCoverImgUrl,
+      podcastUploadedBy: "UploaderName", // Replace with dynamic user data
+      podcastCreatedAt: new Date().toISOString(),
+    };
+
+    // Save podcast metadata to the database
+    const response = await axios.post(
+      "http://192.168.23.1:3001/api/v1/podcasts",
+      podcastData
+    );
+
+    Alert.alert("Success", "Podcast uploaded successfully!");
+    console.log("Podcast Uploaded:", response.data);
+    navigation.navigate("Profile");
+  } catch (error) {
+    console.error("Error uploading podcast:", error);
+    Alert.alert("Error", "Failed to upload podcast. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
     <SafeAreaView style={styles.container}>
