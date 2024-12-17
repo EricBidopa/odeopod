@@ -20,14 +20,15 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 const UploadPodcastScreen = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [podcastCoverImg, setPodcastCoverImg] = useState(null);
-  const [podcastTitle, setPodcastTitle] = useState("");
-  const [podcastDescription, setPodcastDescription] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null); // Audio file state
+  const [podcastCoverImg, setPodcastCoverImg] = useState(null); // Cover image state
+  const [podcastTitle, setPodcastTitle] = useState(""); // Title input state
+  const [podcastDescription, setPodcastDescription] = useState(""); // Description input state
+  const [loading, setLoading] = useState(false); // Loading state for upload button
+
   const navigation = useNavigation();
 
-  // Function to handle file selection
+  // Function to pick an audio file
   const handleFilePick = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -36,22 +37,18 @@ const UploadPodcastScreen = () => {
       });
 
       if (!result.canceled && result.assets?.length > 0) {
-        const file = result.assets[0];
-        setSelectedFile(file);
-        Alert.alert(
-          "File Selected",
-          "Your file has been selected successfully."
-        );
+        setSelectedFile(result.assets[0]);
+        Alert.alert("Success", "Podcast audio selected successfully!");
       } else {
-        Alert.alert("Upload Status", "File selection failed or was canceled.");
+        Alert.alert("Warning", "No file selected.");
       }
     } catch (error) {
-      console.error("Error picking the file:", error);
-      Alert.alert("Error", "There was an error picking the file.");
+      console.error("File Selection Error:", error);
+      Alert.alert("Error", "Failed to select the file.");
     }
   };
 
-  // Function to pick an image
+  // Function to pick a cover image
   const pickImage = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -59,122 +56,123 @@ const UploadPodcastScreen = () => {
     if (permissionResult.status !== "granted") {
       Alert.alert(
         "Permission Denied",
-        "Access to the camera roll is required!"
+        "Access to your media library is required to upload a cover image."
       );
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
 
-    if (!result.canceled) {
-      setPodcastCoverImg(result.assets[0].uri);
+      if (!result.canceled) {
+        setPodcastCoverImg(result.assets[0].uri);
+        Alert.alert("Success", "Cover image selected successfully!");
+      }
+    } catch (error) {
+      console.error("Image Selection Error:", error);
+      Alert.alert("Error", "Failed to select the cover image.");
     }
   };
 
+  // Function to upload file to GCS (audio or image)
+  const uploadFileToGCS = async (file, fileType) => {
+    try {
+      const formData = new FormData();
+      formData.append(fileType, {
+        uri: file.uri,
+        name: file.name || `${fileType}-${Date.now()}`,
+        type:
+          file.mimeType || (fileType === "audio" ? "audio/mpeg" : "image/jpeg"),
+      });
 
-  // Upload the selected audio file to GCS
-const uploadFileToGCS = async (file, fileType) => {
-  try {
-    const formData = new FormData();
-    formData.append(fileType, {
-      uri: file.uri,
-      name: file.name || `file-${Date.now()}`,
-      type: file.mimeType || "audio/mpeg",
-    });
+      const endpoint = fileType === "audio" ? "/upload/audio" : "/upload/cover";
+      const response = await axios.post(
+        `http://192.168.229.1:3001/api/v1/podcasts${endpoint}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
-    const endpoint =
-      fileType === "audio" ? "/upload/audio" : "/upload/cover";
-    const response = await axios.post(
-      `http://192.168.23.1:3001/api/v1/podcasts${endpoint}`,
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+      return response.data.url; // Return file's download URL
+    } catch (error) {
+      console.error(`Upload ${fileType} Error:`, error);
+      Alert.alert("Upload Failed", `Failed to upload ${fileType}.`);
+      throw error;
+    }
+  };
 
-    return response.data.url; // Return the GCS file URL
-  } catch (error) {
-    console.error(`Error uploading ${fileType}:`, error);
-    Alert.alert("Error", `Failed to upload ${fileType}.`);
-    throw error;
-  }
-};
+  // Function to handle the full podcast upload process
+  const handleSavePodcastToDatabase = async () => {
+    if (
+      !selectedFile ||
+      !podcastCoverImg ||
+      !podcastTitle ||
+      !podcastDescription
+    ) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all fields before uploading."
+      );
+      return;
+    }
 
+    try {
+      setLoading(true);
 
+      // Upload audio file
+      const podcastDownloadUrl = await uploadFileToGCS(selectedFile, "audio");
 
-// function to upload podcast data to the database
-const handleSavePodcastToDatabase = async () => {
-  if (
-    !selectedFile ||
-    !podcastCoverImg ||
-    !podcastTitle ||
-    !podcastDescription
-  ) {
-    Alert.alert("Error", "Please complete all fields before uploading.");
-    return;
-  }
+      // Upload cover image
+      const podcastCoverImgUrl = await uploadFileToGCS(
+        { uri: podcastCoverImg, name: "cover.jpg" },
+        "cover"
+      );
 
-  try {
-    setLoading(true);
+      // Podcast metadata payload
+      const podcastData = {
+        title: podcastTitle,
+        description: podcastDescription,
+        audioUrl: podcastDownloadUrl,
+        coverUrl: podcastCoverImgUrl,
+        uploadedBy: "UploaderName", // Replace with dynamic user data
+        createdAt: new Date().toISOString(),
+      };
 
-    // Upload audio and image files to GCS
-    const podcastDownloadUrl = await uploadFileToGCS(
-      selectedFile,
-      "audio"
-    );
-    const podcastCoverImgUrl = await uploadFileToGCS(
-      { uri: podcastCoverImg, name: "cover.jpg" },
-      "coverImage"
-    );
+      // Save podcast metadata to the database
+      const response = await axios.post(
+        "http://192.168.229.1:3001/api/v1/podcasts",
+        podcastData
+      );
 
-    // Prepare podcast metadata
-    const podcastData = {
-      podcastTitle,
-      podcastDescription,
-      podcastDownloadUrl,
-      podcastCoverImgUrl,
-      podcastUploadedBy: "UploaderName", // Replace with dynamic user data
-      podcastCreatedAt: new Date().toISOString(),
-    };
+      Alert.alert("Success", "Podcast uploaded successfully!");
+      console.log("Uploaded Podcast Response:", response.data);
 
-    // Save podcast metadata to the database
-    const response = await axios.post(
-      "http://192.168.23.1:3001/api/v1/podcasts",
-      podcastData
-    );
-
-    Alert.alert("Success", "Podcast uploaded successfully!");
-    console.log("Podcast Uploaded:", response.data);
-    navigation.navigate("Profile");
-  } catch (error) {
-    console.error("Error uploading podcast:", error);
-    Alert.alert("Error", "Failed to upload podcast. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+      navigation.navigate("Profile");
+    } catch (error) {
+      console.error("Upload Error:", error);
+      Alert.alert("Upload Failed", "Failed to upload the podcast.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
-        style={styles.modalBackground}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView contentContainerStyle={styles.modalContent}>
-          <Text style={styles.modalTitle}>Upload New Podcast</Text>
+        <ScrollView contentContainerStyle={styles.content}>
+          <Text style={styles.title}>Upload New Podcast</Text>
 
-          {/* File Upload */}
-          <Pressable onPress={handleFilePick} style={styles.iconWrapper}>
-            <Ionicons name="cloud-upload" size={50} color="black" />
-            <Text style={styles.fileName}>
-              {selectedFile ? selectedFile.name : "Tap To Upload Podcast"}
+          {/* Audio File Picker */}
+          <Pressable onPress={handleFilePick} style={styles.filePicker}>
+            <Ionicons name="cloud-upload" size={50} color="#555" />
+            <Text style={styles.fileText}>
+              {selectedFile ? selectedFile.name : "Tap to upload podcast audio"}
             </Text>
           </Pressable>
 
@@ -192,27 +190,21 @@ const handleSavePodcastToDatabase = async () => {
           </View>
 
           {/* Title Input */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Podcast Title:</Text>
-            <TextInput
-              placeholder="Enter title"
-              style={styles.input}
-              value={podcastTitle}
-              onChangeText={setPodcastTitle}
-            />
-          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Podcast Title"
+            value={podcastTitle}
+            onChangeText={setPodcastTitle}
+          />
 
           {/* Description Input */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Podcast Description:</Text>
-            <TextInput
-              placeholder="Enter description"
-              style={styles.input}
-              multiline
-              value={podcastDescription}
-              onChangeText={setPodcastDescription}
-            />
-          </View>
+          <TextInput
+            style={[styles.input, styles.textArea]}
+            placeholder="Podcast Description"
+            multiline
+            value={podcastDescription}
+            onChangeText={setPodcastDescription}
+          />
 
           {/* Upload Button */}
           <Pressable
@@ -233,31 +225,20 @@ const handleSavePodcastToDatabase = async () => {
 export default UploadPodcastScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  modalContent: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  iconWrapper: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  fileName: {
+  container: { flex: 1, backgroundColor: "#f9f9f9" },
+  content: { padding: 20, alignItems: "center" },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+  filePicker: { alignItems: "center", marginBottom: 20 },
+  fileText: { marginTop: 10, fontSize: 14, color: "#555" },
+  imageSection: { alignItems: "center", marginVertical: 10 },
+  coverImage: { width: 200, height: 150, borderRadius: 10 },
+  imageButton: {
     marginTop: 10,
-    fontSize: 14,
-    color: "gray",
+    borderWidth: 1,
+    borderColor: "#333",
+    padding: 5,
   },
+  imageText: { color: "blue" },
   imageContainer: {
     alignItems: "center",
     marginVertical: 10,
@@ -268,44 +249,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#ddd",
   },
-  imageButton: {
-    marginTop: 10,
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 5,
-  },
-  imageButtonText: {
-    color: "blue",
-    textAlign: "center",
-  },
-  inputGroup: {
-    width: "100%",
-    marginVertical: 10,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
   input: {
     width: "100%",
-    backgroundColor: "#f0f0f0",
-    borderRadius: 5,
-    padding: 10,
-    borderWidth: 1,
+    padding: 12,
     borderColor: "#ccc",
+    borderWidth: 1,
+    marginBottom: 10,
   },
+  textArea: { height: 100, textAlignVertical: "top" },
   uploadButton: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#007BFF",
     padding: 12,
     borderRadius: 5,
-    marginTop: 20,
     width: "100%",
-    alignItems: "center",
   },
   buttonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: "#fff",
     fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

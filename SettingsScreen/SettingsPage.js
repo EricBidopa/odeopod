@@ -42,7 +42,7 @@ const navigation = useNavigation();
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.23.1:3001/api/v1/users/${user.id}`
+          `http://192.168.229.1:3001/api/v1/users/${user.id}`
         );
         const userData = response.data;
         console.log(userData);
@@ -71,7 +71,7 @@ const navigation = useNavigation();
       setErrorMessage(" ")
         setSuccessMessage(" ")
       const response = await axios.patch(
-        `http://192.168.23.1:3001/api/v1/users/${user.id}`,
+        `http://192.168.229.1:3001/api/v1/users/${user.id}`,
         {
           userChannelName,
           userChannelDescription,
