@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { usePrivy } from "@privy-io/expo";
 
 const UploadPodcastScreen = () => {
   const [selectedFile, setSelectedFile] = useState(null); // Audio file state
@@ -25,11 +26,14 @@ const UploadPodcastScreen = () => {
   const [podcastTitle, setPodcastTitle] = useState(""); // Title input state
   const [podcastDescription, setPodcastDescription] = useState(""); // Description input state
   const [loading, setLoading] = useState(false); // Loading state for upload button
+  const { user} = usePrivy();
+  
 
   const navigation = useNavigation();
 
   // Function to pick an audio file
   const handleFilePick = async () => {
+    if(!user?.id) return;
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: "audio/*",
@@ -87,7 +91,7 @@ const UploadPodcastScreen = () => {
         uri: file.uri,
         name: file.name || `${fileType}-${Date.now()}`,
         type:
-          file.mimeType || (fileType === "audio" ? "audio/mpeg" : "image/jpeg"),
+          file.mimeType || (fileType === "audio" ? "audio/mpeg" : "image/jpg"),
       });
 
       const endpoint = fileType === "audio" ? "/upload/audio" : "/upload/cover";
@@ -134,12 +138,12 @@ const UploadPodcastScreen = () => {
 
       // Podcast metadata payload
       const podcastData = {
-        title: podcastTitle,
-        description: podcastDescription,
-        audioUrl: podcastDownloadUrl,
-        coverUrl: podcastCoverImgUrl,
-        uploadedBy: "UploaderName", // Replace with dynamic user data
-        createdAt: new Date().toISOString(),
+        podcastTitle: podcastTitle,
+        podcastDescription: podcastDescription,
+        podcastDownloadUrl: podcastDownloadUrl,
+        podcastCreatedAt: new Date().toISOString(),
+        podcastCoverImgUrl: podcastCoverImgUrl,
+        userId: user.id, // Replace with dynamic user data
       };
 
       // Save podcast metadata to the database
