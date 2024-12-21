@@ -83,72 +83,86 @@ const UploadPodcastScreen = () => {
     }
   };
 
-  // Function to upload file to GCS (audio or image)
-  const uploadFileToGCS = async (file, fileType) => {
+   // Function to upload audio file to GCS
+   const uploadAudioFileToGCS = async (file) => {
     try {
       const formData = new FormData();
-      formData.append(fileType, {
+      formData.append("audio", {
         uri: file.uri,
-        name: file.name || `${fileType}-${Date.now()}`,
-        type:
-          file.mimeType || (fileType === "audio" ? "audio/mpeg" : "image/jpg"),
+        name: file.name || `audio-${Date.now()}`,
+        type: "audio/mpeg",
       });
 
-      const endpoint = fileType === "audio" ? "/upload/audio" : "/upload/cover";
-      const response = await axios.post(
-        `http://192.168.229.1:3001/api/v1/podcasts${endpoint}`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const endpoint = "http://192.168.130.1:3001/api/v1/podcasts/upload/audio";
+
+      const response = await axios.post(endpoint, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       return response.data.url; // Return file's download URL
     } catch (error) {
-      console.error(`Upload ${fileType} Error:`, error);
-      Alert.alert("Upload Failed", `Failed to upload ${fileType}.`);
+      console.error("Upload Audio Error:", error);
+      Alert.alert("Audio Upload Failed", "Failed to upload the audio.");
       throw error;
     }
   };
 
+  // Function to upload cover image to GCS
+const uploadCoverImageToGCS = async (image) => {
+  try {
+    const formData = new FormData();
+    formData.append("coverImage", {
+      uri: image.uri,
+      name: image.fileName || `cover-${Date.now()}.jpg`, // Use timestamp if no filename
+      type: "image/jpeg", // Ensure correct MIME type for images
+    });
+
+    const endpoint = "http://192.168.130.1:3001/api/v1/podcasts/upload/image";
+
+    const response = await axios.post(endpoint, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return response.data.url; // Return image's download URL
+  } catch (error) {
+    console.error("Upload Cover Image Error:", error);
+    Alert.alert("Cover Image Upload Failed", "Failed to upload the cover image.");
+    throw error;
+  }
+};
+
+  
+
+
   // Function to handle the full podcast upload process
   const handleSavePodcastToDatabase = async () => {
-    if (
-      !selectedFile ||
-      !podcastCoverImg ||
-      !podcastTitle ||
-      !podcastDescription
-    ) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all fields before uploading."
-      );
+    if (!selectedFile || !podcastTitle || !podcastDescription) {
+      Alert.alert("Validation Error", "Please fill in all fields before uploading.");
       return;
     }
 
     try {
       setLoading(true);
 
-      // Upload audio file
-      const podcastDownloadUrl = await uploadFileToGCS(selectedFile, "audio");
+      // Step 1: Upload audio file
+      const podcastDownloadUrl = await uploadAudioFileToGCS(selectedFile);
+      const coverImageUrl = await uploadCoverImageToGCS(podcastCoverImg);
+      console.log("Audio uploaded successfully.", podcastDownloadUrl);
+      console.log("Cover Image uploaded successfully.", coverImageUrl);
 
-      // Upload cover image
-      const podcastCoverImgUrl = await uploadFileToGCS(
-        { uri: podcastCoverImg, name: "cover.jpg" },
-        "cover"
-      );
 
-      // Podcast metadata payload
+      // Step 2: Save podcast metadata to the database
       const podcastData = {
         podcastTitle: podcastTitle,
         podcastDescription: podcastDescription,
         podcastDownloadUrl: podcastDownloadUrl,
         podcastCreatedAt: new Date().toISOString(),
-        podcastCoverImgUrl: podcastCoverImgUrl,
+        podcastCoverImgUrl: coverImageUrl,
         userId: user.id, // Replace with dynamic user data
       };
 
-      // Save podcast metadata to the database
       const response = await axios.post(
-        "http://192.168.229.1:3001/api/v1/podcasts",
+        "http://192.168.130.1:3001/api/v1/podcasts",
         podcastData
       );
 
@@ -187,7 +201,7 @@ const UploadPodcastScreen = () => {
               source={podcastCoverImg ? { uri: podcastCoverImg } : null}
             />
             <Pressable onPress={pickImage} style={styles.imageButton}>
-              <Text style={styles.imageButtonText}>
+              <Text>
                 {podcastCoverImg ? "Change Cover Image" : "Choose Cover Image"}
               </Text>
             </Pressable>

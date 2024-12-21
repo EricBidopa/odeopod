@@ -34,7 +34,7 @@ const SettingsPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { isReady, user, logout } = usePrivy();
-const navigation = useNavigation();
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Fetch user info when component mounts
@@ -42,14 +42,13 @@ const navigation = useNavigation();
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.229.1:3001/api/v1/users/${user.id}`
+          `http://192.168.130.1:3001/api/v1/users/${user.id}`
         );
         const userData = response.data;
         console.log(userData);
         setUsername(userData.userusername);
         setUserChannelName(userData.userchannelname);
         setUserChannelDescription(userData.userchanneldescription);
-        
       } catch (error) {
         setErrorMessage("Error fetching user info");
         console.log(error);
@@ -68,10 +67,10 @@ const navigation = useNavigation();
   const handleSaveClicked = async () => {
     try {
       setLoading(true);
-      setErrorMessage(" ")
-        setSuccessMessage(" ")
+      setErrorMessage(" ");
+      setSuccessMessage(" ");
       const response = await axios.patch(
-        `http://192.168.229.1:3001/api/v1/users/${user.id}`,
+        `http://192.168.130.1:3001/api/v1/users/${user.id}`,
         {
           userChannelName,
           userChannelDescription,
@@ -90,7 +89,7 @@ const navigation = useNavigation();
 
   // function to logout
 
-  const handleLogoutBtnClicked =  async() =>{
+  const handleLogoutBtnClicked = async () => {
     Alert.alert(
       "Confirm Logout",
       "Are you sure you want to log out?",
@@ -105,7 +104,7 @@ const navigation = useNavigation();
                 index: 0,
                 routes: [{ name: "OnboardingPage" }],
               });
-              console.log("Successfully Logged out")
+              console.log("Successfully Logged out");
             } catch (error) {
               console.error("Error during logout:", error);
             }
@@ -114,7 +113,7 @@ const navigation = useNavigation();
       ],
       { cancelable: false }
     );
-  }
+  };
 
   // Function to pick an image
   const pickImage = async (setImage) => {
@@ -137,7 +136,7 @@ const navigation = useNavigation();
     if (permissionResult.status === "granted") {
       // Open the image picker
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ImagePicker.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
