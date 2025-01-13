@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         flexDirection: 'column',
-        gap: 15
+        gap: 15,
+        backgroundColor: "#fffef2"
     },
   latestfromSubscritionsText: {
     paddingLeft: 10,
-    backgroundColor: "pink",
+    backgroundColor: "#fffef2",
   },
 });

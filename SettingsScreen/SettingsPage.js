@@ -42,7 +42,7 @@ const SettingsPage = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.130.1:3001/api/v1/users/${user.id}`
+          `http://192.168.67.147:3001/api/v1/users/${user.id}`
         );
         const userData = response.data;
         console.log(userData);
@@ -70,7 +70,7 @@ const SettingsPage = () => {
       setErrorMessage(" ");
       setSuccessMessage(" ");
       const response = await axios.patch(
-        `http://192.168.130.1:3001/api/v1/users/${user.id}`,
+        `http://192.168.67.147:3001/api/v1/users/${user.id}`,
         {
           userChannelName,
           userChannelDescription,

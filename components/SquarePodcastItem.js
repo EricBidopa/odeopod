@@ -3,35 +3,35 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const SquarePodcastItem = ({
-  podcastCoverImg,
-  podcastTitle,
-  usernameThatUploaded,
-}) => {
+const SquarePodcastItem = ({ podcastWithUserThatUploaded }) => {
   const navigation = useNavigation();
+
   const handleItemPressed = () => {
-    navigation.navigate("PodcastItemScreen");
+    navigation.navigate("PodcastItemScreen", { podcastWithUserThatUploaded });
   };
 
   return (
     <Pressable style={styles.wrapper} onPress={handleItemPressed}>
-      <Image style={styles.imageStyling} source={podcastCoverImg} />
-      <View style={styles.textsAndIcon}>
+      {/* Podcast Cover Image */}
+      <Image
+        style={styles.imageStyling}
+        source={{ uri: podcastWithUserThatUploaded.podcast_coverimgurl }}
+      />
+      {/* Text and Play Icon */}
+      <View style={styles.detailsContainer}>
         <View>
           <Text
             style={styles.podcastTitle}
             numberOfLines={2}
             ellipsizeMode="tail"
           >
-            {podcastTitle}
+            {podcastWithUserThatUploaded.podcast_title}
           </Text>
-
-          <Text style={styles.username}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >{usernameThatUploaded}</Text>
+          <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+            {podcastWithUserThatUploaded.userchannelname || "Unknown User"}
+          </Text>
         </View>
-        <Ionicons name="play-circle-outline" size={30} color="black" />
+        <Ionicons name="play-circle" size={40} color="#fffef2" />
       </View>
     </Pressable>
   );
@@ -41,31 +41,38 @@ export default SquarePodcastItem;
 
 const styles = StyleSheet.create({
   wrapper: {
+    backgroundColor: "#1d322d", // Dark background
+    borderRadius: 10,
+    overflow: "hidden",
     flexDirection: "column",
-    gap: 5,
-    padding: "5%",
-    backgroundColor: "pink",
-    margin: 5,
+    gap: 10,
+    marginBottom: 18,
+    elevation: 3, // Shadow for a modern look
   },
   imageStyling: {
-    resizeMode: "contain",
-    maxWidth: "100%", // corrected 'MaxWidth'
+    resizeMode: "cover",
+    width: "100%",
+    height: 200,
   },
-  textsAndIcon: {
+  detailsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginHorizontal: "5%",
+    marginBottom: "5%"
   },
   podcastTitle: {
-    backgroundColor: 'yellow',
+    // backgroundColor: "yellow",
     fontSize: 16,
     fontWeight: "bold",
     maxWidth: 250,
     overflow: "hidden",
-  }, 
+    color: "white"
+
+  },
   username: {
     fontSize: 14,
-    color: "gray",
+    color: "white",
     maxWidth: 150,
     overflow: "hidden",
   },

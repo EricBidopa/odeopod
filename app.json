@@ -28,7 +28,13 @@
     "plugins": [
       "expo-secure-store",
       "expo-font",
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow Odeopod to access your microphone."
+        }
+      ]
     ]
   }
 }

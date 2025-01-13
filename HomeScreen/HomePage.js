@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: "5%",
     paddingHorizontal: "5%",
-    backgroundColor: 'lightblue',
+    backgroundColor: '#fffef2',
     display: 'flex',
     flexDirection: 'column',
     gap: 10,
     flex: 1,
   },
   wrapper:{
-    backgroundColor: 'blue',
+    backgroundColor: '#fffef2',
     width: '100%',
     height: '100%'
   },

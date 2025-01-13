@@ -11,7 +11,6 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,21 +18,27 @@ import * as DocumentPicker from "expo-document-picker";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
+import * as FileSystem from "expo-file-system";
+
+// Define your API base URL - replace with your actual API URL
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.67.147:3001";
 
 const UploadPodcastScreen = () => {
-  const [selectedFile, setSelectedFile] = useState(null); // Audio file state
-  const [podcastCoverImg, setPodcastCoverImg] = useState(null); // Cover image state
-  const [podcastTitle, setPodcastTitle] = useState(""); // Title input state
-  const [podcastDescription, setPodcastDescription] = useState(""); // Description input state
-  const [loading, setLoading] = useState(false); // Loading state for upload button
-  const { user} = usePrivy();
-  
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [podcastCoverImg, setPodcastCoverImg] = useState(null);
+  const [podcastTitle, setPodcastTitle] = useState("");
+  const [podcastDescription, setPodcastDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { user } = usePrivy();
   const navigation = useNavigation();
 
   // Function to pick an audio file
   const handleFilePick = async () => {
-    if(!user?.id) return;
+    if (!user?.id) {
+      Alert.alert("Error", "Please login first");
+      return;
+    }
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: "audio/*",
@@ -43,141 +48,199 @@ const UploadPodcastScreen = () => {
       if (!result.canceled && result.assets?.length > 0) {
         setSelectedFile(result.assets[0]);
         Alert.alert("Success", "Podcast audio selected successfully!");
-      } else {
-        Alert.alert("Warning", "No file selected.");
       }
     } catch (error) {
       console.error("File Selection Error:", error);
-      Alert.alert("Error", "Failed to select the file.");
+      Alert.alert("Error", "Failed to select the audio file.");
     }
   };
 
   // Function to pick a cover image
   const pickImage = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.status !== "granted") {
-      Alert.alert(
-        "Permission Denied",
-        "Access to your media library is required to upload a cover image."
-      );
-      return;
-    }
-
     try {
+      const permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (permissionResult.status !== "granted") {
+        Alert.alert(
+          "Permission Denied",
+          "We need access to your photos to continue"
+        );
+        return;
+      }
+
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.Images,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [1, 1],
         quality: 1,
       });
 
-      if (!result.canceled) {
-        setPodcastCoverImg(result.assets[0].uri);
-        Alert.alert("Success", "Cover image selected successfully!");
+      console.log("Image picker result:", result);
+
+      if (!result.canceled && result.assets?.[0]) {
+        const asset = result.assets[0];
+        const imageInfo = {
+          uri: asset.uri,
+          type: asset.mimeType || "image/jpeg",
+          name: asset.fileName || `image-${Date.now()}.jpg`,
+          width: asset.width,
+          height: asset.height,
+        };
+
+        console.log("Setting image:", imageInfo);
+        setPodcastCoverImg(imageInfo);
       }
     } catch (error) {
-      console.error("Image Selection Error:", error);
-      Alert.alert("Error", "Failed to select the cover image.");
+      console.error("Image picker error:", error);
+      Alert.alert("Error", "Failed to pick image");
     }
   };
-
-   // Function to upload audio file to GCS
-   const uploadAudioFileToGCS = async (file) => {
+  // Function to upload audio file
+  const uploadAudioFileToGCS = async (file) => {
     try {
+      console.log(
+        "Uploading to:",
+        `${API_BASE_URL}/api/v1/podcasts/upload/audio`
+      );
+
       const formData = new FormData();
       formData.append("audio", {
         uri: file.uri,
-        name: file.name || `audio-${Date.now()}`,
+        name: file.name || `audio-${Date.now()}.mp3`,
         type: "audio/mpeg",
       });
 
-      const endpoint = "http://192.168.130.1:3001/api/v1/podcasts/upload/audio";
+      const response = await axios.post(
+        `${API_BASE_URL}/api/v1/podcasts/upload/audio`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+          },
+          timeout: 30000,
+        }
+      );
 
-      const response = await axios.post(endpoint, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      return response.data.url; // Return file's download URL
+      console.log("Upload response:", response.data);
+      return response.data.url;
     } catch (error) {
-      console.error("Upload Audio Error:", error);
-      Alert.alert("Audio Upload Failed", "Failed to upload the audio.");
-      throw error;
+      console.error("Full error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        headers: error.response?.headers,
+        config: error.config,
+      });
+      throw new Error(`Failed to upload audio file: ${error.message}`);
     }
   };
 
-  // Function to upload cover image to GCS
-const uploadCoverImageToGCS = async (image) => {
-  try {
-    const formData = new FormData();
-    formData.append("coverImage", {
-      uri: image.uri,
-      name: image.fileName || `cover-${Date.now()}.jpg`, // Use timestamp if no filename
-      type: "image/jpeg", // Ensure correct MIME type for images
-    });
+  // Function to get file URI
+  const getFileUri = async (uri) => {
+    if (!uri) return null;
 
-    const endpoint = "http://192.168.130.1:3001/api/v1/podcasts/upload/image";
+    try {
+      if (uri.startsWith("content://")) {
+        const fileInfo = await FileSystem.getInfoAsync(uri);
+        return fileInfo.uri;
+      }
+      return uri;
+    } catch (error) {
+      console.error("File URI Error:", error);
+      throw new Error("Failed to get file URI");
+    }
+  };
 
-    const response = await axios.post(endpoint, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+  // Function to upload cover image
+  const uploadCoverImageToGCS = async (image) => {
+    if (!image) throw new Error("No image selected");
 
-    return response.data.url; // Return image's download URL
-  } catch (error) {
-    console.error("Upload Cover Image Error:", error);
-    Alert.alert("Cover Image Upload Failed", "Failed to upload the cover image.");
-    throw error;
-  }
-};
+    try {
+      const fileUri = await getFileUri(image.uri);
+      if (!fileUri) throw new Error("Invalid file URI");
 
-  
+      const formData = new FormData();
+      formData.append("coverImage", {
+        uri: fileUri,
+        name: image.fileName || `cover-${Date.now()}.jpg`,
+        type: image.type || "image/jpeg",
+      });
 
+      const response = await axios.post(
+        `${API_BASE_URL}/api/v1/podcasts/upload/image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          timeout: 30000, // 30 second timeout
+        }
+      );
+
+      return response.data.url;
+    } catch (error) {
+      console.error(
+        "Upload Cover Image Error:",
+        error.response?.data || error.message
+      );
+      throw new Error("Failed to upload cover image");
+    }
+  };
 
   // Function to handle the full podcast upload process
   const handleSavePodcastToDatabase = async () => {
-    if (!selectedFile || !podcastTitle || !podcastDescription) {
-      Alert.alert("Validation Error", "Please fill in all fields before uploading.");
+    if (!user?.id) {
+      Alert.alert("Error", "Please login first");
       return;
     }
 
+    if (
+      !selectedFile ||
+      !podcastCoverImg ||
+      !podcastTitle ||
+      !podcastDescription
+    ) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all fields before uploading."
+      );
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      setLoading(true);
+      const [podcastDownloadUrl, coverImageUrl] = await Promise.all([
+        uploadAudioFileToGCS(selectedFile),
+        uploadCoverImageToGCS(podcastCoverImg),
+      ]);
 
-      // Step 1: Upload audio file
-      const podcastDownloadUrl = await uploadAudioFileToGCS(selectedFile);
-      const coverImageUrl = await uploadCoverImageToGCS(podcastCoverImg);
-      console.log("Audio uploaded successfully.", podcastDownloadUrl);
-      console.log("Cover Image uploaded successfully.", coverImageUrl);
-
-
-      // Step 2: Save podcast metadata to the database
       const podcastData = {
-        podcastTitle: podcastTitle,
-        podcastDescription: podcastDescription,
-        podcastDownloadUrl: podcastDownloadUrl,
-        podcastCreatedAt: new Date().toISOString(),
+        podcastTitle,
+        podcastDescription,
+        podcastDownloadUrl,
         podcastCoverImgUrl: coverImageUrl,
-        userId: user.id, // Replace with dynamic user data
+        userId: user.id,
       };
 
-      const response = await axios.post(
-        "http://192.168.130.1:3001/api/v1/podcasts",
-        podcastData
-      );
+      await axios.post(`${API_BASE_URL}/api/v1/podcasts`, podcastData, {
+        timeout: 10000, // 10 second timeout
+      });
 
       Alert.alert("Success", "Podcast uploaded successfully!");
-      console.log("Uploaded Podcast Response:", response.data);
-
       navigation.navigate("Profile");
     } catch (error) {
-      console.error("Upload Error:", error);
-      Alert.alert("Upload Failed", "Failed to upload the podcast.");
+      console.error("Upload Error:", error.message);
+      Alert.alert(
+        "Upload Failed",
+        error.message || "Failed to upload the podcast. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -196,12 +259,21 @@ const uploadCoverImageToGCS = async (image) => {
 
           {/* Cover Image Picker */}
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.coverImage}
-              source={podcastCoverImg ? { uri: podcastCoverImg } : null}
-            />
-            <Pressable onPress={pickImage} style={styles.imageButton}>
-              <Text>
+            {podcastCoverImg && (
+              <Image
+                source={{ uri: podcastCoverImg.uri }}
+                style={styles.coverImage}
+                resizeMode="cover"
+              />
+            )}
+            {!podcastCoverImg && (
+              <View style={[styles.coverImage, { backgroundColor: "#ddd" }]} />
+            )}
+            <Pressable
+              onPress={pickImage}
+              style={[styles.imageButton, { marginTop: 10 }]}
+            >
+              <Text style={styles.buttonText}>
                 {podcastCoverImg ? "Change Cover Image" : "Choose Cover Image"}
               </Text>
             </Pressable>

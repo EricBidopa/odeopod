@@ -4,9 +4,7 @@ import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { useNavigation } from "@react-navigation/native";
 
 const PodcastItemHorizontalProfileComp = ({
-  profileImg,
-  profileFullName,
-  numberOfSubscribers,
+  podcastWithUserThatUploaded={}
 }) => {
   const navigation = useNavigation();
   
@@ -25,16 +23,16 @@ const PodcastItemHorizontalProfileComp = ({
       </Pressable>
       <Pressable style={styles.textsWrapper}>
         <Text style={styles.smallTexts} numberOfLines={2} ellipsizeMode="tail">
-          Jordan Peterson Jordan Peterson
+          @{podcastWithUserThatUploaded.userchannelname}
         </Text>
         <Text style={styles.smallTexts}>10M Subcribers</Text>
       </Pressable>
-      {/* <Pressable style={styles.buttons} onPress={handleInvestPressed}>
+      <Pressable style={styles.buttons} onPress={handleInvestPressed}>
         <Text>Invest</Text>
-      </Pressable> */}
-      {/* <Pressable style={styles.buttons}>
+      </Pressable>
+      <Pressable style={styles.buttons}>
         <Text>Subscribe</Text>
-      </Pressable> */}
+      </Pressable>
     </View>
   );
 };

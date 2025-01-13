@@ -1,15 +1,52 @@
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import RectangularPodcastsWrapper from "./RectangularPodcastsWrapper";
+import RectangularPodcastItem from "../components/RectangularPodcastItem";
+import axios from "axios";
+
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.67.147:3001";
 
 const SearchPage = () => {
   const [isFocused, setIsFocused] = useState(false);
-//   const [selectedCategory, setSelectedCategory] = useState("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return; // Ignore empty search
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/podcasts/search`,
+        {
+          params: { query: searchQuery },
+        }
+      );
+      setSearchResults(response.data);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to fetch search results");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
+        {/* Search Bar */}
         <View
           style={[
             styles.searchContainer,
@@ -28,20 +65,31 @@ const SearchPage = () => {
             placeholderTextColor="gray"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onSubmitEditing={handleSearch} // Trigger search on Enter
           />
         </View>
-        <View style={styles.ButtonsWrapper}>
-          <Pressable style={styles.buttons}>
-            <Text>ALL</Text>
-          </Pressable>
-          <Pressable style={styles.buttons}>
-            <Text>PODCASTS</Text>
-          </Pressable>
-          <Pressable style={styles.buttons}>
-            <Text>MUSIC</Text>
-          </Pressable>
-        </View>
-        <RectangularPodcastsWrapper />
+
+        {/* Search Results */}
+        {loading ? (
+          <ActivityIndicator size="large" color="blue" />
+        ) : error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : (
+          <FlatList
+            data={searchResults}
+            keyExtractor={(item) => item.podcast_id.toString()}
+            renderItem={({ item }) => <RectangularPodcastItem podcast={item} />}
+            ListEmptyComponent={
+              !loading && (
+                <Text style={styles.noResultsText}>
+                  No results found for "{searchQuery}"
+                </Text>
+              )
+            }
+          />
+        )}
       </View>
     </View>
   );
@@ -53,33 +101,14 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: "5%",
     paddingHorizontal: "5%",
-    backgroundColor: "lightblue",
+    backgroundColor: "#fffef2",
     flex: 1,
   },
   wrapper: {
-    backgroundColor: "pink",
+    backgroundColor: "#fffef2",
     flex: 1,
     flexDirection: "column",
     gap: 10,
-  },
-  ButtonsWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "lightpink",
-    paddingHorizontal: "7%",
-  },
-  buttons: {
-    padding: 5,
-    borderColor: "black",
-    borderWidth: 0.5,
-    alignItems: "center",
-    borderRadius: 5,
-    marginVertical: 5,
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  buttonText: {
-    color: "black",
   },
   searchContainer: {
     flexDirection: "row",
@@ -101,5 +130,15 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 15,
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginTop: 20,
+  },
+  noResultsText: {
+    color: "gray",
+    textAlign: "center",
+    marginTop: 20,
   },
 });

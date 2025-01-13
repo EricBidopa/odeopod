@@ -61,9 +61,9 @@ function BottomNavigationGroup() {
         component={HomePage}
         options={{ headerShown: true, title: "Explore" }}
       />
-      {/* <Bottomnav.Screen name="Search" component={SearchPage} /> */}
-      {/* <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} /> */}
-      {/* <Bottomnav.Screen name="Wallet" component={WalletPage} /> */}
+      <Bottomnav.Screen name="Search" component={SearchPage} />
+      <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} />
+      <Bottomnav.Screen name="Wallet" component={WalletPage} />
       <Bottomnav.Screen name="Profile" component={MyProfilePage} />
     </Bottomnav.Navigator>
   );

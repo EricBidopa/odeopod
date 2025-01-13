@@ -3,23 +3,20 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const RectangularPodcastItem = ({
-  podcastCoverImg,
-  podcastTitle,
-  usernameThatUploaded,
-  numberOfStreams,
-  dateUploaded,
-  podcastDescription,
-}) => {
+const RectangularPodcastItem = ({ podcastWithUserThatUploaded }) => {
   const navigation = useNavigation();
+
   const handleItemPressed = () => {
-    navigation.navigate("PodcastItemScreen");
+    navigation.navigate("PodcastItemScreen", { podcastWithUserThatUploaded });
   };
 
   return (
     <Pressable style={styles.wrapper} onPress={handleItemPressed}>
       <View style={styles.imageWrapperView}>
-        <Image style={styles.imageStyling} source={podcastCoverImg} />
+        <Image
+          style={styles.imageStyling}
+          source={{ uri: podcastWithUserThatUploaded.podcast_coverimgurl }}
+        />
       </View>
       <View style={styles.textsWrapperView}>
         <Text
@@ -27,7 +24,7 @@ const RectangularPodcastItem = ({
           ellipsizeMode="tail"
           style={styles.podcastTitle}
         >
-          {podcastTitle}
+          {podcastWithUserThatUploaded.podcast_title}
         </Text>
         <View style={styles.numberOfStreamsAndDateUploadedView}>
           <Text
@@ -35,25 +32,25 @@ const RectangularPodcastItem = ({
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            {numberOfStreams} streams
+            0 streams
           </Text>
           <Text
             numberOfLines={1}
             ellipsizeMode="tail"
             style={styles.smallTexts}
           >
-            {dateUploaded}
+            000
           </Text>
         </View>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.smallTexts}>
-          {usernameThatUploaded}
+          {podcastWithUserThatUploaded.userchannelname || "Unknown User"}
         </Text>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
           style={styles.podcastDescription}
         >
-          {podcastDescription}
+          {podcastWithUserThatUploaded.podcast_description}
         </Text>
       </View>
       <View style={styles.playIconWrapperView}>
@@ -68,7 +65,7 @@ export default RectangularPodcastItem;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "yellow",
+    backgroundColor: "#057d61",
     width: "100%",
     height: 100, // Set a specific height for the item
     marginBottom: 10, // Add some spacing between items
@@ -83,7 +80,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   textsWrapperView: {
-    backgroundColor: "orange",
+    backgroundColor: "#057d61",
     flex: 1,
     paddingLeft: 10,
     justifyContent: "space-between",
@@ -103,13 +100,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     overflow: "hidden",
+    color: "white",
   },
   smallTexts: {
     fontSize: 12,
-    color: "gray",
+    color: "white",
   },
   podcastDescription: {
     fontSize: 12,
-    color: "black",
+    color: "white",
   },
 });
