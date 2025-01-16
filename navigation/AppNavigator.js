@@ -60,13 +60,43 @@ function BottomNavigationGroup() {
       <Bottomnav.Screen
         name="Home"
         component={HomePage}
-        options={{ headerShown: true, title: "Explore", headerStyle:{backgroundColor: '#121212'}, headerTintColor: 'white',  }}
+        options={{ 
+          headerShown: true, 
+          title: "Explore", 
+          headerStyle: { backgroundColor: '#121212' }, 
+          headerTintColor: 'white',  
+          headerTitleStyle: { color: 'white' },
+        }}
         
       />
-      <Bottomnav.Screen name="Search" component={SearchPage} />
-      <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} />
+      <Bottomnav.Screen name="Search" component={SearchPage}
+      options={{ 
+        headerShown: true, 
+        title: "Search", 
+        headerStyle: { backgroundColor: '#121212' }, 
+        headerTintColor: 'white',  
+        headerTitleStyle: { color: 'white' },
+      }}
+      />
+      <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage}
+      options={{ 
+        headerShown: true, 
+        title: "My Subscriptions", 
+        headerStyle: { backgroundColor: '#121212' }, 
+        headerTintColor: 'white',  
+        headerTitleStyle: { color: 'white' },
+      }}
+      />
       {/* <Bottomnav.Screen name="Wallet" component={WalletPage} /> */}
-      <Bottomnav.Screen name="Profile" component={MyProfilePage} />
+      <Bottomnav.Screen name="MyProfile" component={MyProfilePage}
+      options={{ 
+        headerShown: true, 
+        title: "Profile", 
+        headerStyle: { backgroundColor: '#121212' }, 
+        headerTintColor: 'white',  
+        headerTitleStyle: { color: 'white' },
+      }}
+      />
     </Bottomnav.Navigator>
   );
 }
@@ -119,37 +149,79 @@ export default function AppNavigator() {
         <Stack.Screen
           name="PodcastItemScreen"
           component={PodcastItemPage}
-          options={{ headerShown: true, title: null }}
+          options={{ 
+            headerShown: true, 
+            title: null, 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="OrdersPage"
           component={OrdersPage}
-          options={{ headerShown: true, title: null }}
+          options={{ 
+            headerShown: true, 
+            title: null, 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="ViewProfilePage"
           component={ViewProfilePage}
-          options={{ headerShown: true, title: null }}
+          options={{ 
+            headerShown: true, 
+            title: null, 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="SettingsPage"
           component={SettingsPage}
-          options={{ headerShown: true, title: null }}
+          options={{ 
+            headerShown: true, 
+            title: null, 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="TrendingPage"
           component={TrendingPage}
-          options={{ headerShown: true, title: "Trending" }}
+          options={{ 
+            headerShown: true, 
+            title: "Trending", 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="MintSharesPage"
           component={MintSharesPage}
-          options={{ headerShown: true, title: "Mint Your Shares" }}
+          ooptions={{ 
+            headerShown: true, 
+            title: "Mint Shares", 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="UploadPodcastScreen"
           component={UploadPodcastScreen}
-          options={{ headerShown: false }}
+          options={{ 
+            headerShown: true, 
+            title: "Upload New Podcast", 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
         <Stack.Screen
           name="IWantToSellPage"
@@ -164,9 +236,13 @@ export default function AppNavigator() {
         <Stack.Screen
           name="OtpPage"
           component={OtpPage}
-          options={{ headerShown: true, title: null, headerStyle: {
-            backgroundColor: 'black',
-          }, }}
+          options={{ 
+            headerShown: true, 
+            title: null, 
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -176,11 +252,13 @@ export default function AppNavigator() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: "#121212",
+    backgroundColor: "#121212", // Semi-transparent dark background
     paddingBottom: 10,
     paddingTop: 10,
     height: 70,
-    
+    elevation: 0, // Removes the shadow for Android
+    shadowOpacity: 0, // Removes the shadow for iOS
+    borderTopWidth: 0, // Removes the top border
   },
   header: {
     backgroundColor: "white",

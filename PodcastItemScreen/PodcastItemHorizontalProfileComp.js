@@ -2,34 +2,37 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { useNavigation } from "@react-navigation/native";
+import { usePrivy } from "@privy-io/expo";
 
 const PodcastItemHorizontalProfileComp = ({
-  podcastWithUserThatUploaded={}
+  podcastWithUserThatUploaded = {},
 }) => {
   const navigation = useNavigation();
-  
+  const { isReady, user, logout } = usePrivy();
 
-  const handleInvestPressed = () => {
-    navigation.navigate("OrdersPage");
-  };
+  // const handleInvestPressed = () => {
+  //   navigation.navigate("OrdersPage");
+  // };
 
   const handleProfileClicked = () => {
-    navigation.navigate("ViewProfilePage");
+    podcastWithUserThatUploaded?.userid !== user.id
+      ? navigation.navigate("Profile", { podcastWithUserThatUploaded })
+      : navigation.navigate("Profile");
   };
   return (
     <View style={styles.wrapper}>
       <Pressable style={styles.profileImgView} onPress={handleProfileClicked}>
         <Image style={styles.profileImgStyling} source={KanyeImg} />
       </Pressable>
-      <Pressable style={styles.textsWrapper}>
+      <Pressable style={styles.textsWrapper} onPress={handleProfileClicked}>
         <Text style={styles.smallTexts} numberOfLines={2} ellipsizeMode="tail">
           @{podcastWithUserThatUploaded.userchannelname}
         </Text>
         <Text style={styles.smallTexts}>10M Subcribers</Text>
       </Pressable>
-      <Pressable style={styles.buttons} onPress={handleInvestPressed}>
+      {/* <Pressable style={styles.buttons} onPress={handleInvestPressed}>
         <Text>Invest</Text>
-      </Pressable>
+      </Pressable> */}
       <Pressable style={styles.buttons}>
         <Text>Subscribe</Text>
       </Pressable>
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   buttons: {
-    padding: 3,
+    padding: 8,
     borderColor: "black",
     borderWidth: 0.5,
     alignItems: "center",

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 
 const StreamDateDesComp = () => {
   return (
@@ -9,22 +9,32 @@ const StreamDateDesComp = () => {
         <Text>Aug 14, 2024</Text>
       </View>
       <View style={styles.podcastDesView}>
-        <Text>Provided to YouTube by Vydia Revelations 19:1 · more</Text>
+        <Text>
+          Provided to YouTube by Vydia Revelations 19:1 · more ydia Revelations
+          19:1 · more ydia Revelations 19:1 · more ydia Revelations 19:1 · more
+          ydia Revelations 19:1 · more
+          Provided to YouTube by Vydia Revelations 19:1 · more ydia Revelations
+          19:1 · more ydia Revelations 19:1 · more ydia Revelations 19:1 · more
+          ydia Revelations 19:1 · more
+          Provided to YouTube by Vydia Revelations 19:1 · more ydia Revelations
+          19:1 · more ydia Revelations 19:1 · more ydia Revelations 19:1 · more
+          ydia Revelations 19:1 · more
+        </Text>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default StreamDateDesComp
+export default StreamDateDesComp;
 
 const styles = StyleSheet.create({
-    wrapper:{
-        flexDirection: 'column',
-        backgroundColor: 'yellow',
-        gap: 5
-    },
-    streamsAndDateView:{
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    }
-})
+  wrapper: {
+    flexDirection: "column",
+    backgroundColor: "yellow",
+    gap: 5,
+  },
+  streamsAndDateView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

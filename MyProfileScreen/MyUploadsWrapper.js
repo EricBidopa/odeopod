@@ -13,11 +13,10 @@ import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.163.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
 
-const MyUploadsWrapper = () => {
-  const [allPodcasts, setAllPodcasts] = useState([]);
-  const [usersMap, setUsersMap] = useState({});
+const MyUploadsWrapper = ({isAnotherUserDetails}) => {
+  const [allPodcastsByUser, setAllPodcastsByUser] = useState([]);
   const [noPodcasts, setNoPodcasts] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false); // State for pull-to-refresh
@@ -26,8 +25,9 @@ const MyUploadsWrapper = () => {
 
   const fetchPodcasts = async () => {
     try {
+      const userId = isAnotherUserDetails ? isAnotherUserDetails.userid : user?.id;
       const podcastResponse = await axios.get(
-        `${API_BASE_URL}/api/v1/podcasts/${user.id}`
+        `${API_BASE_URL}/api/v1/podcasts/${userId}`
       );
       const podcasts = podcastResponse.data;
 
@@ -35,27 +35,7 @@ const MyUploadsWrapper = () => {
         setNoPodcasts(true);
         return;
       }
-
-      // Extract unique user IDs
-      const userIds = [...new Set(podcasts.map((podcast) => podcast.userid))];
-
-      // Fetch user data for all unique user IDs
-      const userResponses = await Promise.all(
-        userIds.map((id) =>
-          axios.get(`${API_BASE_URL}/api/v1/users/${id}`).then((res) => ({
-            id,
-            data: res.data,
-          }))
-        )
-      );
-
-      const usersMap = userResponses.reduce((map, user) => {
-        map[user.id] = user.data;
-        return map;
-      }, {});
-
-      setUsersMap(usersMap);
-      setAllPodcasts(podcasts);
+      setAllPodcastsByUser(podcasts);
     } catch (error) {
       console.error("Error fetching podcasts or user data:", error.message);
     } finally {
@@ -82,14 +62,14 @@ const MyUploadsWrapper = () => {
   if (noPodcasts) {
     return (
       <View style={styles.noPodcastsContainer}>
-        <Text style={styles.noPodcastsText}>No podcasts available.</Text>
+        <Text style={styles.noPodcastsText}>Your Uploaded Podcasts Appear Here..</Text>
       </View>
     );
   }
 
   return (
     <FlatList
-      data={allPodcasts}
+      data={allPodcastsByUser}
       renderItem={({ item }) => (
         <RectangularPodcastItem podcastWithUserThatUploaded={item} />
       )}
@@ -115,4 +95,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
+  noPodcastsContainer:{
+    alignItems: "center"
+  },
+  noPodcastsText:{
+    color: "white"
+  }
 });

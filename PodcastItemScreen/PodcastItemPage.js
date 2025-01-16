@@ -95,7 +95,7 @@ const PodcastItemPage = () => {
 
         {/* Podcast Title */}
         <View style={styles.podcastTitleView}>
-          <Text style={styles.podcastTitleText} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={styles.podcastTitleText} numberOfLines={4} ellipsizeMode="tail">
             {podcastWithUserThatUploaded.podcast_title}
           </Text>
         </View>
@@ -145,11 +145,11 @@ const PodcastItemPage = () => {
         <StreamDateDesComp />
 
         {/* Financial Details */}
-        <Text>You Own 8 ${podcastWithUserThatUploaded.userchannelname} Shares</Text>
-        <Text>Current ${podcastWithUserThatUploaded.userchannelname} Share Price: 300 USD</Text>
+        {/* <Text>You Own 8 ${podcastWithUserThatUploaded.userchannelname} Shares</Text> */}
+        {/* <Text>Current ${podcastWithUserThatUploaded.userchannelname} Share Price: 300 USD</Text> */}
 
         {/* Orders */}
-        <OrdersWrapper show={showOrdersWrapper} />
+        {/* <OrdersWrapper show={showOrdersWrapper} /> */}
       </View>
     </ScrollView>
   );
@@ -160,7 +160,7 @@ export default PodcastItemPage;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
-    backgroundColor: "lightblue",
+    backgroundColor: "#121212",
     flex: 1,
   },
   wrapper: {
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   podcastTitleText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
     padding: 10,
     textAlign: "center",

@@ -54,7 +54,7 @@ const RectangularPodcastItem = ({ podcastWithUserThatUploaded }) => {
         </Text>
       </View>
       <View style={styles.playIconWrapperView}>
-        <Ionicons name="play-circle-outline" size={30} color="black" />
+        <Ionicons name="play-circle-outline" size={30} color="#1DB954" />
       </View>
     </Pressable>
   );
@@ -65,10 +65,12 @@ export default RectangularPodcastItem;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "#057d61",
+    backgroundColor: "#282828",
     width: "100%",
     height: 100, // Set a specific height for the item
     marginBottom: 10, // Add some spacing between items
+    elevation: 3, 
+
   },
   imageWrapperView: {
     width: "30%",

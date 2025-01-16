@@ -11,7 +11,7 @@ import SquarePodcastItem from "../components/SquarePodcastItem";
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.163.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
 
 const SquarePodcastsWrapper = () => {
   const [allPodcasts, setAllPodcasts] = useState([]);
@@ -64,9 +64,13 @@ const SquarePodcastsWrapper = () => {
 
   return (
     <FlatList
+      key="double"
       data={allPodcasts}
+      numColumns={2}
+      contentContainerStyle={styles.gridContent}
+      columnWrapperStyle={styles.columnWrapper}
       renderItem={({ item }) => (
-        <SquarePodcastItem podcastWithUserThatUploaded={item} />
+        <SquarePodcastItem podcastWithUserThatUploaded={item} numColumns={2} />
       )}
       keyExtractor={(podcast) => podcast.podcast_id.toString()}
       refreshControl={
@@ -95,4 +99,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "gray",
   },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  }
 });

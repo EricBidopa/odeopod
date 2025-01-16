@@ -16,18 +16,24 @@ const ChooseUsernamePage = ({ navigation }) => {
 
   const { user } = usePrivy();
 
+  const API_BASE_URL =
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+
   const handleCheckUsernameAvailabilityAndAddToDatabase = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://192.168.121.1:3001/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
+        `${API_BASE_URL}/api/v1/users/check-username-availability?userUsername=${username.toLowerCase()}`
       );
       // if status code == 200 proceed with this. axios treats any code aside 2** as an error
       if (response.status === 200) {
         try {
           const response = await axios.patch(
-            `http://192.168.121.1:3001/api/v1/users/update-username/${user.id}`, // Replace with actual userId from Privy
-            { userUsername: username.toLowerCase() }
+            `${API_BASE_URL}/api/v1/users/update-username/${user.id}`, // Replace with actual userId from Privy
+            {
+              userUsername: username.toLowerCase(),
+              userChannelName: username.toLowerCase(),
+            }
           );
           if (response.status === 200) {
             navigation.navigate("HomePage");

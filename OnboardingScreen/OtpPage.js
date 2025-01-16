@@ -4,6 +4,7 @@ import { useLoginWithEmail, usePrivy } from "@privy-io/expo";
 import { useLinkEmail } from "@privy-io/expo";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { StatusBar } from "react-native";
 
 const OtpPage = ({ route }) => {
   const { user } = usePrivy;
@@ -12,10 +13,16 @@ const OtpPage = ({ route }) => {
   const [otpCode, setOtpCode] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
+
+  const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+
+
+
   const saveUserIdAndEmailToDatabase = async (useridAndEmail) => {
     try {
       const response = await axios.post(
-        "http://192.168.121.1:3001/api/v1/users",
+        `${API_BASE_URL}/api/v1/users`,
         useridAndEmail
       );
       console.log(
@@ -53,10 +60,12 @@ const OtpPage = ({ route }) => {
   };
 
   return (
+    <>
+   <StatusBar style="light" />
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={styles.headerText}>OdeoPod</Text>
-        <Text style={styles.subtext}>Choose A Username:</Text>
+        <Text style={styles.subtext}>Enter OTP:</Text>
         <View
           style={[
             styles.searchContainer,
@@ -82,6 +91,7 @@ const OtpPage = ({ route }) => {
         </Pressable>
       </View>
     </View>
+    </>
   );
 };
 

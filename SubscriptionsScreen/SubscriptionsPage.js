@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         gap: 15,
-        backgroundColor: "#fffef2"
+        backgroundColor: "#121212"
     },
   latestfromSubscritionsText: {
     paddingLeft: 10,

@@ -1,79 +1,94 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+// SquarePodcastItem.js
+import { View, Text, Image, StyleSheet, Pressable, Dimensions } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const SquarePodcastItem = ({ podcastWithUserThatUploaded }) => {
+const screenWidth = Dimensions.get('window').width;
+const PADDING_HORIZONTAL = screenWidth * 0.05;
+
+const SquarePodcastItem = ({ podcastWithUserThatUploaded, numColumns = 1 }) => {
   const navigation = useNavigation();
+
+  // Calculate item width based on numColumns
+  const itemWidth = numColumns === 1 
+    ? screenWidth - (PADDING_HORIZONTAL * 2) // Full width for single column
+    : (screenWidth - (PADDING_HORIZONTAL * 2) - ((numColumns - 1) * 16)) / numColumns; // Width for grid
 
   const handleItemPressed = () => {
     navigation.navigate("PodcastItemScreen", { podcastWithUserThatUploaded });
   };
 
   return (
-    <Pressable style={styles.wrapper} onPress={handleItemPressed}>
-      {/* Podcast Cover Image */}
+    <Pressable 
+      style={[
+        styles.wrapper, 
+        { width: itemWidth }
+      ]} 
+      onPress={handleItemPressed}
+    >
       <Image
-        style={styles.imageStyling}
+        style={[styles.imageStyling, { width: itemWidth }]}
         source={{ uri: podcastWithUserThatUploaded.podcast_coverimgurl }}
       />
-      {/* Text and Play Icon */}
       <View style={styles.detailsContainer}>
         <View>
           <Text
-            style={styles.podcastTitle}
+            style={[styles.podcastTitle, { maxWidth: itemWidth - 56 }]}
             numberOfLines={2}
             ellipsizeMode="tail"
           >
             {podcastWithUserThatUploaded.podcast_title}
           </Text>
-          <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+          <Text 
+            style={[styles.username, { maxWidth: itemWidth - 56 }]} 
+            numberOfLines={1} 
+            ellipsizeMode="tail"
+          >
             {podcastWithUserThatUploaded.userchannelname || "Unknown User"}
           </Text>
         </View>
-        <Ionicons name="play-circle" size={40} color="#1DB954" />
+        <Ionicons 
+          name="play-circle" 
+          size={numColumns === 1 ? 40 : 32} 
+          color="#1DB954" 
+        />
       </View>
     </Pressable>
   );
 };
 
-export default SquarePodcastItem;
-
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "#282828", // Dark background
     borderRadius: 10,
     overflow: "hidden",
     flexDirection: "column",
-    gap: 10,
-    marginBottom: 18,
-    elevation: 3, // Shadow for a modern look
+    gap: 8,
+    marginBottom: 16,
+    // elevation: 3,
   },
   imageStyling: {
+    aspectRatio: 1.5,
     resizeMode: "cover",
-    width: "100%",
-    height: 200,
   },
   detailsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: "5%",
-    marginBottom: "5%"
+    alignItems: "flex-start",
+    paddingHorizontal: 3,
+    // paddingBottom: 8,
   },
   podcastTitle: {
-    // backgroundColor: "yellow",
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold",
-    maxWidth: 250,
-    overflow: "hidden",
-    color: "white"
-
+    color: "#F6E1E1",
+    marginBottom: 4,
+  
   },
   username: {
-    fontSize: 14,
+    fontSize: 10,
     color: "white",
-    maxWidth: 150,
-    overflow: "hidden",
   },
 });
+
+export default SquarePodcastItem;

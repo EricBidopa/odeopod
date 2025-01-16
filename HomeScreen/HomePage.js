@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import SquarePodcastsWrapper from "./SquarePodcastsWrapper";
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 
 
 const HomePage = () => {
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
         <View style={styles.wrapper}>
 
     {/* <View style={styles.buttonsWrapper}>
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   },
   wrapper:{
     backgroundColor: '#121212',
+    gap: 10,
     width: '100%',
     height: '100%'
   },

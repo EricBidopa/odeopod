@@ -30,10 +30,13 @@ const OnboardingPage = () => {
   //   }
   // }, [user]);
 
+  const API_BASE_URL =
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+
   const saveUserToDatabase = async (userData) => {
     try {
       const response = await axios.post(
-        "http://192.168.121.1:3001/api/v1/users",
+        `${API_BASE_URL}/api/v1/users`,
         userData
       );
       console.log("New User Added:", response.data);
@@ -89,7 +92,7 @@ const OnboardingPage = () => {
 
   const handleLogInBtnClicked = () => {
     sendCode({ email });
-    console.log(user)
+    console.log(user);
   };
 
   // const handleLoginWithApple=()=>{
@@ -100,7 +103,7 @@ const OnboardingPage = () => {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <View style={styles.wrapper}>
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>

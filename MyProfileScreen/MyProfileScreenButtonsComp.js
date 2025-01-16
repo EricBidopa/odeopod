@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import UploadAudioModal from "./UploadAudioModal";
 import { useState } from "react";
 
-const MyProfileScreenButtonsComp = () => {
+const MyProfileScreenButtonsComp = ({isAnotherUserDetails}) => {
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
 
@@ -27,12 +27,14 @@ const MyProfileScreenButtonsComp = () => {
   return (
     <View style={styles.buttonsWrapper}>
       <Text>Uploads</Text>
+      {isAnotherUserDetails === false &&
       <Pressable style={styles.buttons} onPress={handleSettingsClicked}>
         <Text>Settings</Text>
-      </Pressable>
+      </Pressable>}
+     { isAnotherUserDetails === false &&
       <Pressable style={styles.buttons} onPress={handleUploadPodcastPressed}>
         <Text>Upload Podcast</Text>
-      </Pressable>
+      </Pressable>}
       <UploadAudioModal show={showModal} onClose={closeModal} />
     </View>
   );
