@@ -4,7 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, ActivityIndicator, View } from "react-native";
+import { StyleSheet, ActivityIndicator, View} from "react-native";
+import { StatusBar } from 'expo-status-bar';  // Change this import
 import { usePrivy } from "@privy-io/expo";
 import { useEffect } from "react";
 
@@ -13,7 +14,7 @@ import OnboardingPage from "../OnboardingScreen/OnboardingPage";
 import HomePage from "../HomeScreen/HomePage";
 import SearchPage from "../SearchScreen/SearchPage";
 import SubscriptionsPage from "../SubscriptionsScreen/SubscriptionsPage";
-import WalletPage from "../WalletScreen/WalletPage";
+// import WalletPage from "../WalletScreen/WalletPage";
 import MyProfilePage from "../MyProfileScreen/MyProfilePage";
 import ChooseUsernamePage from "../OnboardingScreen/ChooseUsernamePage";
 import PodcastItemPage from "../PodcastItemScreen/PodcastItemPage";
@@ -52,18 +53,19 @@ function BottomNavigationGroup() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "grey",
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "#727272",
       })}
     >
       <Bottomnav.Screen
         name="Home"
         component={HomePage}
-        options={{ headerShown: true, title: "Explore" }}
+        options={{ headerShown: true, title: "Explore", headerStyle:{backgroundColor: '#121212'}, headerTintColor: 'white',  }}
+        
       />
       <Bottomnav.Screen name="Search" component={SearchPage} />
       <Bottomnav.Screen name="Subscriptions" component={SubscriptionsPage} />
-      <Bottomnav.Screen name="Wallet" component={WalletPage} />
+      {/* <Bottomnav.Screen name="Wallet" component={WalletPage} /> */}
       <Bottomnav.Screen name="Profile" component={MyProfilePage} />
     </Bottomnav.Navigator>
   );
@@ -87,9 +89,12 @@ export default function AppNavigator() {
   }
 
   return (
+    <>
+   <StatusBar style="light" />
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={initialRoute}
+        
       >
         <Stack.Screen
           name="OnboardingPage"
@@ -159,19 +164,23 @@ export default function AppNavigator() {
         <Stack.Screen
           name="OtpPage"
           component={OtpPage}
-          options={{ headerShown: true, title: null }}
+          options={{ headerShown: true, title: null, headerStyle: {
+            backgroundColor: 'black',
+          }, }}
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: "white",
+    backgroundColor: "#121212",
     paddingBottom: 10,
     paddingTop: 10,
     height: 70,
+    
   },
   header: {
     backgroundColor: "white",

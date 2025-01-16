@@ -13,7 +13,7 @@ import RectangularPodcastItem from "../components/RectangularPodcastItem";
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.67.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.163.147:3001";
 
 const SearchPage = () => {
   const [isFocused, setIsFocused] = useState(false);

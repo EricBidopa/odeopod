@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import SquarePodcastsWrapper from "./SquarePodcastsWrapper";
+import { StatusBar } from "expo-status-bar";
+
 
 const HomePage = () => {
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
         <View style={styles.wrapper}>
 
     {/* <View style={styles.buttonsWrapper}>
@@ -13,7 +16,7 @@ const HomePage = () => {
       <Pressable style={styles.buttons}><Text>MUSIC</Text></Pressable>
 
      </View> */}
-     <Text>Excellent Podcasts for you</Text>
+     <Text style={styles.headingText}>Excellent Podcasts for you</Text>
      <SquarePodcastsWrapper />
     </View>
         </View>
@@ -26,14 +29,17 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: "5%",
     paddingHorizontal: "5%",
-    backgroundColor: '#fffef2',
+    backgroundColor: '#121212',
     display: 'flex',
     flexDirection: 'column',
     gap: 10,
     flex: 1,
   },
+  headingText:{
+    color: "white"
+  },
   wrapper:{
-    backgroundColor: '#fffef2',
+    backgroundColor: '#121212',
     width: '100%',
     height: '100%'
   },

@@ -31,7 +31,7 @@ const SquarePodcastItem = ({ podcastWithUserThatUploaded }) => {
             {podcastWithUserThatUploaded.userchannelname || "Unknown User"}
           </Text>
         </View>
-        <Ionicons name="play-circle" size={40} color="#fffef2" />
+        <Ionicons name="play-circle" size={40} color="#1DB954" />
       </View>
     </Pressable>
   );
@@ -41,7 +41,7 @@ export default SquarePodcastItem;
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "#1d322d", // Dark background
+    backgroundColor: "#282828", // Dark background
     borderRadius: 10,
     overflow: "hidden",
     flexDirection: "column",
