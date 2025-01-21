@@ -13,11 +13,8 @@ const OtpPage = ({ route }) => {
   const [otpCode, setOtpCode] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
-
   const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
-
-
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
 
   const saveUserIdAndEmailToDatabase = async (useridAndEmail) => {
     try {
@@ -61,36 +58,36 @@ const OtpPage = ({ route }) => {
 
   return (
     <>
-   <StatusBar style="light" />
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <Text style={styles.headerText}>OdeoPod</Text>
-        <Text style={styles.subtext}>Enter OTP:</Text>
-        <View
-          style={[
-            styles.searchContainer,
-            isFocused && styles.searchContainerFocused,
-          ]}
-        >
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Enter OTP Code Sent to Email"
-            placeholderTextColor="gray"
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            value={otpCode}
-            onChangeText={(text) => {
-              const formattedText = text.replace(/\s/g, ""); // Convert to lowercase and remove spaces
-              setOtpCode(formattedText);
-            }}
-          />
+      <StatusBar style="light" />
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <Text style={styles.headerText}>OdeoPod</Text>
+          <Text style={styles.subtext}>Enter OTP:</Text>
+          <View
+            style={[
+              styles.searchContainer,
+              isFocused && styles.searchContainerFocused,
+            ]}
+          >
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Enter OTP Code Sent to Email"
+              placeholderTextColor="gray"
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              value={otpCode}
+              onChangeText={(text) => {
+                const formattedText = text.replace(/\s/g, ""); // Convert to lowercase and remove spaces
+                setOtpCode(formattedText);
+              }}
+            />
+          </View>
+          <Text>{email.toLowerCase()}</Text>
+          <Pressable style={styles.buttons} onPress={handleVerifyBtnClicked}>
+            <Text>Verify Code</Text>
+          </Pressable>
         </View>
-        <Text>{email.toLowerCase()}</Text>
-        <Pressable style={styles.buttons} onPress={handleVerifyBtnClicked}>
-          <Text>Verify Code</Text>
-        </Pressable>
       </View>
-    </View>
     </>
   );
 };

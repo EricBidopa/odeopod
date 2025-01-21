@@ -16,7 +16,7 @@ const PodcastItemHorizontalProfileComp = ({
 
   const handleProfileClicked = () => {
     podcastWithUserThatUploaded?.userid !== user.id
-      ? navigation.navigate("Profile", { podcastWithUserThatUploaded })
+      ? navigation.navigate("ViewProfilePage", { podcastWithUserThatUploaded })
       : navigation.navigate("Profile");
   };
   return (

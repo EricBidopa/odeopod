@@ -12,9 +12,9 @@ import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
 
-const UploadsWrapper = ({isAnotherUserDetails}) => {
+const UploadsWrapper = ({ isAnotherUserDetails }) => {
   const [allPodcastsByUser, setAllPodcastsByUser] = useState([]);
   const [noPodcasts, setNoPodcasts] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -61,7 +61,10 @@ const UploadsWrapper = ({isAnotherUserDetails}) => {
   if (noPodcasts) {
     return (
       <View style={styles.noPodcastsContainer}>
-        <Text style={styles.noPodcastsText}> No Uploads Made By This Bren!</Text>
+        <Text style={styles.noPodcastsText}>
+          {" "}
+          No Uploads Made By This Bren!
+        </Text>
       </View>
     );
   }
@@ -94,10 +97,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
-  noPodcastsContainer:{
-    alignItems: "center"
+  noPodcastsContainer: {
+    alignItems: "center",
   },
-  noPodcastsText:{
-    color: "white"
-  }
+  noPodcastsText: {
+    color: "white",
+  },
 });

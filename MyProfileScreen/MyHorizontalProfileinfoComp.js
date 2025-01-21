@@ -16,116 +16,103 @@ import { usePrivy } from "@privy-io/expo";
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
 
-  const MyHorizontalProfileinfoComp = ({ isAnotherUserDetails }) => {
-    const [showModal, setShowModal] = useState(false);
-    const [userData, setUserData] = useState({
-      username: "fetching..",
-      userChannelName: "fetching..",
-      userChannelDescription: "fetching..."
-    });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
-    const { user } = usePrivy();
-  
-    const fetchUserInfo = async () => {
-      try {
-        // Determine which user ID to use
-        const userId = isAnotherUserDetails ? isAnotherUserDetails.userid : user?.id;
-        
-        if (!userId) {
-          setError("No user ID available");
-          return;
-        }
-  
-        const response = await axios.get(`${API_BASE_URL}/api/v1/users/${userId}`);
-        const fetchedUserData = response.data;
-        
-        setUserData({
-          username: fetchedUserData.userusername,
-          userChannelName: fetchedUserData.userchannelname,
-          userChannelDescription: fetchedUserData.userchanneldescription
-        });
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        setError("Error fetching user info");
-      } finally {
-        setLoading(false);
+const MyHorizontalProfileinfoComp = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [userData, setUserData] = useState({
+    username: "fetching..",
+    userChannelName: "fetching..",
+    userChannelDescription: "fetching...",
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { user } = usePrivy();
+
+  const fetchUserInfo = async () => {
+    try {
+      // Determine which user ID to use
+      const userId = user?.id;
+
+      if (!userId) {
+        setError("No user ID available from privy");
+        console.log("No user Id available from Privy");
+        return;
       }
-    };
-  
-    useEffect(() => {
-      fetchUserInfo();
-    }, [isAnotherUserDetails, user?.id]); // Dependency on both user ID and isAnotherUserDetails
-  
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
-  
-    if (loading) {
-      return <ActivityIndicator size="large" color="#1DB954" />;
-    }
-  
-    if (error) {
-      return (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-        </View>
+
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/users/${userId}`
       );
+      const fetchedUserData = response.data;
+
+      setUserData({
+        username: fetchedUserData.userusername,
+        userChannelName: fetchedUserData.userchannelname,
+        userChannelDescription: fetchedUserData.userchanneldescription,
+      });
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+      setError("Error fetching user info");
+    } finally {
+      setLoading(false);
     }
-  
+  };
+
+  useEffect(() => {
+    if (!user) return;
+    fetchUserInfo();
+  }, [user?.id]); // Dependency on both user ID and isAnotherUserDetails
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#1DB954" />;
+  }
+
+  if (error) {
     return (
-      <View style={styles.wrapper}>
-        <View style={styles.profileImgView}>
-          <Image 
-            style={styles.profileImgeStyling} 
-            source={KanyeImg} 
-          />
-        </View>
-        <View style={styles.textsWrapperView}>
-          <View style={styles.channelNameAndUsername}>
-            <Text style={styles.channelName}>
-              {userData.userChannelName}
-            </Text>
-            <Text style={styles.smallTexts}>
-              @{userData.username}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.smallTexts}>10M Subscribers</Text>
-          </View>
-          <View>
-            <Text
-              style={styles.smallTexts}
-              numberOfLines={3}
-              ellipsizeMode="tail"
-            >
-              {userData.userChannelDescription}
-            </Text>
-          </View>
-        </View>
-        
-        {/* Only show options menu for own profile */}
-        {!isAnotherUserDetails && (
-          <View style={styles.menuWrapperView}>
-            <Ionicons 
-              name="options" 
-              size={25} 
-              color="black" 
-              onPress={openModal} 
-            />
-          </View>
-        )}
-        
-        {/* Only show modal for own profile */}
-        {!isAnotherUserDetails && (
-          <MyProfileModal show={showModal} onClose={closeModal} />
-        )}
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
       </View>
     );
-  };
-  
+  }
+
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.profileImgView}>
+        <Image style={styles.profileImgeStyling} source={KanyeImg} />
+      </View>
+      <View style={styles.textsWrapperView}>
+        <View style={styles.channelNameAndUsername}>
+          <Text style={styles.channelName}>{userData.userChannelName}</Text>
+          <Text style={styles.smallTexts}>@{userData.username}</Text>
+        </View>
+        <View>
+          <Text style={styles.smallTexts}>10M Subscribers</Text>
+        </View>
+        <View>
+          <Text
+            style={styles.smallTexts}
+            numberOfLines={3}
+            ellipsizeMode="tail"
+          >
+            {userData.userChannelDescription}
+          </Text>
+        </View>
+      </View>
+
+      {/* Only show options menu for own profile */}
+      <View style={styles.menuWrapperView}>
+        <Ionicons name="options" size={25} color="black" onPress={openModal} />
+      </View>
+
+      <MyProfileModal show={showModal} onClose={closeModal} />
+    </View>
+  );
+};
+
 export default MyHorizontalProfileinfoComp;
 
 const styles = StyleSheet.create({
@@ -194,15 +181,15 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
-    color: '#ff4444',
+    color: "#ff4444",
     fontSize: 14,
   },
   channelName: {
     fontSize: 13,
-    fontWeight: 'bold',
-  }
+    fontWeight: "bold",
+  },
 });

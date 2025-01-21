@@ -13,6 +13,7 @@ import StreamDateDesComp from "./StreamDateDesComp";
 import OrdersWrapper from "../OrdersScreen/OrdersWrapper";
 import { useRoute } from "@react-navigation/native";
 import { Audio } from "expo-av";
+// import { usePrivy } from "@privy-io/expo";
 
 const PodcastItemPage = () => {
   const [showOrdersWrapper] = useState(true);

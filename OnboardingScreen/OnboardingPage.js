@@ -31,7 +31,7 @@ const OnboardingPage = () => {
   // }, [user]);
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
 
   const saveUserToDatabase = async (userData) => {
     try {

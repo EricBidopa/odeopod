@@ -4,17 +4,17 @@ import { useNavigation } from "@react-navigation/native";
 import UploadAudioModal from "./UploadAudioModal";
 import { useState } from "react";
 
-const MyProfileScreenButtonsComp = ({isAnotherUserDetails}) => {
+const MyProfileScreenButtonsComp = () => {
   const navigation = useNavigation();
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
-  const openModal = () => {
-    setShowModal(true);
-  };
+  // const openModal = () => {
+  //   setShowModal(true);
+  // };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
+  // const closeModal = () => {
+  //   setShowModal(false);
+  // };
 
   const handleSettingsClicked = () => {
     navigation.navigate("SettingsPage");
@@ -27,15 +27,14 @@ const MyProfileScreenButtonsComp = ({isAnotherUserDetails}) => {
   return (
     <View style={styles.buttonsWrapper}>
       <Text>Uploads</Text>
-      {isAnotherUserDetails === false &&
       <Pressable style={styles.buttons} onPress={handleSettingsClicked}>
         <Text>Settings</Text>
-      </Pressable>}
-     { isAnotherUserDetails === false &&
+      </Pressable>
+ 
       <Pressable style={styles.buttons} onPress={handleUploadPodcastPressed}>
         <Text>Upload Podcast</Text>
-      </Pressable>}
-      <UploadAudioModal show={showModal} onClose={closeModal} />
+      </Pressable>
+      {/* <UploadAudioModal show={showModal} onClose={closeModal} /> */}
     </View>
   );
 };

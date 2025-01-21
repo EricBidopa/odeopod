@@ -3,7 +3,7 @@ import React from "react";
 import UploadsWrapper from "./UploadsWrapper";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { useRoute } from "@react-navigation/native";
-import HorizontalProfileinfoComp from "./HorizontalProfileinfoComp";
+import HorizontalProfileinfoComp from "./HorizontalProfileInfoComp";
 
 const ViewProfilePage = () => {
   // Access the route and its parameters
@@ -19,8 +19,8 @@ const ViewProfilePage = () => {
         <HorizontalProfileinfoComp
           isAnotherUserDetails={podcastWithUserThatUploaded}
         />
-        <View>
-          <Text>Uploads</Text>
+        <View style={styles.uploadtextView}>
+          <Text style={styles.uploadtext}>Uploads:</Text>
         </View>
         <UploadsWrapper isAnotherUserDetails={podcastWithUserThatUploaded} />
       </View>
@@ -54,4 +54,8 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 10,
   },
+  uploadtext:{
+    color: "white",
+    fontWeight: "bold"
+  }
 });

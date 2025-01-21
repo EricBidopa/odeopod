@@ -13,9 +13,9 @@ import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
 
-const MyUploadsWrapper = ({isAnotherUserDetails}) => {
+const MyUploadsWrapper = ({ isAnotherUserDetails }) => {
   const [allPodcastsByUser, setAllPodcastsByUser] = useState([]);
   const [noPodcasts, setNoPodcasts] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const MyUploadsWrapper = ({isAnotherUserDetails}) => {
 
   const fetchPodcasts = async () => {
     try {
-      const userId = isAnotherUserDetails ? isAnotherUserDetails.userid : user?.id;
+      const userId = user?.id;
       const podcastResponse = await axios.get(
         `${API_BASE_URL}/api/v1/podcasts/${userId}`
       );
@@ -62,7 +62,9 @@ const MyUploadsWrapper = ({isAnotherUserDetails}) => {
   if (noPodcasts) {
     return (
       <View style={styles.noPodcastsContainer}>
-        <Text style={styles.noPodcastsText}>Your Uploaded Podcasts Appear Here..</Text>
+        <Text style={styles.noPodcastsText}>
+          Your Uploaded Podcasts Appear Here..
+        </Text>
       </View>
     );
   }
@@ -95,10 +97,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
-  noPodcastsContainer:{
-    alignItems: "center"
+  noPodcastsContainer: {
+    alignItems: "center",
   },
-  noPodcastsText:{
-    color: "white"
-  }
+  noPodcastsText: {
+    color: "white",
+  },
 });

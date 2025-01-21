@@ -14,7 +14,7 @@ import SquarePodcastItem from "../components/SquarePodcastItem";
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.113.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
 
 const SearchPage = () => {
   const [isFocused, setIsFocused] = useState(false);
@@ -57,9 +57,12 @@ const SearchPage = () => {
     setHasSearched(true);
 
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/v1/podcasts/search`, {
-        params: { query: searchQuery },
-      });
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/podcasts/search`,
+        {
+          params: { query: searchQuery },
+        }
+      );
 
       setSearchResults(response.data);
     } catch (err) {
@@ -74,11 +77,11 @@ const SearchPage = () => {
     if (loading || loadingPodcasts) {
       return <ActivityIndicator size="large" color="#1DB954" />;
     }
-  
+
     if (error) {
       return <Text style={styles.errorText}>{error}</Text>;
     }
-  
+
     if (searchQuery.trim()) {
       return (
         <FlatList
@@ -89,7 +92,8 @@ const SearchPage = () => {
             <RectangularPodcastItem podcastWithUserThatUploaded={item} />
           )}
           ListEmptyComponent={
-            hasSearched && !loading && (
+            hasSearched &&
+            !loading && (
               <Text style={styles.noResultsText}>
                 No results found for "{searchQuery}"
               </Text>
@@ -107,7 +111,10 @@ const SearchPage = () => {
           columnWrapperStyle={styles.columnWrapper}
           contentContainerStyle={styles.gridContent}
           renderItem={({ item }) => (
-            <SquarePodcastItem podcastWithUserThatUploaded={item} numColumns={2}/>
+            <SquarePodcastItem
+              podcastWithUserThatUploaded={item}
+              numColumns={2}
+            />
           )}
         />
       );
@@ -191,9 +198,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   columnWrapper: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginBottom: 16,
-  }
+  },
 });
 
 export default SearchPage;

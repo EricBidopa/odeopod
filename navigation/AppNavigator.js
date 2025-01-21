@@ -88,7 +88,7 @@ function BottomNavigationGroup() {
       }}
       />
       {/* <Bottomnav.Screen name="Wallet" component={WalletPage} /> */}
-      <Bottomnav.Screen name="MyProfile" component={MyProfilePage}
+      <Bottomnav.Screen name="Profile" component={MyProfilePage}
       options={{ 
         headerShown: true, 
         title: "Profile", 
@@ -145,6 +145,7 @@ export default function AppNavigator() {
           component={BottomNavigationGroup}
           options={{ headerShown: false }}
         />
+    
 
         <Stack.Screen
           name="PodcastItemScreen"
