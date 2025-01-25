@@ -12,7 +12,7 @@ import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
 
 const UploadsWrapper = ({ isAnotherUserDetails }) => {
   const [allPodcastsByUser, setAllPodcastsByUser] = useState([]);

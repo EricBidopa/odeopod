@@ -22,7 +22,7 @@ import * as FileSystem from "expo-file-system";
 
 // Define your API base URL - replace with your actual API URL
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
 
 const UploadPodcastScreen = () => {
   const [selectedFile, setSelectedFile] = useState(null);

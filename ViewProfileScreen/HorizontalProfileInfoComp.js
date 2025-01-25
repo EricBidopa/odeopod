@@ -3,21 +3,101 @@ import {
   Text,
   View,
   Image,
+  Pressable,
   ActivityIndicator,
   Modal,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import { Ionicons } from "@expo/vector-icons";
 import ProfileModal from "./ProfileModal";
+import axios from "axios";
+import { usePrivy } from "@privy-io/expo";
 
   const HorizontalProfileinfoComp = ({ isAnotherUserDetails }) => {
     const [showModal, setShowModal] = useState(false);
+  const { isReady, user } = usePrivy();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+
+
    
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
     
+
+    const API_BASE_URL =
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
+
+  // Check subscription status when the component mounts
+  useEffect(() => {
+    const checkSubscriptionStatus = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/api/v1/subscriptions/status`,
+          {
+            params: {
+              subscriber_id: user.id, // Current user ID
+              subscribedto_id: isAnotherUserDetails.userid, // Target user ID
+            },
+          }
+        );
+        setIsSubscribed(response.data.isSubscribed); // Backend should return a boolean
+      } catch (error) {
+        console.error(
+          "Error checking subscription status:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    checkSubscriptionStatus();
+  }, [user.id, isAnotherUserDetails.userid]); // Dependencies ensure this runs whenever IDs change
+
+
+  // const handleSubscribe = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${API_BASE_URL}/api/v1/subscriptions`,
+  //       {
+  //         subscriber_id: user.id,
+  //         subscribedto_id: isAnotherUserDetails.userid,
+  //       }
+  //     );
+  //     console.log("Subscribed successfully:", response.data);
+  //     setIsSubscribed(true);
+  //   } catch (error) {
+  //     console.error(
+  //       "Error subscribing:",
+  //       error.response?.data || error.message
+  //     );
+  //   }
+  // };
+
+
+  // const handleUnsubscribe = async () => {
+  //   try {
+  //     const response = await axios.delete(
+  //       `${API_BASE_URL}/api/v1/subscriptions`,
+  //       {
+  //         data: {
+  //           subscriber_id: user.id,
+  //           subscribedto_id: isAnotherUserDetails.userid,
+  //         },
+  //       }
+  //     );
+  //     console.log("Unsubscribed successfully:", response.data);
+  //     setIsSubscribed(false);
+  //   } catch (error) {
+  //     console.error(
+  //       "Error unsubscribing:",
+  //       error.response?.data || error.message
+  //     );
+  //   }
+  // };
+
+
     return (
       <View style={styles.wrapper}>
         <View style={styles.profileImgView}>
@@ -38,6 +118,12 @@ import ProfileModal from "./ProfileModal";
           <View>
             <Text style={styles.smallTexts}>10M Subscribers</Text>
           </View>
+        { isSubscribed ? (
+            <Text>'Subscribed'</Text>
+          
+        ) : (
+            <Text>'Not Subscribed'</Text>
+        )}
           <View>
             <Text
               style={styles.smallTexts}
@@ -104,26 +190,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "10%",
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
+  
+  buttons: {
+    padding: 5,
+    borderColor: "black",
+    borderWidth: 0.5,
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
-  },
-  modalContent: {
-    width: 250,
-    padding: 20,
-    backgroundColor: "white",
     borderRadius: 10,
-    alignItems: "center",
-  },
-  modalButton: {
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: "#2196F3",
-    borderRadius: 5,
-    width: "100%",
-    alignItems: "center",
   },
   buttonText: {
     color: "white",

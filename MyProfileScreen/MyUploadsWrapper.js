@@ -8,52 +8,45 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import RectangularPodcastItem from "../components/RectangularPodcastItem";
-import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
-const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.192.147:3001";
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
 
 const MyUploadsWrapper = ({ isAnotherUserDetails }) => {
   const [allPodcastsByUser, setAllPodcastsByUser] = useState([]);
   const [noPodcasts, setNoPodcasts] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false); // State for pull-to-refresh
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { isReady, user, logout } = usePrivy();
+  const { user } = usePrivy();
 
   const fetchPodcasts = async () => {
+    if (!user?.id) return;
+    
     try {
-      const userId = user?.id;
-      const podcastResponse = await axios.get(
-        `${API_BASE_URL}/api/v1/podcasts/${userId}`
-      );
-      const podcasts = podcastResponse.data;
-
-      if (podcasts.length === 0) {
-        setNoPodcasts(true);
-        return;
-      }
+      const response = await axios.get(`${API_BASE_URL}/api/v1/podcasts/${user.id}`);
+      const podcasts = response.data;
       setAllPodcastsByUser(podcasts);
+      setNoPodcasts(podcasts.length === 0);
     } catch (error) {
-      console.error("Error fetching podcasts or user data:", error.message);
+      console.error("Error fetching podcasts:", error);
+      setNoPodcasts(true);
     } finally {
       setLoading(false);
-      setRefreshing(false); // Stop refreshing state after fetching data
+      setRefreshing(false);
     }
   };
 
-  // Pull-to-refresh handler
   const handleRefresh = () => {
     setRefreshing(true);
-    fetchPodcasts(); // Re-fetch podcasts on pull-to-refresh
+    setNoPodcasts(false);
+    fetchPodcasts();
   };
 
   useEffect(() => {
-    if (!user?.id) return;
     fetchPodcasts();
-  }, []);
+  }, [user]);
 
   if (loading && !refreshing) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -78,19 +71,17 @@ const MyUploadsWrapper = ({ isAnotherUserDetails }) => {
       keyExtractor={(podcast) => podcast.podcast_id.toString()}
       refreshControl={
         <RefreshControl
-          refreshing={refreshing} // Indicates if the list is refreshing
-          onRefresh={handleRefresh} // Function to call on pull-to-refresh
-          colors={["#1DB954"]} // Android spinner color
-          tintColor="#1DB954" // iOS spinner color
-          title="Refreshing Podcasts..." // iOS refresh text
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          colors={["#1DB954"]}
+          tintColor="#1DB954"
+          title="Refreshing Podcasts..."
           titleColor="#1DB954"
         />
       }
     />
   );
 };
-
-export default MyUploadsWrapper;
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -104,3 +95,5 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+
+export default MyUploadsWrapper;
