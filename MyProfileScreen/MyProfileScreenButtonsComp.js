@@ -26,11 +26,11 @@ const MyProfileScreenButtonsComp = () => {
 
   return (
     <View style={styles.buttonsWrapper}>
-      <Text>Uploads</Text>
+      <Text style={styles.uploadText}>Uploads</Text>
       <Pressable style={styles.buttons} onPress={handleSettingsClicked}>
         <Text>Settings</Text>
       </Pressable>
- 
+
       <Pressable style={styles.buttons} onPress={handleUploadPodcastPressed}>
         <Text>Upload Podcast</Text>
       </Pressable>
@@ -45,9 +45,13 @@ const styles = StyleSheet.create({
   buttonsWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "lightpink",
+    // backgroundColor: "lightpink",
     paddingHorizontal: "7%",
     alignItems: "center",
+  },
+  uploadText: {
+    color: "white",
+    fontWeight: "bold",
   },
   buttons: {
     padding: 3,
@@ -56,5 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
     marginVertical: 5,
+    backgroundColor: "#1DB954",
+    padding: 7,
   },
 });

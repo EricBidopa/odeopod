@@ -13,7 +13,7 @@ const PodcastItemHorizontalProfileComp = ({
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
 
   // Check subscription status when the component mounts
   useEffect(() => {
@@ -104,7 +104,7 @@ const PodcastItemHorizontalProfileComp = ({
           </Pressable>
         ) : (
           <Pressable style={styles.buttons} onPress={handleSubscribe}>
-            <Text>Subscribe</Text>
+            <Text style={styles.buttonText}>Subscribe</Text>
           </Pressable>
         ))}
     </View>
@@ -116,7 +116,7 @@ export default PodcastItemHorizontalProfileComp;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
     width: "100%",
     height: 80,
     marginVertical: 10,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   textsWrapper: {
     flexDirection: "column",
     width: "30%",
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
   },
   buttons: {
     padding: 8,
@@ -149,9 +149,10 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     flex: 1,
     marginHorizontal: 5,
+    backgroundColor: "#1DB954",
   },
   smallTexts: {
     fontSize: 12,
-    color: "gray",
+    color: "white",
   },
 });

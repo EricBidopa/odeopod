@@ -16,7 +16,7 @@ import { usePrivy } from "@privy-io/expo";
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
 
 const MyHorizontalProfileinfoComp = () => {
   const [showModal, setShowModal] = useState(false);
@@ -105,7 +105,7 @@ const MyHorizontalProfileinfoComp = () => {
 
       {/* Only show options menu for own profile */}
       <View style={styles.menuWrapperView}>
-        <Ionicons name="options" size={25} color="black" onPress={openModal} />
+        <Ionicons name="options" size={25} color="#1DB954" onPress={openModal} />
       </View>
 
       <MyProfileModal show={showModal} onClose={closeModal} />
@@ -118,13 +118,13 @@ export default MyHorizontalProfileinfoComp;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
     width: "100%",
     height: 130,
     marginBottom: 10,
   },
   profileImgView: {
-    backgroundColor: "lightblue",
+    // backgroundColor: "lightblue",
     width: 66,
     height: 66,
     overflow: "hidden",
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 33,
   },
   textsWrapperView: {
-    backgroundColor: "orange",
+    // backgroundColor: "orange",
     flex: 1,
     paddingLeft: 10,
     justifyContent: "space-between",
@@ -191,5 +191,6 @@ const styles = StyleSheet.create({
   channelName: {
     fontSize: 13,
     fontWeight: "bold",
+    color: "white"
   },
 });

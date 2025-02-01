@@ -11,7 +11,8 @@ import RectangularPodcastItem from "../components/RectangularPodcastItem";
 import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
 
 const MyUploadsWrapper = ({ isAnotherUserDetails }) => {
   const [allPodcastsByUser, setAllPodcastsByUser] = useState([]);
@@ -23,9 +24,11 @@ const MyUploadsWrapper = ({ isAnotherUserDetails }) => {
 
   const fetchPodcasts = async () => {
     if (!user?.id) return;
-    
+
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/v1/podcasts/${user.id}`);
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/podcasts/${user.id}`
+      );
       const podcasts = response.data;
       setAllPodcastsByUser(podcasts);
       setNoPodcasts(podcasts.length === 0);

@@ -65,11 +65,12 @@ export default RectangularPodcastItem;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "#282828",
+    // backgroundColor: "#282828",
     width: "100%",
     height: 100, // Set a specific height for the item
     marginBottom: 10, // Add some spacing between items
     elevation: 3, 
+    padding: "2%"
 
   },
   imageWrapperView: {
@@ -80,9 +81,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "cover",
+    borderRadius: 5
   },
   textsWrapperView: {
-    backgroundColor: "#057d61",
+    // backgroundColor: "#057d61",
     flex: 1,
     paddingLeft: 10,
     justifyContent: "space-between",

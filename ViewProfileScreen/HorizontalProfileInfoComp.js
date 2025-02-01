@@ -15,20 +15,16 @@ import ProfileModal from "./ProfileModal";
 import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 
-  const HorizontalProfileinfoComp = ({ isAnotherUserDetails }) => {
-    const [showModal, setShowModal] = useState(false);
+const HorizontalProfileinfoComp = ({ isAnotherUserDetails }) => {
+  const [showModal, setShowModal] = useState(false);
   const { isReady, user } = usePrivy();
   const [isSubscribed, setIsSubscribed] = useState(false);
 
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
-
-   
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
-    
-
-    const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.57.147:3001";
+  const API_BASE_URL =
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
 
   // Check subscription status when the component mounts
   useEffect(() => {
@@ -55,7 +51,6 @@ import { usePrivy } from "@privy-io/expo";
     checkSubscriptionStatus();
   }, [user.id, isAnotherUserDetails.userid]); // Dependencies ensure this runs whenever IDs change
 
-
   // const handleSubscribe = async () => {
   //   try {
   //     const response = await axios.post(
@@ -74,7 +69,6 @@ import { usePrivy } from "@privy-io/expo";
   //     );
   //   }
   // };
-
 
   // const handleUnsubscribe = async () => {
   //   try {
@@ -97,74 +91,60 @@ import { usePrivy } from "@privy-io/expo";
   //   }
   // };
 
-
-    return (
-      <View style={styles.wrapper}>
-        <View style={styles.profileImgView}>
-          <Image 
-            style={styles.profileImgeStyling} 
-            source={KanyeImg} 
-          />
-        </View>
-        <View style={styles.textsWrapperView}>
-          <View style={styles.channelNameAndUsername}>
-            <Text style={styles.channelName}>
-              {isAnotherUserDetails.userchannelname}
-            </Text>
-            <Text style={styles.smallTexts}>
-              @{isAnotherUserDetails.userusername}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.smallTexts}>10M Subscribers</Text>
-          </View>
-        { isSubscribed ? (
-            <Text>'Subscribed'</Text>
-          
-        ) : (
-            <Text>'Not Subscribed'</Text>
-        )}
-          <View>
-            <Text
-              style={styles.smallTexts}
-              numberOfLines={3}
-              ellipsizeMode="tail"
-            >
-              {isAnotherUserDetails.userchanneldescription}
-            </Text>
-          </View>
-        </View>
-        
-       
-          <View style={styles.menuWrapperView}>
-            <Ionicons 
-              name="options" 
-              size={25} 
-              color="black" 
-              onPress={openModal} 
-            />
-          </View>
-
-        
- 
-          <ProfileModal show={showModal} onClose={closeModal} />
-
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.profileImgView}>
+        <Image style={styles.profileImgeStyling} source={KanyeImg} />
       </View>
-    );
-  };
-  
+      <View style={styles.textsWrapperView}>
+        <View style={styles.channelNameAndUsername}>
+          <Text style={styles.channelName}>
+            {isAnotherUserDetails.userchannelname}
+          </Text>
+          <Text style={styles.smallTexts}>
+            @{isAnotherUserDetails.userusername}
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.smallTexts}>10M Subscribers</Text>
+        </View>
+        {isSubscribed ? (
+          <Text style={styles.channelName}>'Subscribed'</Text>
+        ) : (
+          <Text style={styles.channelName}>'Not Subscribed'</Text>
+        )}
+        <View>
+          <Text
+            style={styles.smallTexts}
+            numberOfLines={3}
+            ellipsizeMode="tail"
+          >
+            {isAnotherUserDetails.userchanneldescription}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.menuWrapperView}>
+        <Ionicons name="options" size={25} color="#1DB954" onPress={openModal} />
+      </View>
+
+      <ProfileModal show={showModal} onClose={closeModal} />
+    </View>
+  );
+};
+
 export default HorizontalProfileinfoComp;
 
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
     width: "100%",
     height: 130,
     marginBottom: 10,
   },
   profileImgView: {
-    backgroundColor: "lightblue",
+    // backgroundColor: "lightblue",
     width: 66,
     height: 66,
     overflow: "hidden",
@@ -175,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 33,
   },
   textsWrapperView: {
-    backgroundColor: "orange",
+    // backgroundColor: "orange",
     flex: 1,
     paddingLeft: 10,
     justifyContent: "space-between",
@@ -190,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "10%",
   },
-  
+
   buttons: {
     padding: 5,
     borderColor: "black",
@@ -208,15 +188,16 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
-    color: '#ff4444',
+    color: "#ff4444",
     fontSize: 14,
   },
   channelName: {
     fontSize: 13,
-    fontWeight: 'bold',
-  }
+    fontWeight: "bold",
+    color: "white"
+  },
 });

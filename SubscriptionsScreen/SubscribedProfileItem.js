@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 
-const SubscribedProfileItem = () => {
+const SubscribedProfileItem = ({ subscribedto = {} }) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.imgWrapperView}>
@@ -10,7 +10,7 @@ const SubscribedProfileItem = () => {
       </View>
       <View style={styles.textsView}>
         <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
-          Kanye West West
+          @{subscribedto.userusername || "kanyewest"}
         </Text>
       </View>
     </View>
@@ -37,9 +37,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 33, // Ensure the image itself is also circular
-    
   },
-  textsView:{
+  textsView: {
     width: 80,
   },
   username: {

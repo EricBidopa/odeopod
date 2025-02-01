@@ -134,7 +134,7 @@ const PodcastItemPage = () => {
             <Text style={styles.iconText}>{isPlaying ? "Pause" : "Play"}</Text>
           </Pressable>
           <Pressable style={styles.iconButton}>
-            <MaterialIcons name="share" size={30} color="#535353" />
+            <MaterialIcons name="share" size={30} color="#fff" />
             <Text style={styles.iconText}>Share</Text>
           </Pressable>
         </View>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   wrapper: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     flex: 1,
     flexDirection: "column",
     gap: 5,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   podcastTitleView: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
     alignContent: "center",
     alignItems: "center",
   },
@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 10,
     textAlign: "center",
+    color: "white"
   },
   progressContainer: {
     flexDirection: "row",
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 15,
     paddingHorizontal: 30,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderColor: "#e6e6e6",
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
   },
   iconText: {
     fontSize: 12,
-    color: "#535353",
+    color: "#fff",
     marginTop: 5,
   },
 });

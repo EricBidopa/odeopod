@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#121212",
   },
   coverImgView: {
-    backgroundColor: "blue",
+    // backgroundColor: "blue",
     width: "100%",
     height: "15%",
   },
