@@ -105,7 +105,12 @@ const MyHorizontalProfileinfoComp = () => {
 
       {/* Only show options menu for own profile */}
       <View style={styles.menuWrapperView}>
-        <Ionicons name="options" size={25} color="#1DB954" onPress={openModal} />
+        <Ionicons
+          name="options"
+          size={25}
+          color="#1DB954"
+          onPress={openModal}
+        />
       </View>
 
       <MyProfileModal show={showModal} onClose={closeModal} />
@@ -191,6 +196,6 @@ const styles = StyleSheet.create({
   channelName: {
     fontSize: 13,
     fontWeight: "bold",
-    color: "white"
+    color: "white",
   },
 });

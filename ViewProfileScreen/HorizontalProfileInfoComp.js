@@ -125,7 +125,12 @@ const HorizontalProfileinfoComp = ({ isAnotherUserDetails }) => {
       </View>
 
       <View style={styles.menuWrapperView}>
-        <Ionicons name="options" size={25} color="#1DB954" onPress={openModal} />
+        <Ionicons
+          name="options"
+          size={25}
+          color="#1DB954"
+          onPress={openModal}
+        />
       </View>
 
       <ProfileModal show={showModal} onClose={closeModal} />
@@ -198,6 +203,6 @@ const styles = StyleSheet.create({
   channelName: {
     fontSize: 13,
     fontWeight: "bold",
-    color: "white"
+    color: "white",
   },
 });
