@@ -10,11 +10,13 @@ import React, { useState, useEffect } from "react";
 import RectangularPodcastItem from "../components/RectangularPodcastItem";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
 import axios from "axios";
+import { usePrivy } from "@privy-io/expo";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
 
 const LatestFromSubscritionsWrapper = () => {
+  const { user } = usePrivy();
   const [allPodcasts, setAllPodcasts] = useState([]);
   const [noPodcasts, setNoPodcasts] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,7 @@ const LatestFromSubscritionsWrapper = () => {
   const fetchPodcasts = async () => {
     try {
       const podcastResponse = await axios.get(
-        `${API_BASE_URL}/api/v1/podcasts`
+        `${API_BASE_URL}/api/v1/subscriptions/${user.id}/podcastswithuserthatuploaded`
       );
       const podcasts = podcastResponse.data;
 

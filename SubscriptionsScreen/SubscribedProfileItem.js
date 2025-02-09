@@ -1,19 +1,32 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import KanyeImg from "../assets/KanyeCoverArt.jpg";
+import { useNavigation } from "@react-navigation/native";
 
-const SubscribedProfileItem = ({ subscribedto = {} }) => {
+import { usePrivy } from "@privy-io/expo";
+
+const SubscribedProfileItem = ({ podcastWithUserThatUploaded = {} }) => {
+
+  const navigation = useNavigation();
+  const { isReady, user } = usePrivy();
+
+  const handleProfileClicked = () => {
+    podcastWithUserThatUploaded?.userid !== user.id
+      ? navigation.navigate("ViewProfilePage", { podcastWithUserThatUploaded })
+      : navigation.navigate("Profile");
+  };
+
   return (
-    <View style={styles.wrapper}>
+      <Pressable onPress={handleProfileClicked} style={styles.wrapper}>
       <View style={styles.imgWrapperView}>
         <Image source={KanyeImg} style={styles.imageStyling} />
       </View>
       <View style={styles.textsView}>
         <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
-          @{subscribedto.userusername || "kanyewest"}
+          @{podcastWithUserThatUploaded.userusername || "kanyewest"}
         </Text>
       </View>
-    </View>
+      </Pressable>
   );
 };
 
@@ -21,29 +34,42 @@ export default SubscribedProfileItem;
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1, // Allows wrapper to take full available space
     flexDirection: "column",
-    alignItems: "center",
-    marginRight: 10,
-    backgroundColor: "pink",
+    alignItems: "center", // Centers items horizontally
+    justifyContent: "center", // Centers items vertically
+    marginRight: 12,
+    // backgroundColor: "pink",
+    paddingVertical: 10,
   },
   imgWrapperView: {
-    width: 66, // Set the size of the image wrapper
-    height: 66, // Set the size of the image wrapper
-    borderRadius: 33, // Make it circular (half of the width/height)
-    overflow: "hidden", // Ensure the image is clipped to the borderRadius
-    // backgroundColor: 'blue',
+    width: 66,
+    height: 66,
+    borderRadius: 33,
+    overflow: "hidden",
+    backgroundColor: "#333",
+    alignItems: "center",
+    justifyContent: "center",
   },
   imageStyling: {
     width: "100%",
     height: "100%",
-    borderRadius: 33, // Ensure the image itself is also circular
+    borderRadius: 33,
   },
   textsView: {
-    width: 80,
+    marginTop: 6, // Space between the image and the username
+    maxWidth: 90,
+    alignItems: "center",
+    justifyContent: "center",
   },
   username: {
-    marginTop: 3,
+    fontSize: 13,
+    fontWeight: "500",
+    color: "#EAEAEA",
     textAlign: "center",
-    fontSize: 12,
   },
 });
+
+
+
+

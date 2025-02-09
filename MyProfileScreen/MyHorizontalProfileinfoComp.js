@@ -16,7 +16,7 @@ import { usePrivy } from "@privy-io/expo";
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
 
 const MyHorizontalProfileinfoComp = () => {
   const [showModal, setShowModal] = useState(false);

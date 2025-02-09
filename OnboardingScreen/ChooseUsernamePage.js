@@ -17,7 +17,7 @@ const ChooseUsernamePage = ({ navigation }) => {
   const { user } = usePrivy();
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.18.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
 
   const handleCheckUsernameAvailabilityAndAddToDatabase = async () => {
     try {
