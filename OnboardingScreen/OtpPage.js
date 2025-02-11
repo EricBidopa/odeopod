@@ -82,9 +82,9 @@ const OtpPage = ({ route }) => {
               }}
             />
           </View>
-          <Text>{email.toLowerCase()}</Text>
+          <Text style={styles.subtext}>{email.toLowerCase()}</Text>
           <Pressable style={styles.buttons} onPress={handleVerifyBtnClicked}>
-            <Text>Verify Code</Text>
+            <Text style={styles.buttonText}>Verify Code</Text>
           </Pressable>
         </View>
       </View>
@@ -97,13 +97,13 @@ export default OtpPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: '#121212',
     paddingHorizontal: "10%",
     paddingTop: "12%",
     justifyContent: "center", // Center content vertically
   },
   wrapper: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: "bold",
+    color: "#1DB954",
     fontSize: 30,
     alignSelf: "center",
     marginBottom: "7%",
@@ -136,10 +137,16 @@ const styles = StyleSheet.create({
   },
   buttons: {
     padding: 17,
-    borderColor: "black",
+    borderColor: "#1DB954",
     borderWidth: 1,
     alignItems: "center",
     borderRadius: 10,
     marginVertical: 10,
   },
+  subtext: {
+    color: "white"
+  },
+  buttonText:{
+    color: "white"
+  }
 });

@@ -141,7 +141,7 @@ const OnboardingPage = () => {
             onPress={handleLogInBtnClicked}
             // disabled={state.status === "loading"}
           >
-            <Text>Sign Up / Log In</Text>
+            <Text style={styles.buttonText}>Sign Up / Log In</Text>
           </Pressable>
 
           {state.status === "error" && (
@@ -163,16 +163,19 @@ export default OnboardingPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: '#121212',
     paddingHorizontal: "10%",
     paddingTop: "12%",
+  
+
+
     // paddingBottom: "15%"
     // alignContent: "center",
     // // justifyContent: 'center',
   },
 
   wrapper: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     gap: 150,
     width: "100%",
     height: "100%",
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   InputAndButtonsWrapper: {
-    backgroundColor: "lightblue",
+    // backgroundColor: "lightblue",
     flexDirection: "column",
     // flex: 1,
     gap: 5,
@@ -209,16 +212,21 @@ const styles = StyleSheet.create({
     fontSize: 30,
     alignSelf: "center",
     marginBottom: "7%",
+    color: "#1DB954"
   },
   subtext: {
     fontSize: 15,
+    color: "white"
   },
   buttons: {
     padding: 17,
-    borderColor: "black",
+    borderColor: "#1DB954",
     borderWidth: 1,
     alignItems: "center",
     borderRadius: 10,
     marginVertical: 10,
   },
+  buttonText:{
+    color: "white"
+  }
 });

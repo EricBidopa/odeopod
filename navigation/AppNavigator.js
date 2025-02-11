@@ -137,7 +137,9 @@ export default function AppNavigator() {
           options={{
             title: null,
             headerTitleAlign: "center",
-            headerStyle: { backgroundColor: "white" },
+            headerStyle: { backgroundColor: '#121212' }, 
+            headerTintColor: 'white',  
+            headerTitleStyle: { color: 'white' },
           }}
         />
         <Stack.Screen

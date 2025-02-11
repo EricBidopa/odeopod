@@ -167,14 +167,14 @@ const SettingsPage = () => {
                 }
               />
             </View>
-            {isFormEditable ? (
+            {/* {isFormEditable ? (
               <Pressable
                 onPress={() => pickImage(setCoverImage)}
                 style={styles.changeButtons}
               >
                 <Text style={styles.changeText}>Change Cover Photo</Text>
               </Pressable>
-            ) : null}
+            ) : null} */}
           </View>
 
           <View style={styles.profileWrapper}>
@@ -188,14 +188,14 @@ const SettingsPage = () => {
                 }
               />
             </View>
-            {isFormEditable ? (
+            {/* {isFormEditable ? (
               <Pressable
                 onPress={() => pickImage(setProfileImage)}
                 style={styles.changeButtons}
               >
                 <Text style={styles.changeText}>Change Profile Photo</Text>
               </Pressable>
-            ) : null}
+            ) : null} */}
           </View>
 
           <View style={styles.fieldWrapper}>
@@ -259,7 +259,7 @@ export default SettingsPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lightblue",
+    backgroundColor: '#121212',
   },
   scrollContainer: {
     paddingHorizontal: "5%",
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "column",
     gap: 10,
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     padding: 20,
     borderRadius: 10,
   },
@@ -318,6 +318,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
+    color: "white"
   },
   staticText: {
     fontSize: 16,
@@ -346,7 +347,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 7,
     borderRadius: 5,
-    backgroundColor: "lightblue",
+    backgroundColor: "#1DB954",
   },
   editBtn: {
     alignItems: "center",

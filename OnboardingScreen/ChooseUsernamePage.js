@@ -106,7 +106,7 @@ const ChooseUsernamePage = ({ navigation }) => {
           <Feather
             name="at-sign"
             size={20}
-            color={isFocused ? "blue" : "gray"}
+            color={isFocused ? "#1DB954" : "gray"}
             style={styles.atIcon}
           />
           <TextInput
@@ -133,7 +133,7 @@ const ChooseUsernamePage = ({ navigation }) => {
           onPress={handleCheckUsernameAvailabilityAndAddToDatabase}
           disabled={loading}
         >
-          <Text> {loading ? "loading.." : "Continue"}</Text>
+          <Text style={styles.buttonText}> {loading ? "loading.." : "Continue"}</Text>
         </Pressable>
       </View>
     </View>
@@ -145,13 +145,13 @@ export default ChooseUsernamePage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: '#121212',
     paddingHorizontal: "10%",
     paddingTop: "12%",
     justifyContent: "center", // Center content vertically
   },
   wrapper: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     alignSelf: "center",
     marginBottom: "7%",
+    color: "#1DB954"
   },
   searchContainer: {
     flexDirection: "row",
@@ -185,12 +186,19 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
   },
+  subtext: {
+    fontSize: 15,
+    color: "white"
+  },
   buttons: {
     padding: 17,
-    borderColor: "black",
+    borderColor: "#1DB954",
     borderWidth: 1,
     alignItems: "center",
     borderRadius: 10,
     marginVertical: 10,
   },
+  buttonText:{
+    color: "white"
+  }
 });
