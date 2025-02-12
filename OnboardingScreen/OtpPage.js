@@ -33,7 +33,7 @@ const OtpPage = ({ route }) => {
     }
   };
 
-  const { loginWithCode } = useLoginWithEmail({
+  const { state, loginWithCode } = useLoginWithEmail({
     onLoginSuccess(user, isNewUser) {
       if (isNewUser) {
         const userData = {
@@ -83,7 +83,18 @@ const OtpPage = ({ route }) => {
             />
           </View>
           <Text style={styles.subtext}>{email.toLowerCase()}</Text>
-          <Pressable style={styles.buttons} onPress={handleVerifyBtnClicked}>
+          {state.status === "submitting-code" && (
+            // Shows only while the login is being attempted
+            <Text style={styles.statetext}>Logging in...</Text>
+          )}
+          <Pressable
+            style={({ pressed }) => [
+              styles.buttons,
+              pressed && styles.buttonPressed,
+            ]}
+            disabled={state.status !== "awaiting-code-input"}
+            onPress={handleVerifyBtnClicked}
+          >
             <Text style={styles.buttonText}>Verify Code</Text>
           </Pressable>
         </View>
@@ -97,7 +108,7 @@ export default OtpPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: "#121212",
     paddingHorizontal: "10%",
     paddingTop: "12%",
     justifyContent: "center", // Center content vertically
@@ -144,9 +155,16 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   subtext: {
-    color: "white"
+    color: "white",
   },
-  buttonText:{
+  buttonPressed: {
+    backgroundColor: "#1DB954",
+    opacity: 0.7,
+  },
+  buttonText: {
+    color: "white",
+  },
+  statetext:{
     color: "white"
   }
 });

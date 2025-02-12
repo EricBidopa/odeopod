@@ -24,61 +24,55 @@ const OnboardingPage = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [email, setEmail] = useState("");
 
-  // React.useEffect(() => {
-  //   if (user) {
-  //     navigation.navigate("HomePage");
-  //   }
-  // }, [user]);
-
   const API_BASE_URL =
     process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
 
-  const saveUserToDatabase = async (userData) => {
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/v1/users`,
-        userData
-      );
-      console.log("New User Added:", response.data);
-    } catch (error) {
-      console.error("Error Adding user:", error);
-    }
-  };
+  // const saveUserToDatabase = async (userData) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${API_BASE_URL}/api/v1/users`,
+  //       userData
+  //     );
+  //     console.log("New User Added:", response.data);
+  //   } catch (error) {
+  //     console.error("Error Adding user:", error);
+  //   }
+  // };
 
-  const { login, state } = useLoginWithOAuth({
-    onSuccess(user, isNewUser) {
-      if (isNewUser) {
-        const userData = {
-          userId: user.id,
-          userEmail: user.linked_accounts[0].email,
-          userUsername: "",
-          userChannelName: user.linked_accounts[0].name,
-          userChannelDescription: "",
-          userProfileImgUrl: "",
-          userChannelCoverImgUrl: "",
-          userWalletAddress: "",
-          userSubscriptions: [],
-          userNumberOfSubscribers: 0,
-        };
-        saveUserToDatabase(userData);
+  // const { login, state } = useLoginWithOAuth({
+  //   onSuccess(user, isNewUser) {
+  //     if (isNewUser) {
+  //       const userData = {
+  //         userId: user.id,
+  //         userEmail: user.linked_accounts[0].email,
+  //         userUsername: "",
+  //         userChannelName: user.linked_accounts[0].name,
+  //         userChannelDescription: "",
+  //         userProfileImgUrl: "",
+  //         userChannelCoverImgUrl: "",
+  //         userWalletAddress: "",
+  //         userSubscriptions: [],
+  //         userNumberOfSubscribers: 0,
+  //       };
+  //       saveUserToDatabase(userData);
 
-        navigation.navigate("ChooseUsernamePage");
-      }
-      if (!isNewUser) {
-        navigation.navigate("HomePage");
-      }
-    },
+  //       navigation.navigate("ChooseUsernamePage");
+  //     }
+  //     if (!isNewUser) {
+  //       navigation.navigate("HomePage");
+  //     }
+  //   },
 
-    onError(error) {
-      console.log("Error signing in", error);
-    },
-  });
+  //   onError(error) {
+  //     console.log("Error signing in", error);
+  //   },
+  // });
 
   // const handleLoginWithGoogle = () => {
   //   login({ provider: "google" });
   // };
 
-  const { sendCode } = useLoginWithEmail({
+  const { state, sendCode, loginWithCode } = useLoginWithEmail({
     onSendCodeSuccess({ email }) {
       navigation.navigate("OtpPage", { email });
 
@@ -135,9 +129,16 @@ const OnboardingPage = () => {
           </View>
 
           {/* extracted part ends */}
-
+          {state.status === "sending-code" && (
+            //  Shows only while the code is sending
+            <Text style={styles.statetext}>Sending Code...</Text>
+          )}
           <Pressable
-            style={styles.buttons}
+            style={({ pressed }) => [
+              styles.buttons,
+              pressed && styles.buttonPressed,
+            ]}
+            disabled={state.status === "sending-code"}
             onPress={handleLogInBtnClicked}
             // disabled={state.status === "loading"}
           >
@@ -147,7 +148,7 @@ const OnboardingPage = () => {
           {state.status === "error" && (
             <>
               <Text style={{ color: "red" }}>
-                There was an error. Try again
+                There was an error. Input email and Try again
               </Text>
               <Text style={{ color: "lightred" }}>{state.error.message}</Text>
             </>
@@ -163,11 +164,9 @@ export default OnboardingPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: "#121212",
     paddingHorizontal: "10%",
     paddingTop: "12%",
-  
-
 
     // paddingBottom: "15%"
     // alignContent: "center",
@@ -212,11 +211,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     alignSelf: "center",
     marginBottom: "7%",
-    color: "#1DB954"
+    color: "#1DB954",
   },
   subtext: {
     fontSize: 15,
-    color: "white"
+    color: "white",
   },
   buttons: {
     padding: 17,
@@ -226,7 +225,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
   },
-  buttonText:{
-    color: "white"
-  }
+  buttonPressed: {
+    backgroundColor: "#1DB954",
+    opacity: 0.7,
+  },
+
+  buttonText: {
+    color: "white",
+  },
+  statetext: {
+    color: "white",
+  },
 });

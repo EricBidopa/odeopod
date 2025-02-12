@@ -129,11 +129,17 @@ const ChooseUsernamePage = ({ navigation }) => {
         <SuccessMessage message={successMessage} />
 
         <Pressable
-          style={styles.buttons}
+          style={({ pressed }) => [
+            styles.buttons,
+            pressed && styles.buttonPressed,
+          ]}
           onPress={handleCheckUsernameAvailabilityAndAddToDatabase}
           disabled={loading}
         >
-          <Text style={styles.buttonText}> {loading ? "loading.." : "Continue"}</Text>
+          <Text style={styles.buttonText}>
+            {" "}
+            {loading ? "loading.." : "Continue"}
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -145,7 +151,7 @@ export default ChooseUsernamePage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: "#121212",
     paddingHorizontal: "10%",
     paddingTop: "12%",
     justifyContent: "center", // Center content vertically
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     alignSelf: "center",
     marginBottom: "7%",
-    color: "#1DB954"
+    color: "#1DB954",
   },
   searchContainer: {
     flexDirection: "row",
@@ -188,7 +194,7 @@ const styles = StyleSheet.create({
   },
   subtext: {
     fontSize: 15,
-    color: "white"
+    color: "white",
   },
   buttons: {
     padding: 17,
@@ -198,7 +204,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
   },
-  buttonText:{
-    color: "white"
-  }
+  buttonPressed: {
+    backgroundColor: "#1DB954",
+    opacity: 0.7,
+  },
+
+  buttonText: {
+    color: "white",
+  },
 });
