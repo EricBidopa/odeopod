@@ -16,7 +16,7 @@ const HomePage = () => {
       <Pressable style={styles.buttons}><Text>MUSIC</Text></Pressable>
 
      </View> */}
-     <Text style={styles.headingText}>Excellent Podcasts for you</Text>
+     <Text style={styles.headingText}>Excellent Odeos (Podcast and ASMR) for you:</Text>
      <SquarePodcastsWrapper />
     </View>
         </View>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     display: 'flex',
     flexDirection: 'column',
-    gap: 10,
+    gap: 1,
     flex: 1,
   },
   headingText:{
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   wrapper:{
     backgroundColor: '#121212',
-    gap: 10,
+    gap: 15,
     width: '100%',
     height: '100%'
   },

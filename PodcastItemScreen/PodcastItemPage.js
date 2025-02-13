@@ -13,7 +13,7 @@ import StreamDateDesComp from "./StreamDateDesComp";
 import OrdersWrapper from "../OrdersScreen/OrdersWrapper";
 import { useRoute } from "@react-navigation/native";
 import { Audio } from "expo-av";
-import { ActivityIndicator, ToastAndroid } from "react-native";
+import { ActivityIndicator, ToastAndroid } from "react-native"; 
 import LoadingAnimation from "../components/LoadingAnimation";
 // import { usePrivy } from "@privy-io/expo";
 
@@ -162,7 +162,7 @@ const PodcastItemPage = () => {
             onPress={isPlaying ? pausePodcast : playPodcast}
           >
             {loading ? (
-              <LoadingAnimation />
+              <ActivityIndicator size="large" color="#1DB954" />
             ) : (
               <Ionicons
                 name={isPlaying ? "pause-circle" : "play-circle"}
@@ -174,7 +174,7 @@ const PodcastItemPage = () => {
               {loading ? "Loading..." : isPlaying ? "Pause" : "Play"}
             </Text>
           </Pressable>
-
+          
           <Pressable style={styles.iconButton}>
             <MaterialIcons name="share" size={30} color="#fff" />
             <Text style={styles.iconText}>Share</Text>

@@ -7,8 +7,8 @@ const SubscriptionsPage = () => {
   return (
     <View style={styles.container}>
       <SubscribedProfilesWrapper />
-      <View style={styles.latestfromSubscritionsText}>
-        <Text>Latest From Your Subcriptions</Text>
+      <View style={styles.latestfromSubscritionsTextView}>
+        <Text style={styles.latestfromsubtext}>Odeos From Creators You Follow:</Text>
       </View>
       <LatestFromSubscritionsWrapper />
     </View>
@@ -25,8 +25,12 @@ const styles = StyleSheet.create({
         gap: 15,
         backgroundColor: "#121212"
     },
-  latestfromSubscritionsText: {
+  latestfromSubscritionsTextView: {
     paddingLeft: 10,
-    backgroundColor: "#fffef2",
+    // backgroundColor: "#1DB954",
   },
+  latestfromsubtext:{
+    fontWeight: "bold",
+    color: "white"
+  }
 });

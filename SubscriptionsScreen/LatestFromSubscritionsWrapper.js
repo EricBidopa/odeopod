@@ -55,7 +55,7 @@ const LatestFromSubscritionsWrapper = () => {
   }, []);
 
   if (loading && !refreshing) {
-    return <LoadingAnimation />;
+    return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
   if (noPodcasts) {

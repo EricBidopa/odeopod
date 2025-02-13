@@ -102,8 +102,8 @@ const OnboardingPage = () => {
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>
           <Text style={styles.subtext}>
-            Millions of songs and Podcasts! Invest in your favorite artists on
-            OdeoPod!
+            Millions of Podcasts and ASMR! Earn and Invest in your favorite creator on
+            OdeoPod! 
           </Text>
         </View>
         <View style={styles.InputAndButtonsWrapper}>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   searchContainerFocused: {
-    borderColor: "black", // Focused border color
+    borderColor: "#1DB954", // Focused border color
     borderWidth: 1.5,
   },
   searchInput: {
@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
   buttons: {
     padding: 17,
     borderColor: "#1DB954",
+    backgroundColor:"#1DB954",
     borderWidth: 1,
     alignItems: "center",
     borderRadius: 10,

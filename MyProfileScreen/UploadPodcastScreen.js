@@ -247,13 +247,15 @@ const UploadPodcastScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView contentContainerStyle={styles.content}>
-          <Text style={styles.title}>Upload New Podcast</Text>
+          <Text style={styles.title}>Upload New Odeo</Text>
 
           {/* Audio File Picker */}
           <Pressable onPress={handleFilePick} style={styles.filePicker}>
-            <Ionicons name="cloud-upload" size={50} color="#555" />
+            <Ionicons name="cloud-upload" size={50} color="#1DB954" />
             <Text style={styles.fileText}>
-              {selectedFile ? selectedFile.name : "Tap to upload podcast audio"}
+              {selectedFile
+                ? selectedFile.name
+                : "Tap to upload a podcast or ASMR audio"}
             </Text>
           </Pressable>
 
@@ -273,7 +275,7 @@ const UploadPodcastScreen = () => {
               onPress={pickImage}
               style={[styles.imageButton, { marginTop: 10 }]}
             >
-              <Text style={styles.buttonText}>
+              <Text style={styles.uploadimgbuttonText}>
                 {podcastCoverImg ? "Change Cover Image" : "Choose Cover Image"}
               </Text>
             </Pressable>
@@ -282,7 +284,7 @@ const UploadPodcastScreen = () => {
           {/* Title Input */}
           <TextInput
             style={styles.input}
-            placeholder="Podcast Title"
+            placeholder="Odeo Title"
             value={podcastTitle}
             onChangeText={setPodcastTitle}
           />
@@ -290,7 +292,7 @@ const UploadPodcastScreen = () => {
           {/* Description Input */}
           <TextInput
             style={[styles.input, styles.textArea]}
-            placeholder="Podcast Description"
+            placeholder="Odeo Description"
             multiline
             value={podcastDescription}
             onChangeText={setPodcastDescription}
@@ -298,12 +300,15 @@ const UploadPodcastScreen = () => {
 
           {/* Upload Button */}
           <Pressable
-            style={styles.uploadButton}
+            style={({ pressed }) => [
+              styles.uploadButton,
+              pressed && styles.buttonPressed,
+            ]}
             onPress={handleSavePodcastToDatabase}
             disabled={loading}
           >
             <Text style={styles.buttonText}>
-              {loading ? "Uploading..." : "Upload Podcast"}
+              {loading ? "Uploading..." : "Upload New Odeo Now!"}
             </Text>
           </Pressable>
         </ScrollView>
@@ -315,7 +320,7 @@ const UploadPodcastScreen = () => {
 export default UploadPodcastScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f9f9f9" },
+  container: { flex: 1, backgroundColor: "#F2F0E9" },
   content: { padding: 20, alignItems: "center" },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
   filePicker: { alignItems: "center", marginBottom: 20 },
@@ -323,12 +328,14 @@ const styles = StyleSheet.create({
   imageSection: { alignItems: "center", marginVertical: 10 },
   coverImage: { width: 200, height: 150, borderRadius: 10 },
   imageButton: {
-    marginTop: 10,
+    padding: 10,
+    borderColor: "#1DB954",
     borderWidth: 1,
-    borderColor: "#333",
-    padding: 5,
+    alignItems: "center",
+    borderRadius: 10,
+    marginVertical: 10,
   },
-  imageText: { color: "blue" },
+  uploadimgbuttonText: { color: "black" },
   imageContainer: {
     alignItems: "center",
     marginVertical: 10,
@@ -345,13 +352,18 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 10,
+    borderRadius: 10,
   },
   textArea: { height: 100, textAlignVertical: "top" },
   uploadButton: {
-    backgroundColor: "#007BFF",
-    padding: 12,
-    borderRadius: 5,
+    backgroundColor: "#1DB954",
+    padding: 10,
+    borderRadius: 10,
     width: "100%",
+  },
+  buttonPressed: {
+    backgroundColor: "#1DB954",
+    opacity: 0.7,
   },
   buttonText: {
     color: "#fff",

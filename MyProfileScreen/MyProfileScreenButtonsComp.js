@@ -54,13 +54,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   buttons: {
-    padding: 3,
     borderColor: "black",
     borderWidth: 0.5,
     alignItems: "center",
     borderRadius: 5,
     marginVertical: 5,
     backgroundColor: "#1DB954",
-    padding: 7,
+    padding: 6,
   },
 });

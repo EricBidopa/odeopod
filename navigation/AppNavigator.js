@@ -220,7 +220,7 @@ export default function AppNavigator() {
           component={UploadPodcastScreen}
           options={{ 
             headerShown: true, 
-            title: "Upload New Podcast", 
+            title: false, 
             headerStyle: { backgroundColor: '#121212' }, 
             headerTintColor: 'white',  
             headerTitleStyle: { color: 'white' },

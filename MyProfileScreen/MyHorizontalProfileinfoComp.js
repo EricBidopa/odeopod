@@ -69,7 +69,7 @@ const MyHorizontalProfileinfoComp = () => {
   const closeModal = () => setShowModal(false);
 
   if (loading) {
-    return <LoadingAnimation />;
+    return <ActivityIndicator size="large" color="#1DB954" />;
   }
 
   if (error) {
