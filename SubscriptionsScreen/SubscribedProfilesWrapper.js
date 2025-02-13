@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { usePrivy } from "@privy-io/expo";
 import SubscribedProfileItem from "./SubscribedProfileItem";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 const API_BASE_URL =
   process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
@@ -58,7 +59,7 @@ const SubscribedProfilesWrapper = () => {
   }, []);
 
   if (loading && !refreshing) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <LoadingAnimation />;
   }
 
   if (noProfiles) {

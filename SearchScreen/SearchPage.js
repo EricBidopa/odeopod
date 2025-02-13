@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import RectangularPodcastItem from "../components/RectangularPodcastItem";
 import SquarePodcastItem from "../components/SquarePodcastItem";
 import axios from "axios";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 const API_BASE_URL =
   process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
@@ -75,7 +76,7 @@ const SearchPage = () => {
 
   const renderContent = () => {
     if (loading || loadingPodcasts) {
-      return <ActivityIndicator size="large" color="#1DB954" />;
+      return <LoadingAnimation />;
     }
 
     if (error) {

@@ -14,6 +14,7 @@ import MyProfileModal from "./MyProfileModal";
 import { useEffect } from "react";
 import { usePrivy } from "@privy-io/expo";
 import axios from "axios";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 const API_BASE_URL =
   process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
@@ -68,7 +69,7 @@ const MyHorizontalProfileinfoComp = () => {
   const closeModal = () => setShowModal(false);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#1DB954" />;
+    return <LoadingAnimation />;
   }
 
   if (error) {
