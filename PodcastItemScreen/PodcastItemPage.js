@@ -13,6 +13,7 @@ import StreamDateDesComp from "./StreamDateDesComp";
 import OrdersWrapper from "../OrdersScreen/OrdersWrapper";
 import { useRoute } from "@react-navigation/native";
 import { Audio } from "expo-av";
+import { ActivityIndicator, ToastAndroid } from "react-native"; 
 // import { usePrivy } from "@privy-io/expo";
 
 const PodcastItemPage = () => {
@@ -20,43 +21,73 @@ const PodcastItemPage = () => {
   const [isPlaying, setIsPlaying] = useState(false); // To track playback state
   const [sound, setSound] = useState(null); // To hold the sound object
   const [playbackStatus, setPlaybackStatus] = useState(null); // Playback details
-  const [disableBtn, setDisableBtn] = useState(false)
+  const [disableBtn, setDisableBtn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Access the route and its parameters
   const route = useRoute();
   const { podcastWithUserThatUploaded = {} } = route.params;
 
+  const playPodcast = async () => {
+    setLoading(true);
+    setDisableBtn(true);
+    console.log("Fetching podcast...");
+
+    try {
+      if (sound) {
+        await sound.playAsync();
+        setIsPlaying(true);
+      } else {
+        const { sound: newSound } = await Audio.Sound.createAsync(
+          { uri: podcastWithUserThatUploaded.podcast_downloadurl },
+          { shouldPlay: true }
+        );
+        setSound(newSound);
+        setIsPlaying(true);
+
+        newSound.setOnPlaybackStatusUpdate((status) =>
+          setPlaybackStatus(status)
+        );
+      }
+    } catch (error) {
+      console.error("Error playing podcast:", error);
+      ToastAndroid.show("Failed to load podcast", ToastAndroid.SHORT);
+    }
+
+    setLoading(false);
+    setDisableBtn(false);
+  };
 
   // Function to play the podcast
-  const playPodcast = async () => {
-    setDisableBtn(true)
-    console.log("play on")
-    if (sound) {
-      await sound.playAsync();
-      setIsPlaying(true);
-    } else {
-      const { sound: newSound } = await Audio.Sound.createAsync(
-        { uri: podcastWithUserThatUploaded.podcast_downloadurl },
-        { shouldPlay: true }
-      );
-      setSound(newSound);
-      setIsPlaying(true);
+  // const playPodcast = async () => {
+  //   setDisableBtn(true)
+  //   console.log("play on")
+  //   if (sound) {
+  //     await sound.playAsync();
+  //     setIsPlaying(true);
+  //   } else {
+  //     const { sound: newSound } = await Audio.Sound.createAsync(
+  //       { uri: podcastWithUserThatUploaded.podcast_downloadurl },
+  //       { shouldPlay: true }
+  //     );
+  //     setSound(newSound);
+  //     setIsPlaying(true);
 
-      // Set up playback status listener
-      newSound.setOnPlaybackStatusUpdate((status) => setPlaybackStatus(status));
-    }
-    setDisableBtn(false)
+  //     // Set up playback status listener
+  //     newSound.setOnPlaybackStatusUpdate((status) => setPlaybackStatus(status));
+  //   }
+  //   setDisableBtn(false)
 
-  };
+  // };
 
   // Function to pause the podcast
   const pausePodcast = async () => {
-    setDisableBtn(true)
+    setDisableBtn(true);
     if (sound) {
       await sound.pauseAsync();
       setIsPlaying(false);
     }
-    setDisableBtn(false)
+    setDisableBtn(false);
   };
 
   // Cleanup sound object on unmount
@@ -80,7 +111,9 @@ const PodcastItemPage = () => {
   const getProgress = () => {
     if (!playbackStatus?.durationMillis || !playbackStatus?.positionMillis)
       return 0;
-    return (playbackStatus.positionMillis / playbackStatus.durationMillis) * 100;
+    return (
+      (playbackStatus.positionMillis / playbackStatus.durationMillis) * 100
+    );
   };
 
   return (
@@ -96,7 +129,11 @@ const PodcastItemPage = () => {
 
         {/* Podcast Title */}
         <View style={styles.podcastTitleView}>
-          <Text style={styles.podcastTitleText} numberOfLines={4} ellipsizeMode="tail">
+          <Text
+            style={styles.podcastTitleText}
+            numberOfLines={4}
+            ellipsizeMode="tail"
+          >
             {podcastWithUserThatUploaded.podcast_title}
           </Text>
         </View>
@@ -108,10 +145,7 @@ const PodcastItemPage = () => {
           </Text>
           <View style={styles.progressBar}>
             <View
-              style={[
-                styles.progressFill,
-                { width: `${getProgress()}%` },
-              ]}
+              style={[styles.progressFill, { width: `${getProgress()}%` }]}
             />
           </View>
           <Text style={styles.timeText}>
@@ -122,17 +156,24 @@ const PodcastItemPage = () => {
         {/* Play and Share Icons */}
         <View style={styles.iconsWrapper}>
           <Pressable
-          // disabled={disableBtn}
+            disabled={loading || disableBtn} // Disable when loading
             style={styles.iconButton}
             onPress={isPlaying ? pausePodcast : playPodcast}
           >
-            <Ionicons
-              name={isPlaying ? "pause-circle" : "play-circle"}
-              size={60}
-              color="#1DB954"
-            />
-            <Text style={styles.iconText}>{isPlaying ? "Pause" : "Play"}</Text>
+            {loading ? (
+              <ActivityIndicator size="large" color="#1DB954" />
+            ) : (
+              <Ionicons
+                name={isPlaying ? "pause-circle" : "play-circle"}
+                size={60}
+                color={disableBtn ? "#555" : "#1DB954"}
+              />
+            )}
+            <Text style={styles.iconText}>
+              {loading ? "Loading..." : isPlaying ? "Pause" : "Play"}
+            </Text>
           </Pressable>
+          
           <Pressable style={styles.iconButton}>
             <MaterialIcons name="share" size={30} color="#fff" />
             <Text style={styles.iconText}>Share</Text>
@@ -140,7 +181,9 @@ const PodcastItemPage = () => {
         </View>
 
         {/* User Information */}
-        <PodcastItemHorizontalProfileComp podcastWithUserThatUploaded={podcastWithUserThatUploaded} />
+        <PodcastItemHorizontalProfileComp
+          podcastWithUserThatUploaded={podcastWithUserThatUploaded}
+        />
 
         {/* Stream Details */}
         <StreamDateDesComp />
@@ -190,7 +233,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 10,
     textAlign: "center",
-    color: "white"
+    color: "white",
   },
   progressContainer: {
     flexDirection: "row",
