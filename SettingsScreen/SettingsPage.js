@@ -33,6 +33,7 @@ const SettingsPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const[logoutLoading, setLogoutLoading] = useState(false);
   const { isReady, user, logout } = usePrivy();
   const navigation = useNavigation();
 
@@ -42,7 +43,7 @@ const SettingsPage = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.242.147:3001/api/v1/users/${user.id}`
+          `http://192.168.89.147:3001/api/v1/users/${user.id}`
         );
         const userData = response.data;
         console.log(userData);
@@ -70,7 +71,7 @@ const SettingsPage = () => {
       setErrorMessage(" ");
       setSuccessMessage(" ");
       const response = await axios.patch(
-        `http://192.168.242.147:3001/api/v1/users/${user.id}`,
+        `http://192.168.89.147:3001/api/v1/users/${user.id}`,
         {
           userChannelName,
           userChannelDescription,
@@ -99,7 +100,9 @@ const SettingsPage = () => {
           text: "Logout",
           onPress: async () => {
             try {
+              setLogoutLoading(true);
               await logout();
+              setLogoutLoading(false);
               navigation.reset({
                 index: 0,
                 routes: [{ name: "OnboardingPage" }],
@@ -107,6 +110,7 @@ const SettingsPage = () => {
               console.log("Successfully Logged out");
             } catch (error) {
               console.error("Error during logout:", error);
+              setLogoutLoading(false);
             }
           },
         },
@@ -242,8 +246,15 @@ const SettingsPage = () => {
               </Pressable>
             ) : null}
           </View>
-          <Pressable style={styles.logoutBtn} onPress={handleLogoutBtnClicked}>
-            <Text>Logout</Text>
+          <Pressable
+            disabled={logoutLoading}
+            style={({ pressed }) => [
+              styles.logoutBtn,
+              pressed && styles.logoutBtnPressed,
+            ]}
+            onPress={handleLogoutBtnClicked}
+          >
+            <Text>{logoutLoading ? "Logging out...": "Logout"}</Text>
           </Pressable>
           <Pressable style={styles.deleteAccntBtn}>
             <Text>Delete Account</Text>
@@ -259,7 +270,7 @@ export default SettingsPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: "#121212",
   },
   scrollContainer: {
     paddingHorizontal: "5%",
@@ -318,7 +329,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "white"
+    color: "white",
   },
   staticText: {
     fontSize: 16,
@@ -342,6 +353,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 7,
     borderRadius: 5,
+  },
+  logoutBtnPressed: {
+    backgroundColor: "#red",
+    opacity: 0.7,
   },
   saveBtn: {
     alignItems: "center",

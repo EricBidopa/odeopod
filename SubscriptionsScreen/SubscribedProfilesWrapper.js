@@ -13,7 +13,7 @@ import SubscribedProfileItem from "./SubscribedProfileItem";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.89.147:3001";
 
 const SubscribedProfilesWrapper = () => {
   const { user } = usePrivy();
@@ -74,27 +74,27 @@ const SubscribedProfilesWrapper = () => {
 
   return (
     <View>
-    <FlatList
-      data={subscribedProfiles}
-      renderItem={({ item }) => (
-        <SubscribedProfileItem podcastWithUserThatUploaded={item} />
-      )}
-      keyExtractor={(profile) => profile.userid} // Using user_id instead of podcast_id
-      horizontal={true} // Enable horizontal scrolling
-      showsHorizontalScrollIndicator={false} // Hide scroll indicator for better UI
-      contentContainerStyle={styles.listContainer}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-          colors={["#1DB954"]}
-          tintColor="#1DB954"
-          title="Refreshing Profiles..."
-          titleColor="#1DB954"
-        />
-      }
-    />
-     </View>
+      <FlatList
+        data={subscribedProfiles}
+        renderItem={({ item }) => (
+          <SubscribedProfileItem podcastWithUserThatUploaded={item} />
+        )}
+        keyExtractor={(profile) => profile.userid} // Using user_id instead of podcast_id
+        horizontal={true} // Enable horizontal scrolling
+        showsHorizontalScrollIndicator={false} // Hide scroll indicator for better UI
+        contentContainerStyle={styles.listContainer}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={["#1DB954"]}
+            tintColor="#1DB954"
+            title="Refreshing Profiles..."
+            titleColor="#1DB954"
+          />
+        }
+      />
+    </View>
   );
 };
 
@@ -107,6 +107,6 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow"
   },
   // container: {
-  //   height: "20%", 
+  //   height: "20%",
   // },
 });

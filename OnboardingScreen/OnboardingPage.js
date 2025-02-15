@@ -25,7 +25,7 @@ const OnboardingPage = () => {
   const [email, setEmail] = useState("");
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.89.147:3001";
 
   // const saveUserToDatabase = async (userData) => {
   //   try {
@@ -102,8 +102,8 @@ const OnboardingPage = () => {
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>
           <Text style={styles.subtext}>
-            Millions of Podcasts and ASMR! Earn and Invest in your favorite creator on
-            OdeoPod! 
+            Millions of Podcasts and ASMR! Earn and Invest in your favorite
+            creator on OdeoPod!
           </Text>
         </View>
         <View style={styles.InputAndButtonsWrapper}>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   buttons: {
     padding: 17,
     borderColor: "#1DB954",
-    backgroundColor:"#1DB954",
+    backgroundColor: "#1DB954",
     borderWidth: 1,
     alignItems: "center",
     borderRadius: 10,

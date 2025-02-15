@@ -14,7 +14,7 @@ import { usePrivy } from "@privy-io/expo";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.242.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.89.147:3001";
 
 const LatestFromSubscritionsWrapper = () => {
   const { user } = usePrivy();
