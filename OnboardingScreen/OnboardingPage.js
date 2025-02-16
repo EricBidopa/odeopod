@@ -25,7 +25,7 @@ const OnboardingPage = () => {
   const [email, setEmail] = useState("");
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.89.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.241.147:3001";
 
   // const saveUserToDatabase = async (userData) => {
   //   try {

@@ -33,7 +33,7 @@ const SettingsPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const[logoutLoading, setLogoutLoading] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const { isReady, user, logout } = usePrivy();
   const navigation = useNavigation();
 
@@ -43,7 +43,7 @@ const SettingsPage = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.89.147:3001/api/v1/users/${user.id}`
+          `http://192.168.241.147:3001/api/v1/users/${user.id}`
         );
         const userData = response.data;
         console.log(userData);
@@ -71,7 +71,7 @@ const SettingsPage = () => {
       setErrorMessage(" ");
       setSuccessMessage(" ");
       const response = await axios.patch(
-        `http://192.168.89.147:3001/api/v1/users/${user.id}`,
+        `http://192.168.241.147:3001/api/v1/users/${user.id}`,
         {
           userChannelName,
           userChannelDescription,
@@ -254,7 +254,7 @@ const SettingsPage = () => {
             ]}
             onPress={handleLogoutBtnClicked}
           >
-            <Text>{logoutLoading ? "Logging out...": "Logout"}</Text>
+            <Text>{logoutLoading ? "Logging out..." : "Logout"}</Text>
           </Pressable>
           <Pressable style={styles.deleteAccntBtn}>
             <Text>Delete Account</Text>
