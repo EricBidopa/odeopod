@@ -101,6 +101,7 @@ const OnboardingPage = () => {
       <View style={styles.wrapper}>
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>
+          
           <Text style={styles.subtext}>
             Millions of Podcasts and ASMR! Earn and Invest in your favorite
             creator on OdeoPod!

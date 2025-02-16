@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/odeopod_logojusto.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/odeopod_logo-full.png",
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/odeopod_logojusto.png",
+        "foregroundImage": "./assets/odeopod_logo-full.png",
         "backgroundColor": "#121212"
       }
     },
