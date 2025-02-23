@@ -89,9 +89,7 @@ const OnboardingPage = () => {
     console.log(user);
   };
 
-  // const handleLoginWithApple=()=>{
-  //   login({ provider: "apple" });
-  // }
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}
