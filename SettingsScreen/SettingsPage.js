@@ -43,7 +43,7 @@ const SettingsPage = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.241.147:3001/api/v1/users/${user.id}`
+          `http://192.168.234.147:3001/api/v1/users/${user.id}`
         );
         const userData = response.data;
         console.log(userData);
@@ -71,7 +71,7 @@ const SettingsPage = () => {
       setErrorMessage(" ");
       setSuccessMessage(" ");
       const response = await axios.patch(
-        `http://192.168.241.147:3001/api/v1/users/${user.id}`,
+        `http://192.168.234.147:3001/api/v1/users/${user.id}`,
         {
           userChannelName,
           userChannelDescription,

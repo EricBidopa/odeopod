@@ -256,12 +256,9 @@ export default function AppNavigator() {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: "#121212", // Semi-transparent dark background
-    paddingBottom: 10,
+    paddingBottom: 30,
     paddingTop: 10,
-    height: 70,
-    elevation: 0, // Removes the shadow for Android
-    shadowOpacity: 0, // Removes the shadow for iOS
-    borderTopWidth: 0, // Removes the top border
+    height: 90,
   },
   header: {
     backgroundColor: "white",

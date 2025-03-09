@@ -15,7 +15,7 @@ import axios from "axios";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || "http://192.168.241.147:3001";
+  process.env.EXPO_PUBLIC_API_URL || "http://192.168.234.147:3001";
 
 const SearchPage = () => {
   const [isFocused, setIsFocused] = useState(false);

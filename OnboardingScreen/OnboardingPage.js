@@ -25,7 +25,7 @@ const OnboardingPage = () => {
   const [email, setEmail] = useState("");
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.241.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.234.147:3001";
 
   // const saveUserToDatabase = async (userData) => {
   //   try {
@@ -89,7 +89,6 @@ const OnboardingPage = () => {
     console.log(user);
   };
 
-  
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -99,7 +98,7 @@ const OnboardingPage = () => {
       <View style={styles.wrapper}>
         <View>
           <Text style={styles.headerText}>OdeoPod</Text>
-          
+
           <Text style={styles.subtext}>
             Millions of Podcasts and ASMR! Earn and Invest in your favorite
             creator on OdeoPod!
@@ -193,6 +192,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    height: 55,
     borderWidth: 1,
     borderColor: "#f0f0f0",
     marginVertical: 15,

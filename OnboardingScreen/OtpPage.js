@@ -14,7 +14,7 @@ const OtpPage = ({ route }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const API_BASE_URL =
-    process.env.EXPO_PUBLIC_API_URL || "http://192.168.241.147:3001";
+    process.env.EXPO_PUBLIC_API_URL || "http://192.168.234.147:3001";
 
   const saveUserIdAndEmailToDatabase = async (useridAndEmail) => {
     try {
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    height: 55,
     borderWidth: 1,
     borderColor: "#f0f0f0",
     marginVertical: 15,
